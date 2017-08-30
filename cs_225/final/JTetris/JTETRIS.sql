@@ -1,0 +1,1 @@
+create table JTETRIS ( ID char(9) not null, USERNAME varchar(128), GAMES_PLAYED integer, MOVES_MADE integer, MOVES_MISSED integer, ROWS_REMOVED integer, primary key(id) );

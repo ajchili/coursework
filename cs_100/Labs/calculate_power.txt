@@ -1,0 +1,9 @@
+Write a pseudo code program that can take in two real values and return the first to the power of the second.
+
+Module main()
+	Call raiseToPower(3, 4)
+End Module
+
+Module raiseToPower(Real base, Real power)
+	Display base ^ power
+End Module

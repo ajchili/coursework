@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>90</x>
+      <y>50</y>
+      <w>1150</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>com.kirinpatel</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>80</y>
+      <w>350</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>CollegeApplicant
+--
+#name : String
+#school : String
+--
++CollegeApplicant(name : String, school : String)
++toString()
++equals(Object o)
++getName()
++getSchool()
++setName(name : String)
++setSchool(school : String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>310</y>
+      <w>560</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>UndergraduateApplicant
+--
++name : String
++school : String
++SAT : int
++GPA : double
+--
++UndergraduateApplicant(name : String, school : String, SAT : int, GPA : double)
++getSATScore()
++getGPA()
++setSATScore(SAT : int)
++setGPA(GPA : double)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>670</x>
+      <y>310</y>
+      <w>560</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>GraduateApplicant
+--
++name : String
++school : String
++undergraduateSchool : String
+--
++GraduateApplicant(name : String, school : String, undergraduateSchool : String)
++getUndergraduateSchool()
++isAlumni()
++setUndergraduateSchool()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>540</x>
+      <y>80</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>CollegeApplicantTester
+--
+
+--
+_+main(args : String[])_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>710</x>
+      <y>260</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>260</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>110</x>
+      <y>250</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>250</y>
+      <w>320</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;300.0;60.0</additional_attributes>
+  </element>
+</diagram>

@@ -1,0 +1,23 @@
+Write a program that calculates a sales commission as 10% of the sale value. Continue making calculations as log as ‘y’ is entered.
+
+Ex 5.1 p 174
+
+Declare Real sales
+Declare Real commissions
+Declare String isCalculating = “y”
+
+Declare Constant Real COMMISSION_RATE = 0.10
+
+Module main()
+
+	While isCalculating == “y”
+		Display “Enter a sales value: “
+		Input sales
+		Set commissions = sales * COMMISSION_RATE
+		Display “Commission is $”, commission
+
+		Display “Do you want to continue? (y/n)”
+		Input isCalculating
+	End While
+
+End Module

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>10</x>
+      <y>10</y>
+      <w>510</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>com.kirinpatel</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>40</y>
+      <w>270</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Game
+--
+- description : String
+--
++ Game(description : String)
++ toString()
++ getDescription()
++ setDescription(description : String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>200</y>
+      <w>490</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>SportsGame
+--
+- isTeamGame : boolean
+- isAbleToTie : boolean
+--
++ SportsGame(isTeamGame : boolean, isAbleToTie : boolean)
++ toString()
++ isTeamGame()
++ isAbleToTie()
++ setIsTeamGame(isTeamGame : boolean)
++ setIsAbleToTie(isAbleToTie : boolean)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>40</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>SportsGameTester
+--
+
+--
+_+ main(args : String[])_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>20</x>
+      <y>150</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>300</x>
+      <y>100</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

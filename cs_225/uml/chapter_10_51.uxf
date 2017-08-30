@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>10</x>
+      <y>10</y>
+      <w>800</w>
+      <h>390</h>
+    </coordinates>
+    <panel_attributes>com.kirinpatel</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>40</y>
+      <w>380</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Food
+--
+#description : String
+#numberOfCalories : int
+--
++Food(description : String, numberOfCalories : int)
+/getCaloriesBasedOnNumberOfServings(servings : int)/
++toString()
++equals(o : Object)
++getDescription()
++getNumberOfCalories()
++setDescription(description : String)
++setNumberOfCalories()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>270</y>
+      <w>390</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Coke
+--
++viscosity : double
+--
++Coke(viscosity : double)
++getCaloriesBasedOnNumberOfServings(servings : int)
++getViscosity()
++setViscosity(viscosity : double)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>420</x>
+      <y>270</y>
+      <w>380</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Fruit
+--
++season : String
+--
++Fruit(numberOfCalories : int, season : String)
++getCaloriesBasedOnNumberOfServings(serving : int)
++getSeason()
++setSeason(season : String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>590</x>
+      <y>40</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>FruitTester
+--
+
+--
+_+main(args : String[])_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>220</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>220</y>
+      <w>310</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;290.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>210</y>
+      <w>110</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>230</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+</diagram>

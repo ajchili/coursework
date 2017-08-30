@@ -1,0 +1,21 @@
+Write an if statement that gives an employee a bonus of $500 if the sales total is more than $50,000, this also builds upon a flowchart designed by the professor during class.
+
+Module main()
+	Declare Int bonus
+	Declare Int sales
+	
+	Display “Please enter the sale amount: “
+	Input sales
+	
+	IF sales > 50000
+		IF sales > 100000
+			Set bonus = 1000
+		ELSE
+			Set bonus = 500
+		END IF
+	ELSE
+		Set bonus 10
+	END IF
+
+	Display “Bonus is $”, bonus
+End Module

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>10</x>
+      <y>10</y>
+      <w>680</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>com.kirinpatel</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>40</y>
+      <w>270</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Game
+--
+- description : String
+--
++ Game(description : String)
++ toString()
++ getDescription()
++ setDescription(description : String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>200</y>
+      <w>420</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>BoardGame
+--
+- numberOfPlayers : int
+- isAbleToTie : boolean
+--
++ BoardGame(numberOfPlayers : int, isAbleToTie : boolean)
++ toString()
++ getnumberOfPlayers()
++ isAbleToTie()
++ setNumberOfPlayers(numberOfPlayers : int)
++ setIsAbleToTie(isAbleToTie : boolean)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>200</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>BoardGameTester
+--
+
+--
+_+ main(args : String[])_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>20</x>
+      <y>150</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>200</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0</additional_attributes>
+  </element>
+</diagram>

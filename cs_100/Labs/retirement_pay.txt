@@ -1,0 +1,29 @@
+Calculate 5% of employee gross pay and bonuses to his/her retirement plan
+
+Declare real PERCENTAGE = 0.05
+Declare real pay
+Declare real bonus
+Declare real contribution
+
+Module main()
+	Call getPay()
+	Call getBonus()
+	Call showContribution()
+End Module
+
+Module getPay()
+	Display “Please enter the employee’s gross pay for a year: “
+	Input pay
+End Module
+
+Module getBonus()
+	Display “Please enter the employee’s bonuses for the year: “
+	Input bonus
+End Module
+
+Module showContribution()
+	Set contribution = PERCENTAGE * pay
+	Display contribution
+	Set contribution = PERCENTAGE * bonus
+	Display contribution
+End Module

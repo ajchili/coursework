@@ -1,0 +1,15 @@
+The purpose of this lab was to calculate the state and county tax of a company’s monthly sales. Methods or modules were required for all of the calculations.Module main()	Declare Real monthlySales	Declare Real countySalesTax = .02	Declare Real stateSalesTax = .04	Declare Real monthlyCountyTax	Declare Real monthlyStateTax
+	Declare Real monthlyTotalTax	Display “Please enter your monthly sales: “	Input monthlySales
+
+	Set monthlyCountyTax = call getTax(monthlySales, countySalesTax)
+	Set monthlyStateTax = call getTax(monthlySales, stateSalesTax)
+	Set monthlyTotalTax = call getTotalTax(monthlyStateTax, monthlyCountyTax)	Display “With a monthly sales figure of $”, monthlySales	Display “Your company will have to pay $ in county taxes”, monthlyCountytax	Display “Your company will have to pay $ in state taxes”, monthlyStatetax
+	Display “Your company will have to pay $ in taxes this month”, monthlyTotalTaxEnd Module
+
+Module getTax(Real sales, Real taxRate)
+	Return sales * taxRate
+End Module
+
+Module getTotalTax(Real stateTax, Real countyTax)
+	return stateTax * countyTax
+End Module
