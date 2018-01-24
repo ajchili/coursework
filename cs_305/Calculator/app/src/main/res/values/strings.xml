@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="calc_clear">Clear</string>
+    <string name="calc_sign">+/-</string>
+    <string name="calc_percent">%</string>
+    <string name="calc_divide">\u00F7</string>
+    <string name="calc_multiply">\u00D7</string>
+    <string name="calc_subtract">-</string>
+    <string name="calc_add">+</string>
+    <string name="calc_period">.</string>
+    <string name="calc_calculate">=</string>
+    <string name="calc_0">0</string>
+    <string name="calc_1">1</string>
+    <string name="calc_2">2</string>
+    <string name="calc_3">3</string>
+    <string name="calc_4">4</string>
+    <string name="calc_5">5</string>
+    <string name="calc_6">6</string>
+    <string name="calc_7">7</string>
+    <string name="calc_8">8</string>
+    <string name="calc_9">9</string>
+</resources>
