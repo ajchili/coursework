@@ -14,48 +14,50 @@ struct Person {
     string interests[0];
     string match;
   public:
-    void newClient(char, string, string, int, string, string);
-    void unMatch(string);
+    Person(char s, string n, string p, int noi, string i, string m) {
+        sex = s;
+        name = n;
+        phoneNumber = p;
+        match = m;
+        if (noi > 10) {
+            numOfInterests = 10;
+        } else if (noi < 0) {
+            numOfInterests = 0;
+        } else {
+            numOfInterests = noi;
+        }
+        string *interests = new string[numOfInterests];
+        
+        string interest = "";
+        int iteration = 0;
+        for (int n = 0; n < i.length(); n++) {
+            if (iteration > numOfInterests) {
+                return;
+            }
+            
+            if (i[n] == ',') {
+                interests[iteration] = interest;
+                iteration++;
+                interest = "";
+            } else {
+                interest += i[n];
+            }
+        }
+        interests[iteration] = interest;
+    }
+    void unMatch(vector<Person>, string);
     void printMatch();
     void printFree();
 };
 
-// Person people = *new Person[0];
-
-void Person::newClient(char s, string n, string p, int noi, string i, string m) {
-    sex = s;
-    name = n;
-    phoneNumber = p;
-    match = m;
-    if (noi > 10) {
-        numOfInterests = 10;
-    } else if (noi < 0) {
-        numOfInterests = 0;
-    } else {
-        numOfInterests = noi;
-    }
-    string *interests = new string[numOfInterests];
-    
-    string interest = "";
-    int iteration = 0;
-    for (int n = 0; n < i.length(); n++) {
-        if (iteration > numOfInterests) {
-            return;
-        }
-        
-        if (i[n] == ',') {
-            interests[iteration] = interest;
-            iteration++;
-            interest = "";
-        } else {
-            interest += i[n];
+void Person::unMatch(vector<Person> people, string n) {
+    match = "";
+    for (int i = 0; i < people.size(); i++) {
+        Person* person = &people[i];
+        if (n = person->name) {
+            match = "";
         }
     }
-    interests[iteration] = interest;
-}
-
-void Person::unMatch(string name) {
-    
 }
 
 void Person::printMatch() {

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include "Person.h"
 
 using namespace std;
@@ -8,7 +9,6 @@ using namespace std;
 int numberOfPeople = 0;
 
 Person createNewUser(string user) {
-    Person person;
     char sex;
     string name, phoneNumber, interests;
     int noi;
@@ -19,6 +19,7 @@ Person createNewUser(string user) {
             switch(index) {
                 case 0:
                     sex = user[i - 1];
+                    input = "";
                     break;
                 case 1:
                     name = input;
@@ -41,18 +42,18 @@ Person createNewUser(string user) {
             input += user[i];
         }
     }
-    person.newClient(sex, name, phoneNumber, noi, interests, input);
     numberOfPeople++;
-    return person;
+    return Person(sex, name, phoneNumber, noi, interests, input);
 }
 
 void readFile() {
-    Person people = *new Person[0];
+    vector<Person> people;
     ifstream infile("Clients.mf");
     string line;
     while(getline(infile, line)) {
-        createNewUser(line);
+        people.push_back(createNewUser(line));
     }
+    people.at(0).unMatch(people, "Jennifer");
 }
 
 int main() {
