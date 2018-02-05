@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Calculator</string>
+    <string name="calc_extra">Extra</string>
     <string name="calc_clear">Clear</string>
     <string name="calc_sign">+/-</string>
     <string name="calc_percent">%</string>
@@ -19,4 +20,5 @@
     <string name="calc_7">7</string>
     <string name="calc_8">8</string>
     <string name="calc_9">9</string>
+    <string name="calc_back">Back</string>
 </resources>
