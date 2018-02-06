@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="8dp"
     tools:context="com.kirinpatel.calculator.SecondActivity">
 
     <Button
@@ -13,4 +14,21 @@
         android:layout_height="wrap_content"
         android:text="@string/calc_back"/>
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+
+            <Button
+                android:id="@+id/calc_double"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calc_double"/>
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

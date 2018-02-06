@@ -1,5 +1,7 @@
 package com.kirinpatel.calculator;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final String KEY_CALCULATION = "calculation";
+    private static final int RESULT_CALCULATION = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                startActivity(SecondActivity.newIntent(MainActivity.this,
-                        calculation));
+                startActivityForResult(
+                        SecondActivity.newIntent(MainActivity.this, calculation),
+                        RESULT_CALCULATION);
             }
         });
 
@@ -131,6 +135,18 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState called");
         outState.putSerializable(KEY_CALCULATION, calculation);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK && requestCode == RESULT_CALCULATION) {
+            calculation = SecondActivity.getStoredCalculation(data);
+
+            previousCalculation.setText(calculation.getPreviousCalculation());
+            currentCalculation.setText(calculation.getCurrentCalculation());
+        }
     }
 
     private class CalculatorButtonHandler implements View.OnClickListener {
