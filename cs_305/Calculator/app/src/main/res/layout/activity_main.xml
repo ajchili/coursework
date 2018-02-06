@@ -8,27 +8,7 @@
     android:padding="8dp"
     tools:context="com.kirinpatel.calculator.MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1.5">
-
-        <TextView
-            android:id="@+id/calc_previous"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <EditText
-            android:id="@+id/calc_current"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:focusable="false"
-            android:layout_weight="2"/>
-    </LinearLayout>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -36,34 +16,72 @@
 
         <Button
             android:id="@+id/calc_clear"
+            android:layout_width="92.5dp"
+            android:layout_height="match_parent"
+            android:text="@string/calc_clear"/>
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/calc_clear"
-            android:layout_weight="1"/>
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/calc_clear">
+
+            <TextView
+                android:id="@+id/calc_previous"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textAlignment="viewEnd"
+                android:layout_alignParentTop="true"/>
+
+            <EditText
+                android:id="@+id/calc_current"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:focusable="false"
+                android:textAlignment="viewEnd"
+                android:layout_alignParentBottom="true"
+                android:layout_alignTop="@id/calc_previous"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/calc_extra"
+            android:layout_width="92.5dp"
+            android:layout_height="match_parent"
+            android:text="@string/calc_extra"
+            android:layout_alignParentStart="true"/>
 
         <Button
             android:id="@+id/calc_sign"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_sign"
-            android:layout_weight="1"/>
+            android:layout_toEndOf="@id/calc_extra"/>
 
         <Button
             android:id="@+id/calc_percent"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_percent"
-            android:layout_weight="1"/>
+            android:layout_toEndOf="@id/calc_sign"/>
 
         <Button
             android:id="@+id/calc_divide"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_divide"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/calc_percent"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -71,34 +89,35 @@
 
         <Button
             android:id="@+id/calc_7"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_7"
-            android:layout_weight="1"/>
+            android:layout_alignParentStart="true"/>
 
         <Button
             android:id="@+id/calc_8"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_8"
-            android:layout_weight="1"/>
+            android:layout_toEndOf="@id/calc_7"/>
 
         <Button
             android:id="@+id/calc_9"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_9"
-            android:layout_weight="1"/>
+            android:layout_toEndOf="@id/calc_8"/>
 
         <Button
             android:id="@+id/calc_multiply"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_multiply"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/calc_9"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -106,34 +125,35 @@
 
         <Button
             android:id="@+id/calc_4"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_4"
-            android:layout_weight="1"/>
+            android:layout_alignParentStart="true"/>
 
         <Button
             android:id="@+id/calc_5"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_5"
-            android:layout_weight="1"/>
+            android:layout_toEndOf="@id/calc_4"/>
 
         <Button
             android:id="@+id/calc_6"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_6"
-            android:layout_weight="1"/>
+            android:layout_toEndOf="@id/calc_5"/>
 
         <Button
             android:id="@+id/calc_subtract"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_subtract"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/calc_6"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -141,34 +161,35 @@
 
         <Button
             android:id="@+id/calc_1"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_1"
-            android:layout_weight="1"/>
+            android:layout_alignParentStart="true"/>
 
         <Button
             android:id="@+id/calc_2"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_2"
-            android:layout_weight="1"/>
+            android:layout_toEndOf="@id/calc_1"/>
 
         <Button
             android:id="@+id/calc_3"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_3"
-            android:layout_weight="1"/>
+            android:layout_toEndOf="@id/calc_2"/>
 
         <Button
             android:id="@+id/calc_add"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_add"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/calc_3"/>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -176,23 +197,24 @@
 
         <Button
             android:id="@+id/calc_0"
-            android:layout_width="0dp"
+            android:layout_width="185dp"
             android:layout_height="match_parent"
             android:text="@string/calc_0"
-            android:layout_weight="2"/>
+            android:layout_alignParentStart="true"/>
 
         <Button
             android:id="@+id/calc_period"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_period"
-            android:layout_weight="1"/>
+            android:layout_toEndOf="@id/calc_0"/>
 
         <Button
             android:id="@+id/calc_calculate"
-            android:layout_width="0dp"
+            android:layout_width="92.5dp"
             android:layout_height="match_parent"
             android:text="@string/calc_calculate"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/calc_period"/>
+    </RelativeLayout>
 </LinearLayout>
