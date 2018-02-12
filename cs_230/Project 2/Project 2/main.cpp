@@ -6,6 +6,8 @@
 
 using namespace std;
 
+vector<Person> people;
+
 Person createNewUser(string user) {
     char sex;
     string name, phoneNumber, interests;
@@ -43,7 +45,7 @@ Person createNewUser(string user) {
     return Person(sex, name, phoneNumber, noi, interests, input);
 }
 
-vector<Person> match(vector<Person> people) {
+void match() {
     for (int i = 0; i < people.size(); i++) {
         Person personA = people.at(i);
         
@@ -73,21 +75,18 @@ vector<Person> match(vector<Person> people) {
             }
         }
     }
-    
-    return people;
 }
 
 void readFile() {
-    vector<Person> people;
     ifstream infile("Clients.mf");
     string line;
     while(getline(infile, line)) {
         people.push_back(createNewUser(line));
     }
-    people = match(people);
 }
 
 int main() {
     readFile();
+    match();
     return 0;
 }
