@@ -11,7 +11,7 @@ struct Person {
     string name;
     string phoneNumber;
     int numOfInterests;
-    string interests[0];
+    vector<string> interests;
     string match;
   public:
     Person(char s, string n, string p, int noi, string i, string m) {
@@ -26,24 +26,17 @@ struct Person {
         } else {
             numOfInterests = noi;
         }
-        string *interests = new string[numOfInterests];
         
         string interest = "";
-        int iteration = 0;
         for (int n = 0; n < i.length(); n++) {
-            if (iteration > numOfInterests) {
-                return;
-            }
-            
             if (i[n] == ',') {
-                interests[iteration] = interest;
-                iteration++;
+                interests.push_back(interest);
                 interest = "";
             } else {
                 interest += i[n];
             }
         }
-        interests[iteration] = interest;
+        interests.push_back(interest);
     }
     void unMatch(vector<Person>, string);
     void printMatch();
@@ -54,8 +47,10 @@ void Person::unMatch(vector<Person> people, string n) {
     match = "";
     for (int i = 0; i < people.size(); i++) {
         Person* person = &people[i];
-        if (n = person->name) {
+        if (n == person->name) {
             match = "";
+            person->match = "";
+            return;
         }
     }
 }
@@ -65,8 +60,7 @@ void Person::printMatch() {
 }
 
 void Person::printFree() {
-    cout << match;
-    if (match.length() == 0) {
+    if (match.length() == 1) {
         cout << "Free" << endl;
     } else {
         cout << "Taken" << endl;
