@@ -1,7 +1,5 @@
 package com.kirinpatel.criminalintent.util;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,18 +9,18 @@ public class CrimeLab {
     private static CrimeLab lab;
     private List<Crime> crimes;
 
-    public static CrimeLab get(Context context) {
+    public static CrimeLab get() {
         if (lab == null) {
-            lab = new CrimeLab(context);
+            lab = new CrimeLab();
         }
 
         return lab;
     }
 
-    private CrimeLab(Context context) {
+    private CrimeLab() {
         crimes = new ArrayList<>();
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 1; i <= 100; i++) {
             crimes.add(new Crime("Crime #" + i, i % 2 == 0));
         }
     }
