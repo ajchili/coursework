@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.kirinpatel.calculator.util.Calculation;
 
+/**
+ * Kirin Patel
+ */
 public class MainActivity extends AppCompatActivity {
 
     private TextView previousCalculation;
