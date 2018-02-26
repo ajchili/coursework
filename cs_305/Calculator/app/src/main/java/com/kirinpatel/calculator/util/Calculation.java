@@ -347,8 +347,8 @@ public class Calculation implements Serializable {
                 if (!currentCalculation.isEmpty()
                         && !currentCalculation.substring(1, 2).equals(" ")) {
                     if (currentCalculation.length() >= 2
-                            && currentCalculation.substring(0, 1).equals("-")) {
-                        currentCalculation = currentCalculation.substring(2);
+                            && currentCalculation.startsWith("-")) {
+                        currentCalculation = currentCalculation.substring(1);
                     } else {
                         currentCalculation = "-" + currentCalculation;
                     }
