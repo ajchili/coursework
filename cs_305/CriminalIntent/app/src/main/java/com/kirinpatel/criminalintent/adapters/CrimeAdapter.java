@@ -1,13 +1,13 @@
 package com.kirinpatel.criminalintent.adapters;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.kirinpatel.criminalintent.CrimeActivity;
 import com.kirinpatel.criminalintent.R;
 import com.kirinpatel.criminalintent.util.Crime;
 
@@ -34,10 +34,8 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(
-                    view.getContext(),
-                    crime.getTitle() + " clicked.",
-                    Toast.LENGTH_SHORT).show();
+            Intent intent = CrimeActivity.newIntent(view.getContext(), crime.getUid());
+            view.getContext().startActivity(intent);
         }
 
         void bind(Crime crime) {
