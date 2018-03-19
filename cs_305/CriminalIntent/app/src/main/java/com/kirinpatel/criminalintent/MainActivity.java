@@ -13,6 +13,7 @@ import com.kirinpatel.criminalintent.adapters.CrimeAdapter;
 import com.kirinpatel.criminalintent.util.Crime;
 import com.kirinpatel.criminalintent.util.CrimeLab;
 
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_new_crime:
-                Crime crime = new Crime();
-                CrimeLab.get(MainActivity.this).addCrime(crime);
-                Intent intent = CrimeActivity.newIntent(MainActivity.this, crime.getUid());
+                Intent intent = CrimeActivity.newIntent(MainActivity.this, null);
                 startActivity(intent);
                 return true;
             default:

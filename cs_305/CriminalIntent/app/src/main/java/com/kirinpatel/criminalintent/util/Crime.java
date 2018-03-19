@@ -16,7 +16,7 @@ public class Crime {
 
     public Crime() {
         this(UUID.randomUUID());
-        date = new Date();
+        date = new Date(System.currentTimeMillis());
     }
 
     public Crime(String title) {
@@ -55,5 +55,9 @@ public class Crime {
 
     public void setSolved(boolean solved) {
         this.solved = solved;
+    }
+
+    public String getPhotoFilename() {
+        return "IMG_" + getUid().toString() + ".jpg";
     }
 }

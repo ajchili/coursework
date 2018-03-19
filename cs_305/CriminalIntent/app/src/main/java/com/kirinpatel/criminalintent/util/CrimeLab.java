@@ -5,10 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.kirinpatel.criminalintent.database.BaseHelper;
+import com.kirinpatel.criminalintent.database.CrimeDatabaseHelper;
 import com.kirinpatel.criminalintent.database.CrimeCursorWrapper;
 import com.kirinpatel.criminalintent.database.Schema;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class CrimeLab {
 
     private static CrimeLab lab;
+    private Context context;
     private SQLiteDatabase database;
 
     public static CrimeLab get(Context context) {
@@ -27,7 +29,8 @@ public class CrimeLab {
     }
 
     private CrimeLab(Context context) {
-        database = new BaseHelper(context).getWritableDatabase();
+        this.context = context;
+        database = new CrimeDatabaseHelper(context).getWritableDatabase();
     }
 
     public List<Crime> getCrimes() {
@@ -62,6 +65,11 @@ public class CrimeLab {
         } finally {
             cursor.close();
         }
+    }
+
+    public File getPhotoFile(Crime crime) {
+        File directory = context.getFilesDir();
+        return new File(directory, crime.getPhotoFilename());
     }
 
     public void addCrime(Crime crime) {
