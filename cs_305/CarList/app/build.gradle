@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.kirinpatel.flickrfetcher"
+        applicationId "com.kirinpatel.carlist"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
