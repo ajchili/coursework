@@ -1,9 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kirinpatel.carlist.CarActivity">
+    android:padding="8dp"
+    tools:context="com.kirinpatel.carlist.CarActivity"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/car.make"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Car Make"/>
+
+    <EditText
+        android:id="@+id/car.model"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Car Model"/>
+
+    <EditText
+        android:id="@+id/car.type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Car Type"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Model Year: " />
+
+        <Spinner
+            android:id="@+id/car.year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/car.image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@android:color/darker_gray"
+        android:layout_gravity="center"/>
+
+    <ImageButton
+        android:id="@+id/car.set.image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_camera" />
+
+    <Button
+        android:id="@+id/car.save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"/>
+</LinearLayout>

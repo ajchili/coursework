@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.kirinpatel.carlist.database.CarCursorWrapper;
+import com.kirinpatel.carlist.database.CarDatabaseHelper;
 import com.kirinpatel.carlist.database.Schema;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class Cars {
 
     private Cars(Context context) {
         this.context = context;
-        // database = new CrimeDatabaseHelper(context).getWritableDatabase();
+        database = new CarDatabaseHelper(context).getWritableDatabase();
     }
 
     public List<Car> getCars() {
@@ -76,7 +77,7 @@ public class Cars {
         database.insert(Schema.CarTable.NAME, null, values);
     }
 
-    public void updateCrime(Car car) {
+    public void updateCar(Car car) {
         String uuid = car.getUuid().toString();
         ContentValues values = getContentValues(car);
 
