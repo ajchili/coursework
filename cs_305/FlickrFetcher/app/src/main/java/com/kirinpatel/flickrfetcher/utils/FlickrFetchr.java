@@ -1,6 +1,5 @@
 package com.kirinpatel.flickrfetcher.utils;
 
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 
@@ -21,7 +20,7 @@ public class FlickrFetchr {
     private static final String TAG = "FlickrFetchr";
     private static final String API_KEY = "a8d46ce526c95d46b4fc70b3b7c39fef";
 
-    private byte[] getUrlBytes(String url) throws IOException {
+    public byte[] getUrlBytes(String url) throws IOException {
         URL tempURL = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) tempURL.openConnection();
 
@@ -47,7 +46,7 @@ public class FlickrFetchr {
         }
     }
 
-    public String getUrlString(String url) throws IOException {
+    private String getUrlString(String url) throws IOException {
         return new String(getUrlBytes(url));
     }
 
@@ -75,7 +74,7 @@ public class FlickrFetchr {
         return photos;
     }
 
-    private void parseItems(List<Photo> photos, JSONObject json) throws IOException, JSONException {
+    private void parseItems(List<Photo> photos, JSONObject json) throws JSONException {
         JSONArray photoArray = json.getJSONObject("photos").getJSONArray("photo");
 
         for (int i = 0; i < photoArray.length(); i++) {

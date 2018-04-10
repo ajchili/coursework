@@ -1,10 +1,13 @@
 package com.kirinpatel.flickrfetcher.utils;
 
+import android.graphics.Bitmap;
+
 public class Photo {
 
     private String caption;
     private String id;
     private String url;
+    private Bitmap imageBitmap = null;
 
     public Photo(String id, String caption, String url) {
         this.id = id;
@@ -29,6 +32,10 @@ public class Photo {
         this.url = url;
     }
 
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
+    }
+
     public String getCaption() {
         return caption;
     }
@@ -39,5 +46,9 @@ public class Photo {
 
     public String getUrl() {
         return url;
+    }
+
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
     }
 }
