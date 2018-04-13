@@ -12,12 +12,24 @@ int getNumberOfPermutations(int length) {
     }
 }
 
-vector<string> getPermutation(string word, int index) {
+vector<string> getPermutation(string word) {
     vector<string> words;
     
-    char character = word.at(index);
-    for (int i = 0; i < word.length(); i++) {
-        
+    if (word.length() > 1) {
+        for (int i = 0; i < word.length(); i++) {
+            string characters = "";
+            for (int j = 0; j < word.length(); j++) {
+                if (j != i) {
+                    characters += word.at(j);
+                }
+            }
+            vector<string> permutations = getPermutation(characters);
+            for (int j = 0; j < permutations.size(); j++) {
+                words.push_back(word.substr(i, 1) + permutations.at(j));
+            }
+        }
+    } else if (word.length() == 1) {
+        words.push_back(word);
     }
     
     return words;
@@ -28,10 +40,12 @@ int main(int argc, const char * argv[]) {
     cout << "Please enter a word: ";
     cin >> word;
     
-    vector<string> words = getPermutation(word, 0);
+    int numOfPermutations = getNumberOfPermutations(word.length());
+    cout << "Expected Number of Permutations: " << numOfPermutations << endl;
+    vector<string> words = getPermutation(word);
     
     for (int i = 0; i < words.size(); i++) {
-        cout << i << ": " << words.at(i) << endl;
+        cout << (i + 1) << ": " << words.at(i) << endl;
     }
     
     return 0;
