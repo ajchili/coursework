@@ -2,23 +2,10 @@
 
 using namespace std;
 
-bool isInTrace(long value) {
-    long previousValue = 0;
-    long currentValue = 1;
-    
-    while (currentValue < value) {
-        long tempValue = currentValue;
-        currentValue += previousValue;
-        previousValue = tempValue;
-    }
-    
-    return currentValue == value;
-}
-
 int getPosition(long value) {
     long previousValue = 0;
     long currentValue = 1;
-    int position = 1;
+    int position = 2;
     
     while (currentValue < value) {
         long tempValue = currentValue;
@@ -51,13 +38,8 @@ void getTrace(int position) {
 
 int main(int argc, const char * argv[]) {
     long value;
-    cout << "Please enter a value in the fibonacchi sequence: ";
+    cout << "Please enter a position in the fibonacchi sequence: ";
     cin >> value;
-    
-    if (isInTrace(value)) {
-        getTrace(getPosition(value));
-    } else {
-        cout << "Unable to find value..." << endl;
-    }
+    getTrace(getPosition(value));
     return 0;
 }
