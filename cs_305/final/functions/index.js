@@ -15,7 +15,7 @@ exports.createUser = functions.https.onRequest((req, res) => {
             name: req.query.name,
             age: req.query.age
         }).then(() => {
-            res.send({ id: id });
+            res.status(201).send({ id: id });
         }).catch((err) => {
             res.status(500).send('Unable to create user.');
         });
@@ -109,12 +109,13 @@ exports.getUsers = functions.https.onRequest((req, res) => {
 });
 
 exports.uploadPhoto = functions.https.onRequest((req, res) => {
-    if (req.query.id == null) {
+    if (req.method != 'POST') {
+        res.status(404).send('Method must be POST.');
+    } else if (req.query.id == null) {
         res.status(400).send('No user id provided.');
     } else if (req.query.title == null) {
         res.status(400).send('No title provided.');
     } else {
-        console.log(req.query.id);
         db.collection('users').doc(req.query.id).get().then((snapshot) => {
             if (snapshot.exists) {
                 let id = db.collection('photos').doc().id;
@@ -124,7 +125,7 @@ exports.uploadPhoto = functions.https.onRequest((req, res) => {
                     title: req.query.title,
                     url: "https://www.google.com/"
                 }).then(() => {
-                    res.send({ id: id });
+                    res.status(201).send({ id: id });
                 }).catch((err) => {
                     res.status(500).send('Unable to upload photo.');
                 });
