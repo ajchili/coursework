@@ -2,7 +2,9 @@ package com.kirinpatel.flickrfetcher.utils;
 
 import android.graphics.Bitmap;
 
-public class Photo {
+import java.io.Serializable;
+
+public class Photo implements Serializable {
 
     private String caption;
     private String id;

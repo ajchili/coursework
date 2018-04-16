@@ -1,5 +1,6 @@
 package com.kirinpatel.flickrfetcher.adapter;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -34,6 +35,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
             imageView = view.findViewById(R.id.photo_photo);
         }
 
+        @Override
+        public void onClick(View view) {
+
+        }
+
         void bind(Photo photo) {
             this.photo = photo;
             photoCaption.setText(this.photo.getCaption());
@@ -45,18 +51,17 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
             }
         }
 
-        @Override
-        public void onClick(View view) {
-
-        }
-
         void bindImageView() {
             imageView.setImageBitmap(photo.getImageBitmap());
         }
 
         void bindImageView(Bitmap imageBitmap) {
-            photo.setImageBitmap(imageBitmap);
-            bindImageView();
+            if (this.photo.getImageBitmap() != null) {
+                bindImageView();
+            } else {
+                photo.setImageBitmap(imageBitmap);
+                bindImageView();
+            }
         }
 
         private class FetchImagesTask extends AsyncTask<String, Void, Bitmap> {

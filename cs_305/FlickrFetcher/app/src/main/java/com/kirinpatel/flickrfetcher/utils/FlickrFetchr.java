@@ -56,11 +56,11 @@ public class FlickrFetchr {
         try {
             String url = Uri.parse("https://api.flickr.com/services/rest/")
                     .buildUpon()
-                    .appendQueryParameter("api_key", API_KEY)
                     .appendQueryParameter("method", "flickr.photos.getRecent")
+                    .appendQueryParameter("api_key", API_KEY)
                     .appendQueryParameter("format", "json")
                     .appendQueryParameter("nojsoncallback", "1")
-                    .appendQueryParameter("extras", "url_q")
+                    .appendQueryParameter("extras", "url_s")
                     .build()
                     .toString();
             String json = getUrlString(url);
@@ -80,12 +80,12 @@ public class FlickrFetchr {
         for (int i = 0; i < photoArray.length(); i++) {
             JSONObject photo = photoArray.getJSONObject(i);
 
-            if (!photo.has("url_q"))
+            if (!photo.has("url_s"))
                 continue;
 
             Photo tempPhoto = new Photo(photo.getString("id"),
                     photo.getString("title"),
-                    photo.getString("url_q"));
+                    photo.getString("url_s"));
 
             photos.add(tempPhoto);
         }
