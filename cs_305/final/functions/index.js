@@ -1,8 +1,12 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const gcs = require('@google-cloud/storage')();
+const path = require('path');
+const formidable = require('formidable');
 admin.initializeApp();
 
 let db = admin.firestore();
+let bucket = admin.storage().bucket();
 
 exports.createUser = functions.https.onRequest((req, res) => {
     if (req.query.name == null) {
@@ -116,24 +120,50 @@ exports.uploadPhoto = functions.https.onRequest((req, res) => {
     } else if (req.query.title == null) {
         res.status(400).send('No title provided.');
     } else {
-        db.collection('users').doc(req.query.id).get().then((snapshot) => {
-            if (snapshot.exists) {
-                let id = db.collection('photos').doc().id;
+        return new Promise((resolve, reject) => {
+            var form = new formidable.IncomingForm();
 
-                db.collection('photos').doc(id).set({
-                    user: req.query.id,
-                    title: req.query.title,
-                    url: "https://www.google.com/"
-                }).then(() => {
-                    res.status(201).send({ id: id });
-                }).catch((err) => {
-                    res.status(500).send('Unable to upload photo.');
-                });
-            } else {
-                res.status(404).send('User does not exist.');
-            }
+            form.parse(req, (err, fields, files) => {
+                let file = files.image;
+                let filePath = file.path;
+
+                if (file.length === 0) {
+                    reject();
+                } else {
+                    db.collection('users').doc(req.query.id).get().then((snapshot) => {
+                        if (snapshot.exists) {
+                            let id = db.collection('photos').doc().id;
+
+                            bucket.upload(filePath, {
+                                destination: 'photos/' + req.query.id + '/' + id,
+                                metadata: {
+                                    contentType: file.type
+                                }
+                            }).then((file) => {
+                                db.collection('photos').doc(id).set({
+                                    user: req.query.id,
+                                    title: req.query.title,
+                                    url: file[0].name
+                                }).then(() => {
+                                    resolve(id);
+                                }).catch((err) => {
+                                    reject(err);
+                                });
+                            }).catch((err) => {
+                                reject(err);
+                            });
+                        } else {
+                            res.status(404).send('User does not exist.');
+                        }
+                    }).catch((err) => {
+                        reject(err);
+                    });
+                }
+            });
+        }).then((id) => {
+            res.status(201).send({ id: id });
         }).catch((err) => {
-            res.status(500).send('Unable to upload photo.');
+            res.status(500).send(err + 'Unable to upload photo.');
         });
     }
 });
