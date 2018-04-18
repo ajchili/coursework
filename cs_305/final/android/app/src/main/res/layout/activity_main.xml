@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.kirinpatel.androidapp.MainActivity"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <Button
+        android:id="@+id/main.button.api"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="api"/>
+
+    <Button
+        android:id="@+id/main.button.demo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="demo" />
+</LinearLayout>
