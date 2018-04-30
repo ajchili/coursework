@@ -1,4 +1,4 @@
-package com.kirinpatel.androidapp;
+package com.kirinpatel.androidapp.activities;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.kirinpatel.androidapp.R;
 import com.kirinpatel.androidapp.adapters.PhotoAdapter;
 import com.kirinpatel.androidapp.utils.Photo;
 import com.kirinpatel.androidapp.utils.PhotoFetcher;

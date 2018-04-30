@@ -42,7 +42,7 @@ public class PhotoFetcher {
         }
     }
 
-    private String getUrlString(String url) throws IOException {
+    public String getUrlString(String url) throws IOException {
         return new String(getUrlBytes(url));
     }
 
@@ -55,23 +55,22 @@ public class PhotoFetcher {
                     .build()
                     .toString();
             String json = getUrlString(url);
-            JSONObject jsonObject = new JSONObject(json);
+            JSONArray jsonObject = new JSONArray(json);
             parseItems(photos, jsonObject);
         } catch(IOException | JSONException e) {
-
+             Log.e("Fetch Error", e.getMessage());
         }
 
         return photos;
     }
 
-    private void parseItems(ArrayList<Photo> photos, JSONObject json) throws JSONException {
-        JSONArray photoArray = json.getJSONObject("photos").getJSONArray("photo");
-
+    private void parseItems(ArrayList<Photo> photos, JSONArray photoArray) throws JSONException {
         for (int i = 0; i < photoArray.length(); i++) {
             JSONObject photo = photoArray.getJSONObject(i);
 
             Photo tempPhoto = new Photo(photo.getString("id"),
                     new User(photo.getString("user")),
+                    photo.getString("title"),
                     photo.getString("url"));
 
             photos.add(tempPhoto);

@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 const gcs = require('@google-cloud/storage')();
 const path = require('path');
 const formidable = require('formidable');
+
 admin.initializeApp();
 
 let db = admin.firestore();
@@ -29,7 +30,12 @@ exports.createUser = functions.https.onRequest((req, res) => {
 exports.getPhoto = functions.https.onRequest((req, res) => {
     if (req.query.id != null) {
         db.collection('photos').doc(req.query.id).get().then((snapshot) => {
-            res.send({ id: snapshot.id, data: snapshot.data() });
+            res.send({ 
+                id: doc.id,
+                user: doc.data().user,
+                title: doc.data().title,
+                url: `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(doc.data().url)}?alt=media&token=${new Date().getTime()}`
+            });
         }).catch((err) => {
             res.status(500).send('Unable to query data.');
         });
@@ -41,18 +47,21 @@ exports.getPhoto = functions.https.onRequest((req, res) => {
 exports.getRecentPhotos = functions.https.onRequest((req, res) => {
     let limit = req.query.limit != null ? parseInt(req.query.limit) : 10;
 
-    db.collection('photos').limit(limit).get().then((snapshot) => {
+    db.collection('photos').limit(limit).get().then(snapshot => {
         let recentPhotos = [];
 
-        snapshot.forEach(function (doc) {
+        snapshot.forEach(doc => {
             recentPhotos.push({
                 id: doc.id,
-                data: doc.data()
+                user: doc.data().user,
+                title: doc.data().title,
+                url: `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(doc.data().url)}?alt=media&token=${new Date().getTime()}`
             });
         });
 
         res.send(recentPhotos);
-    }).catch((err) => {
+    }).catch(err => {
+        console.log(err);
         res.status(500).send('Unable to query data.');
     });
 });
@@ -67,7 +76,9 @@ exports.getRecentPhotosOfUser = functions.https.onRequest((req, res) => {
             snapshot.forEach(function (doc) {
                 recentPhotos.push({
                     id: doc.id,
-                    data: doc.data()
+                    user: doc.data().user,
+                    title: doc.data().title,
+                    url: `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(doc.data().url)}?alt=media&token=${new Date().getTime()}`
                 });
             });
 
@@ -81,11 +92,13 @@ exports.getRecentPhotosOfUser = functions.https.onRequest((req, res) => {
 });
 
 exports.getUser = functions.https.onRequest((req, res) => {
-    let limit = req.query.limit != null ? parseInt(req.query.limit) : 10;
-
     if (req.query.id != null) {
-        db.collection('users').doc(req.query.id).get().then((snapshot) => {
-            res.send({ id: snapshot.id, data: snapshot.data() });
+        db.collection('users').doc(req.query.id).get().then(snapshot => {
+            res.send({ 
+                id: snapshot.id, 
+                name: snapshot.data().name,
+                age: snapshot.data().age
+            });
         }).catch((err) => {
             res.status(500).send('Unable to query data.');
         });
@@ -96,13 +109,15 @@ exports.getUser = functions.https.onRequest((req, res) => {
 
 exports.getUsers = functions.https.onRequest((req, res) => {
     let limit = req.query.limit != null ? parseInt(req.query.limit) : 10;
+
     db.collection('users').limit(limit).get().then((snapshot) => {
         let users = [];
 
         snapshot.forEach(function (doc) {
             users.push({
                 id: doc.id,
-                data: doc.data()
+                name: doc.data().name,
+                age: doc.data().age
             });
         });
 
@@ -124,12 +139,10 @@ exports.uploadPhoto = functions.https.onRequest((req, res) => {
             var form = new formidable.IncomingForm();
 
             form.parse(req, (err, fields, files) => {
-                let file = files.image;
-                let filePath = file.path;
+                try {
+                    let file = files.image;
+                    let filePath = file.path;
 
-                if (file.length === 0) {
-                    reject();
-                } else {
                     db.collection('users').doc(req.query.id).get().then((snapshot) => {
                         if (snapshot.exists) {
                             let id = db.collection('photos').doc().id;
@@ -158,6 +171,8 @@ exports.uploadPhoto = functions.https.onRequest((req, res) => {
                     }).catch((err) => {
                         reject(err);
                     });
+                } catch (error) {
+                    reject();
                 }
             });
         }).then((id) => {

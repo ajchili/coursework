@@ -1,15 +1,18 @@
 package com.kirinpatel.androidapp.adapters;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.kirinpatel.androidapp.R;
+import com.kirinpatel.androidapp.activities.DemoDetailActivity;
 import com.kirinpatel.androidapp.utils.Photo;
 import com.kirinpatel.androidapp.utils.PhotoFetcher;
 
@@ -29,7 +32,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
 
     @Override
     public PhotoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.list_photo, parent,false);
+        return new PhotoHolder(view);
     }
 
     @Override
@@ -43,7 +49,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
         return photos.size();
     }
 
-    static class PhotoHolder extends ViewHolder {
+    static class PhotoHolder extends ViewHolder implements View.OnClickListener {
 
         private Photo photo;
         private ImageView imageView;
@@ -52,6 +58,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
             super(itemView);
 
             imageView = itemView.findViewById(R.id.list_photo_image);
+
+            itemView.setOnClickListener(this);
         }
 
         void bind(Photo photo) {
@@ -67,6 +75,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
                 imageView.setImageDrawable(null);
                 new FetchPhotoURL().execute(photo);
             }
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = DemoDetailActivity.createIntent(view.getContext(), photo);
+            view.getContext().startActivity(intent);
         }
 
         private class FetchPhotoURL extends AsyncTask<Photo, Void, Void> {
