@@ -166,19 +166,19 @@ exports.uploadPhoto = functions.https.onRequest((req, res) => {
                                 reject(err);
                             });
                         } else {
-                            res.status(404).send('User does not exist.');
+                            reject('User does not exist.');
                         }
                     }).catch((err) => {
                         reject(err);
                     });
-                } catch (error) {
-                    reject();
+                } catch (err) {
+                    reject(err);
                 }
             });
         }).then((id) => {
             res.status(201).send({ id: id });
         }).catch((err) => {
-            res.status(500).send(err + 'Unable to upload photo.');
+            res.status(500).send(err + ' Unable to upload photo.');
         });
     }
 });

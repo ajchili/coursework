@@ -18,15 +18,19 @@
         android:orientation="horizontal">
 
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="create user" />
+            android:id="@+id/api.button.createUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="create user" />
 
         <Button
+            android:id="@+id/api.button.getUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="get user" />
+
         <Button
+            android:id="@+id/api.button.getUsers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="get users" />
@@ -49,11 +53,13 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/api.button.uploadPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="upload photo" />
 
             <Button
+                android:id="@+id/api.button.getPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="get photo" />
@@ -65,11 +71,13 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/api.button.getRecentPhotos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="get recent photos" />
 
             <Button
+                android:id="@+id/api.button.getRecentPhotosOfUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="get recent photos of user" />

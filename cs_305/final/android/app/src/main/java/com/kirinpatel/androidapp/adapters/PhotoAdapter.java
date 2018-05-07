@@ -10,11 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.kirinpatel.androidapp.R;
 import com.kirinpatel.androidapp.activities.DemoDetailActivity;
+import com.kirinpatel.androidapp.utils.API;
 import com.kirinpatel.androidapp.utils.Photo;
 import com.kirinpatel.androidapp.utils.PhotoFetcher;
+import com.kirinpatel.androidapp.utils.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,7 +97,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoHolder>
                 if (photos.length > 0) {
                     try {
                         byte[] bytes = new PhotoFetcher().getUrlBytes(photos[0].getUrl());
-                        images.put(photos[0].getId(), BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        images.put(photos[0].getId(), bitmap);
                     } catch (IOException e) {
                         cancel(true);
                     }

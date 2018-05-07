@@ -18,9 +18,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.APIActivity" />
-        <activity android:name=".activities.DemoActivity" />
-        <activity android:name=".activities.DemoDetailActivity"></activity>
+        <activity android:name=".activities.APIActivity"
+            android:label="API"/>
+        <activity
+            android:name=".activities.DemoActivity"
+            android:label="Demo"/>
+        <provider
+            android:authorities="com.kirinpatel.androidapp.FileProvider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files" />
+        </provider>
+        <activity android:name=".activities.DemoDetailActivity"
+            android:label="Details"/>
+        <activity
+            android:name=".activities.APIDetailsActivity"
+            android:label="API Call"/>
     </application>
 
 </manifest>

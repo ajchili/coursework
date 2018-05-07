@@ -2,11 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu.demo.createUser"
         android:title="Create User" />
 
     <item
-        android:title="Create User" />
-
-    <item
-        android:title="Create User" />
+        android:id="@+id/menu.demo.uploadPhoto"
+        android:title="Upload Photo" />
 </menu>
