@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="Assignment_2.index" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="Assignment_2.index" %>
 
 <!DOCTYPE html>
 
@@ -13,8 +13,20 @@
 </head>
 <body>
     <div class="container">
-        <form>
-
+        <h1>Welcome!</h1>
+        <p>Enter the information below to get information about your Zodia sign.</p>
+        <!-- User input -->
+        <form runat="server">
+            <div class="form-group">
+                <asp:Label runat="server" class="bmd-label-floating" Text="Name"></asp:Label>
+                <asp:TextBox ID="txtName" runat="server" type="text" class="form-control"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <asp:Label runat="server" class="bmd-label-static" Text="Date of Birth"></asp:Label>
+                <asp:TextBox ID="txtDateOfBirth" runat="server" type="date" class="form-control"></asp:TextBox>
+            </div>
+            <asp:Button ID="btnSubmit" runat="server" class="btn btn-primary btn-raised" Text="Submit" />
+            <asp:Button ID="btnReset" runat="server" class="btn btn-danger btn-raised" Text="Reset" />
         </form>
     </div>
 
