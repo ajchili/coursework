@@ -26,8 +26,8 @@
                 <asp:Label runat="server" class="bmd-label-static" Text="Date of Birth"></asp:Label>
                 <asp:TextBox ID="txtDateOfBirth" runat="server" type="date" class="form-control"></asp:TextBox>
             </div>
-            <asp:Button ID="btnSubmit" runat="server" class="btn btn-primary btn-raised" Text="Submit" />
-            <asp:Button ID="btnReset" runat="server" class="btn btn-danger btn-raised" Text="Reset" />
+            <asp:Button ID="btnSubmit" runat="server" class="btn btn-primary btn-raised" Text="Submit" OnClick="getResult" />
+            <asp:Button ID="btnReset" runat="server" class="btn btn-danger btn-raised" Text="Reset" OnClick="resetUserInput" />
         </form>
         <!-- Error alert -->
         <asp:Panel ID="pnlError" runat="server" Visible="false">
@@ -42,11 +42,16 @@
                     <asp:Image ID="imgZodiacAnimal" runat="server" />
                 </div>
                 <div class="col-8">
+                    <h2>
+                        Hello
+                        <asp:Label ID="lblName" runat="server" Text=""></asp:Label>
+                        your current age is:
+                        <asp:Label ID="lblAge" runat="server" class="badge badge-info" Text=""></asp:Label>
+                    </h2>
                     <h5>
                         <asp:Label runat="server" Text="Your Zodiac Animal is:"></asp:Label>
-                        <asp:Label ID="lblZodiacAnimal" runat="server" class="badge  badge-primary" Text=""></asp:Label>
+                        <asp:Label ID="lblZodiacAnimal" runat="server" class="badge badge-primary" Text=""></asp:Label>
                     </h5>
-                    <hr />
                     <p>
                         <asp:Label runat="server" Text="Your Lucky Numbers are:"></asp:Label>
                         <asp:Label ID="lblLuckyNumbers" runat="server" class="badge badge-secondary" Text=""></asp:Label>
