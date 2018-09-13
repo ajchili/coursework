@@ -1,0 +1,14 @@
+﻿/*
+	Additional css for Assignment 2.
+*/
+
+body {
+
+}
+
+/*
+	Sets the width of the image to fill the div it is contained in.
+*/
+#imgZodiacAnimal {
+	width: 100%;
+}
