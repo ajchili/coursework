@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Name: Kirin Patel
+// Purpose: Assignment 2 (Zodiac Signs)
+// Date: 9/12/2018
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,12 +18,14 @@ namespace Assignment_2
 
         }
 
+        // Hides pnlResult and pnlError panels when called.
         private void resetView()
         {
             pnlResult.Visible = false;
             pnlError.Visible = false;
         }
 
+        // Returns a string of the corresponding Zodiac animal for the given year.
         private string getZodiacAnimal(int year)
         {
             switch (year)
@@ -51,6 +57,7 @@ namespace Assignment_2
             return "Monkey";
         }
 
+        // Returns a string of the corresponding Zodiac lucky numbers for the given year.
         private string getLuckyNumbers(int year)
         {
             switch (year)
@@ -81,6 +88,7 @@ namespace Assignment_2
             return "1, 7 and 8";
         }
 
+        // Returns a string of the corresponding Zodiac lucky colors for the given year.
         private string getLuckyColors(int year)
         {
             switch (year)
@@ -111,6 +119,7 @@ namespace Assignment_2
             return "yellow, pink and white";
         }
 
+        // Returns a string of the corresponding Zodiac lucky flowers for the given year.
         private string getLuckyFlowers(int year)
         {
             switch (year)
@@ -142,22 +151,32 @@ namespace Assignment_2
             return "chrysant-hemum and alliums";
         }
 
+        // Determines if results should be displayed based on provided information, then, calculates results and displays them.
         protected void getResult(object sender, EventArgs e)
         {
             resetView();
 
+            // Get provided information
             string name = txtName.Text;
             string dob = txtDateOfBirth.Text;
+
+            // Verify provided information
             if (name.Length > 0 && dob.Length > 0)
             {
+                // Get year of birth from provided information
                 int year = Convert.ToInt32(dob.Substring(0, 4)) % 12;
+
                 string zodiacAnimal = getZodiacAnimal(year);
+
+                // Sets label text to results
                 lblName.Text = name;
+                // Calculate age
                 int age = DateTime.Now.Year - Convert.ToInt32(dob.Substring(0, 4));
                 if (Convert.ToInt32(dob.Substring(5, 2)) >= DateTime.Now.Month)
                 {
                     if (Convert.ToInt32(dob.Substring(8, 2)) > DateTime.Now.Day)
                     {
+                        // Removes one year from age if the birthday of the current year has not yet occurred
                         age--;
                     }
                 }
@@ -167,14 +186,18 @@ namespace Assignment_2
                 lblLuckyColors.Text = getLuckyColors(year);
                 lblLuckyFlowers.Text = getLuckyFlowers(year);
                 imgZodiacAnimal.ImageUrl = "~/images/" + zodiacAnimal.ToLower() + ".PNG";
+
+                // Displays results
                 pnlResult.Visible = true;
             }
             else
             {
+                // Displays error
                 pnlError.Visible = true;
             }
         }
 
+        // Resets information fields and views
         protected void resetUserInput(object sender, EventArgs e)
         {
             txtName.Text = "";
