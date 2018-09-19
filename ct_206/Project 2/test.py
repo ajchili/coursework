@@ -15,5 +15,15 @@ class Tests(unittest.TestCase):
         self.assertEqual(sum_array(a), 6)
         self.assertEqual(sum_array(b), -2)
 
+    def test_arrays_to_dictionary(self):
+        keys = ['a', 'b', 'c']
+        values = [1, 2, 3]
+        dictionary = {'a': 1, 'b': 2, 'c': 3}
+        self.assertEqual(arrays_to_dictionary(keys, values), dictionary)
+        self.assertEqual(arrays_to_dictionary(keys, values[:-1]), False)
+        self.assertEqual(arrays_to_dictionary(keys[:-1], values), False)
+        self.assertEqual(arrays_to_dictionary(keys, []), False)
+        self.assertEqual(arrays_to_dictionary([], values), False)
+
 if __name__ == '__main__':
     unittest.main()

@@ -31,3 +31,24 @@ def sum_array(input_array):
 
     # Returns the sum of all values within the provided array.
     return sum
+
+def arrays_to_dictionary(keys_array, values_array):
+    # Check to see if provided arrays are the same length, if they are
+    # not, then False is returned.
+    if len(keys_array) != len(values_array):
+        return False
+    # Checks to see if provided arrays contain elements, if they do not,
+    # then False is returned.
+    elif len(keys_array) == 0 or len(values_array) == 0:
+        return False
+    else:
+        # Initializes a variable to be the dictionary.
+        dictionary = {}
+
+        # Iterates through the input arrays and enters the key and value
+        # from the provided arrays in to the dictionary object.
+        for i in range(len(keys_array)):
+            dictionary[keys_array[i]] = values_array[i]
+
+        # Returns the dictionary of the provided arrays.
+        return dictionary
