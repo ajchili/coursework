@@ -9,5 +9,6 @@ While the code in this repository is hosted on Github, it is not meant to be a c
 * [CS 225](https://github.com/ajchili/coursework/tree/master/cs_225) Intermediate Java Programming
 * [CS 230](https://github.com/ajchili/coursework/tree/master/cs_230) Data Structures
 * [CS 250](https://github.com/ajchili/coursework/tree/master/cs_250) Introduction to Network Programming Using C
-* [CS 356](https://github.com/ajchili/coursework/tree/master/cs_356) Dynamic Web Page Development
 * [CS 305](https://github.com/ajchili/coursework/tree/master/cs_305) Android Application Development
+* [CS 320](https://github.com/ajchili/coursework/tree/master/cs_320) Database Administration
+* [CS 356](https://github.com/ajchili/coursework/tree/master/cs_356) Dynamic Web Page Development
