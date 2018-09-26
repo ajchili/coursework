@@ -4,6 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <link href="StyleSheet1.css" rel="stylesheet" />
     <!-- Material Bootstrap CSS components -->
 	<link rel="stylesheet"
 		  href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
@@ -12,6 +13,7 @@
 	<title>Random Dog Fact Newsletter</title>
 </head>
 <body>
+    <!-- Header, displays welcome to user -->
     <div class="jumbotron jumbotron-fluid">
 		<div class="container">
             <div class="row">
@@ -23,7 +25,7 @@
                 </div>
                 <div class="col-2">
                     <a href="https://dog.ceo/" target="_blank">
-                        <img id="imgDog" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Random Dog Image" style="width: 100%"/>
+                        <img id="imgDog" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Random Dog Image" class="fillDiv"/>
                     </a>
                 </div>
             </div>
@@ -31,6 +33,7 @@
 	</div>
 
 	<div class="container mt-5">
+        <!--User creation form -->
 		<form runat="server" class="needs-validation" novalidate>
 			<div class="row">
 				<div class="col">

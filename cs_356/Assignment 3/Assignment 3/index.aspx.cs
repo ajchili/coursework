@@ -52,7 +52,7 @@ namespace Assignment_3
                 Session["lastName"] = txtLastName.Text;
                 Session["email"] = txtEmail.Text;
                 Session["address"] = txtAddress.Text;
-                Session["city"] = txtAddress.Text;
+                Session["city"] = txtCity.Text;
                 Session["state"] = drpState.Text;
                 Session["zip"] = txtZip.Text;
                 Session["phone"] = txtPhone.Text;

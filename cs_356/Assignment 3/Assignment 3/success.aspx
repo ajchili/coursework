@@ -4,6 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <link href="StyleSheet1.css" rel="stylesheet" />
     <!-- Material Bootstrap CSS components -->
 	<link rel="stylesheet"
 		  href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
@@ -12,21 +13,50 @@
 	<title>Account Created!</title>
 </head>
 <body>
+    <!-- Div used to display session infromation of newly created user -->
     <div class="jumbotron jumbotron-fluid">
 		<div class="container">
             <div class="row">
                 <div class="col-8">
 			        <h1 class="display-4">Thank you for registering!</h1>
-			        <p class="lead">
-                        <asp:Label ID="lblFirstName" runat="server"></asp:Label>
-                        <asp:Label ID="lblLastName" runat="server"></asp:Label>, your first random dog fact is below this!
-			        </p>
+                    <h6>Here is a random dog fact. The image to the right is a picture of a dog! It can also be clicked to get more information about the image!</h6>
 			        <hr class="my-4" />
-			        <h4>The image to the right is a picture of a dog! (It can also be clicked to get more information about the image!)</h4>
+                    <h5>
+                        Name:
+                        <asp:Label ID="lblFirstName" runat="server"></asp:Label>
+                        <asp:Label ID="lblLastName" runat="server"></asp:Label>
+                    </h5>
+                    <h5>
+                        Username:
+                        <asp:Label ID="lblUsername" runat="server"></asp:Label>
+                    </h5>
+                    <h5>
+                        Password:
+                        <asp:Label ID="lblPassword" runat="server"></asp:Label>
+                    </h5>
+                    <h5>
+                        Email:
+                        <asp:Label ID="lblEmail" runat="server"></asp:Label>
+                    </h5>
+                    <h6>
+                        Address:
+                        <asp:Label ID="lblAddress" runat="server"></asp:Label>,
+                        <asp:Label ID="lblCity" runat="server"></asp:Label>
+                        <asp:Label ID="lblState" runat="server"></asp:Label>,
+                        <asp:Label ID="lblZip" runat="server"></asp:Label>
+                    </h6>
+                    <h6>
+                        <asp:Label ID="lblPhoneType" runat="server"></asp:Label>
+                        Phone:
+                        <asp:Label ID="lblPhone" runat="server"></asp:Label>
+                    </h6>
+                    <h6>
+                        You <strong>do <asp:Label ID="lblReceiveNotifications" runat="server" Visible="false">not</asp:Label></strong> want to receive daily texts about random dog facts.
+                    </h6>
                 </div>
                 <div class="col-4">
                     <a href="https://dog.ceo/" target="_blank">
-                        <img id="imgDog" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Random Dog Image" style="width: 100%"/>
+                        <img id="imgDog" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Random Dog Image" class="fillDiv"/>
                     </a>
                 </div>
             </div>
