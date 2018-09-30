@@ -11,5 +11,5 @@ EchoClientTCP: EchoClientTCP.c
 EchoServerTCP: EchoServerTCP.c
 	$(CC) $(CFLAGS) $(INCLUDE2) -o $@.o $<
 
-clean:
-	-rm -f *.o *~ *core* 
+# clean:
+# 	-rm -f *.o *~ *core* 
