@@ -194,6 +194,7 @@
                 <div class="col">
                     <asp:Button ID="btnReset" runat="server" class="btn btn-danger btn-raised" UseSubmitBehavior="false" Text="Reset" OnClick="resetUserInput" />
                     <asp:Button ID="btnSubmit" runat="server" class="btn btn-primary btn-raised" Text="Submit" OnClick="submitForm" />
+                    <a href="search.aspx" class="btn btn-secondary btn-outline">Search Existing Users</a>
                 </div>
             </div>
 		</form>

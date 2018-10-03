@@ -53,6 +53,7 @@
                     <h6>
                         You <strong>do <asp:Label ID="lblReceiveNotifications" runat="server" Visible="false">not</asp:Label></strong> want to receive daily texts about random dog facts.
                     </h6>
+                    <a href="search.aspx" class="btn btn-secondary btn-outline">Search Existing Users</a>
                 </div>
                 <div class="col-4">
                     <a href="https://dog.ceo/" target="_blank">
