@@ -1,0 +1,4 @@
+﻿/* Scales image to fit the width of its containing div */
+.fillDiv {
+	width: 100%;
+}
