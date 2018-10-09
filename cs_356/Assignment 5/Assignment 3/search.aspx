@@ -14,19 +14,6 @@
 </head>
 <body>
     <form runat="server">
-        <asp:SqlDataSource ID="SQLServerWebProjectSearchDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:SQLServerWebProjectDB %>" SelectCommand="SELECT * FROM [tblCustomers]"></asp:SqlDataSource>
-        <asp:GridView ID="gridTable" class="table" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="CustomerID" DataSourceID="SQLServerWebProjectSearchDataSource" EmptyDataText="No data was found.">
-            <Columns>
-                <asp:CommandField ShowSelectButton="True" />
-                <asp:BoundField DataField="CustomerID" HeaderText="CustomerID" InsertVisible="False" ReadOnly="True" SortExpression="CustomerID" />
-                <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
-                <asp:BoundField DataField="Phone" HeaderText="Phone" SortExpression="Phone" />
-                <asp:BoundField DataField="EmailAddress" HeaderText="EmailAddress" SortExpression="EmailAddress" />
-                <asp:BoundField DataField="UserName" HeaderText="UserName" SortExpression="UserName" />
-                <asp:BoundField DataField="Password" HeaderText="Password" SortExpression="Password" />
-            </Columns>
-        </asp:GridView>
-        
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -64,6 +51,21 @@
                 <div class="col">
                     <asp:Button ID="btnSearch" runat="server" class="btn btn-primary btn-raised" UseSubmitBehavior="false" Text="Search" OnClick="searchDatabase" />
                     <a href="index.aspx" class="btn btn-secondary btn-outline">Home</a>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <asp:GridView ID="gridTable" class="table" runat="server" AllowPaging="False" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="CustomerID" EmptyDataText="No data was found.">
+                        <Columns>
+                            <asp:CommandField ShowSelectButton="True" />
+                            <asp:BoundField DataField="CustomerID" HeaderText="CustomerID" InsertVisible="False" ReadOnly="True" SortExpression="CustomerID" />
+                            <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
+                            <asp:BoundField DataField="Phone" HeaderText="Phone" SortExpression="Phone" />
+                            <asp:BoundField DataField="EmailAddress" HeaderText="EmailAddress" SortExpression="EmailAddress" />
+                            <asp:BoundField DataField="UserName" HeaderText="UserName" SortExpression="UserName" />
+                            <asp:BoundField DataField="Password" HeaderText="Password" SortExpression="Password" />
+                        </Columns>
+                    </asp:GridView>
                 </div>
             </div>
         </div>

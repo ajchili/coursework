@@ -13,24 +13,6 @@ namespace Assignment_3 {
     public partial class search {
         
         /// <summary>
-        /// SQLServerWebProjectSearchDataSource control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SQLServerWebProjectSearchDataSource;
-        
-        /// <summary>
-        /// gridTable control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridTable;
-        
-        /// <summary>
         /// txtSearchID control.
         /// </summary>
         /// <remarks>
@@ -83,5 +65,14 @@ namespace Assignment_3 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSearch;
+        
+        /// <summary>
+        /// gridTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridTable;
     }
 }
