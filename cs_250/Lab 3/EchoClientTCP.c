@@ -45,11 +45,8 @@ int main(int argc, char *argv[])
 
     /* ------Step 1 create socket --------------- */
     /* Create a reliable, stream socket using TCP */
-   
-//*************************************************************
-// Coding - Part 1 - code the socket creation lines here
-// Errors in the socket creation should be sent to DieWithError
-//*************************************************************
+    if ((sock_Descr = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
+        DieWithError("socket() failed");
 
 
     /* Construct the server address structure */
@@ -61,21 +58,18 @@ int main(int argc, char *argv[])
     /* ------Step 2 connect to server ------------ */
     /* Establish the connection to the echo server */
 
-//************************************************************
-// Coding - Part 2 - code the connection to the socket
-// Errors in the connection should be sent to DieWithError
-//************************************************************
+    if (connect(sock_Descr, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
+        DieWithError("connect() failed");
 
     echoStringLen = strlen(echoString);          /* Determine input length */
 
     /* ------Step 3 send message to server ------- */
     /* Send the string to the server */
 
-//****************************************************************
-// Coding - Part 3 - code the send across the socket of the string
-// send to the socket and also code a printf showing what was sent
-// Errors in the send should be sent to DieWithError
-//****************************************************************
+    if (send(sock_Descr, echoString, echoStringLen, 0) != echoStringLen)
+        DieWithError("send() failed");
+    else
+        printf("Sent message to the server: [%s] \n", echoString);
 
         
     /* ------Step 4 recv message from server ------ */
@@ -85,14 +79,10 @@ int main(int argc, char *argv[])
     while (totalBytesRcvd < echoStringLen)
     {
 
-//*******************************************************************************
-// Coding - Part 4 - code the recv in portions <= to the reciever buffer defined 
-// within the preproc directives. also print the message recieved back from 
-// the server socket. Should fit between the '[' printed before the while and 
-// the ']' printed after the while  
-// Errors in the recv should be sent to DieWithError
-//*******************************************************************************
+    if ((totalBytesRcvd = recv(sock_Descr, echoBuffer, RCVBUFSIZE, 0)) < 0)
+        DieWithError("recv() failed");
 
+    printf("%s", echoBuffer);
     }
 
     printf("]\n");    /* Print a final linefeed */
