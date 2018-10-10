@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient; //libraries for database connections
 using System.Configuration; //libraries for workign with web config
+using System.Data;
 
 namespace Assignment_3
 {
@@ -32,29 +33,21 @@ namespace Assignment_3
         {
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["SQLServerWebProjectDB"].ConnectionString);
             conn.Open();
-            string sqlInsertNewCustomer = "insert into tblCustomers(FirstName," +
-                "LastName," +
-                "Address," +
-                "City," +
-                "State," +
-                "ZipCode," +
-                "Phone," +
-                "PhoneType," +
-                "EmailAddress," +
-                "UserName," +
-                "Password)" +
-                "values('" + firstName + "'," +
-                "'" + lastName + "'," +
-                "'" + address + "'," +
-                "'" + city + "'," +
-                "'" + state + "'," +
-                "'" + zip + "'," +
-                "'" + phone + "'," +
-                "'" + phoneType + "'," +
-                "'" + emailAddress + "'," +
-                "'" + username + "'," +
-                "'" + password + "')";
-            SqlCommand cmd = new SqlCommand(sqlInsertNewCustomer, conn);
+
+            SqlCommand cmd = new SqlCommand("CreateCustomer", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@strFirstName", SqlDbType.VarChar).Value = firstName;
+            cmd.Parameters.Add("@strLastName", SqlDbType.VarChar).Value = lastName;
+            cmd.Parameters.Add("@strAddress", SqlDbType.VarChar).Value = address;
+            cmd.Parameters.Add("@strCity", SqlDbType.VarChar).Value = city;
+            cmd.Parameters.Add("@strState", SqlDbType.Char).Value = state;
+            cmd.Parameters.Add("@strZipCode", SqlDbType.VarChar).Value = zip;
+            cmd.Parameters.Add("@strPhone", SqlDbType.Char).Value = phone;
+            cmd.Parameters.Add("@strPhoneType", SqlDbType.VarChar).Value = phoneType;
+            cmd.Parameters.Add("@strEmaiLAddress", SqlDbType.VarChar).Value = emailAddress;
+            cmd.Parameters.Add("@strUserName", SqlDbType.VarChar).Value = username;
+            cmd.Parameters.Add("@strPassword", SqlDbType.VarChar).Value = password;
+
             int count = cmd.ExecuteNonQuery();
             conn.Close();
             return count;
