@@ -1,6 +1,4 @@
-# Project written in Python 3
-
-# Create dictionary with 3 values
+# Create dictionary with 5 values
 dictionary = {
   "a": 1,
   "b": 2,
@@ -30,6 +28,12 @@ print("Accessing via value:", \
 # Delete an element from the dictionary
 del dictionary["a"]
 print(dictionary)
+
+# Test for the inclusion of 3 elements
+if dictionary["b"] and dictionary["c"] and dictionary["d"]:
+  print("True")
+else:
+  print("False")
 
 # Printing all keys and values in the dictionary
 print("Looping through values:")
