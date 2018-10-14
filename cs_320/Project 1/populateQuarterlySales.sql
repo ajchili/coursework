@@ -1,0 +1,16 @@
+INSERT INTO QuarterlySalesData values ('Laurel', '1',2000);
+INSERT INTO QuarterlySalesData values ('Laurel', '1',2000);
+INSERT INTO QuarterlySalesData values ('Laurel', '1',5000);
+INSERT INTO QuarterlySalesData values ('Laurel', '2',3000);
+INSERT INTO QuarterlySalesData values ('Laurel', '2',2000);
+INSERT INTO QuarterlySalesData values ('Laurel', '3',4000);
+INSERT INTO QuarterlySalesData values ('Laurel', '3',2000);
+INSERT INTO QuarterlySalesData values ('Laurel', '4',1000);
+INSERT INTO QuarterlySalesData values ('DC', '1',1000);
+INSERT INTO QuarterlySalesData values ('DC', '1',1000);
+INSERT INTO QuarterlySalesData values ('DC', '1',3000);
+INSERT INTO QuarterlySalesData values ('DC', '2',2000);
+INSERT INTO QuarterlySalesData values ('DC', '2',1000);
+INSERT INTO QuarterlySalesData values ('DC', '3',5000);
+INSERT INTO QuarterlySalesData values ('DC', '3',3000);
+INSERT INTO QuarterlySalesData values ('DC', '4',1000);
