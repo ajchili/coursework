@@ -10,6 +10,7 @@
 #include <sys/socket.h> 	/* for socket(), bind(), and connect() */
 #include <string.h>     	/* for memset() */
 #include <unistd.h>     	/* for close() */
+#include <netinet/in.h>     /* for sockaddr_in6*/
 #endif
 
 #define RCVBUFSIZE 80   /* Size of receive buffer */
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
     int sock_Descr;                  /* Socket descriptor */
 //
 // changes needed here
-    struct sockaddr_in echoServAddr; /* Echo server address */
+    struct sockaddr_in6 echoServAddr; /* Echo server address */
     unsigned short echoServPort;     /* Echo server port */
     char *servIP;                    /* Server IP address (dotted quad) */
     char *echoString;                /* String to send to echo server */
@@ -49,18 +50,17 @@ int main(int argc, char *argv[])
 
     /* ------Step 1 create socket --------------- */
     /* Create a reliable, stream socket using TCP */
-//
-// changes needed here
-    if ((sock_Descr = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-        DieWithError("socket() failed");
+    sock_Descr = socket(PF_INET6, SOCK_STREAM, IPPROTO_TCP);
 
     /* Construct the server address structure */
     memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
-//
-// changes needed here
-    echoServAddr.sin_family      = AF_INET;             /* Internet address family */
-    echoServAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
-    echoServAddr.sin_port        = htons(echoServPort); /* Server port */
+    
+    echoServAddr.sin6_family      = AF_INET6;             /* Internet address family */
+    // echoServAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
+    echoServAddr.sin6_port        = htons(echoServPort); /* Server port */
+
+    if (inet_pton(AF_INET6, servIP, &echoServAddr.sin6_addr) <= 0)
+        DieWithError("inet_pton error for input IP address");
 
     /* ------Step 2 connect to server ------------ */
     /* Establish the connection to the echo server */
