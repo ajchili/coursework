@@ -1,11 +1,4 @@
-## Synopsis
-
-All the code I have made throughout the journey of CS 225. Please feel free to look over my work and copy/use whatever
-you like for your own learning purposes. Don't get me in trouble for plagerizing D:
-
 ## Tabel of Contents
-_Please note that some labs may be missing due to absences in class_
-
 _The first couple of homeworks were poorly setup, it may be complicated to go through_
 
 ### [Labs](labs)
