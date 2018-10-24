@@ -1,0 +1,62 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PetAPuppy.master.cs" Inherits="Master_Page.PetAPuppy" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <title>Pet A Puppy</title>
+    <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+        integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
+        crossorigin="anonymous">
+    <!--
+
+        Header Content:
+        Allows additional style sheets or other resources to be loaded.
+
+    -->
+    <asp:contentplaceholder id="headers" runat="server" />
+</head>
+<body>
+
+    <!--
+
+        Navbar Content:
+        The Navbar displayed in the top of a webpage. This will be dynamically set depending on
+        what page is currently active and will depend on the authentication status of a user.
+
+    -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <asp:contentplaceholder id="navbarContent" runat="server" />
+    </nav>
+
+    <!--
+
+        Main Content:
+        The body of a web page using this Master.
+
+    -->
+    <asp:contentplaceholder id="main" runat="server" />
+    
+
+    <!--
+
+        Footer Content:
+        Any additional information or content that may be relevant to a page can be placed in
+        the footer.
+
+    -->
+    <asp:contentplaceholder id="footer" runat="server" />
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+        integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+        integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+        crossorigin="anonymous"></script>
+    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+</body>
+</html>
