@@ -21,7 +21,7 @@
                     <label for="main_txtPassword">Password</label>
 					<asp:TextBox ID="txtPassword" runat="server" type="text" class="form-control" placeholder="Password" MaxLength="50"></asp:TextBox>
 				</div>
-                <button class="btn btn-lg btn-primary btn-block mt-3">Login</button>
+                <asp:Button ID="btnSubmit" runat="server" class="btn btn-lg btn-primary btn-block mt-3" Text="Login" OnClick="submitForm" />
                 <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
             </form>
         </div>
