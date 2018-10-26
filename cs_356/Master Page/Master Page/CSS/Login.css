@@ -1,0 +1,24 @@
+﻿.login-container {
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	justify-content: center;
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.login-form {
+	width: 100%;
+	max-width: 370px;
+	padding: 15px;
+	margin: 0 auto;
+}
+
+.login-image {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 30px;
+	width: 70%;
+}
