@@ -8,7 +8,7 @@
 #include <netinet/in.h>  	/* for IVP6 and SCTP support       */
 //--------------------------------------------------------------------
 // change required here - not needed for 1 to 1 but will be needed for M to 1
-//#include <netinet/sctp.h>  	/* for SCTP support       */
+// #include <netinet/sctp.h>  	/* for SCTP support       */
 // uncomment the above line to determine if environment supports SCTP
 // change required here - not needed for 1 to 1 but will be needed for M to 1
 //--------------------------------------------------------------------
@@ -52,13 +52,7 @@ int main(int argc, char *argv[])
 
     /* ------Step 1 create socket --------------- */
     /* Create a reliable, stream socket using TCP */
-   
-//--------------------------------------------------------------------
-// 
-// change required here to support SCTP 1 to 1 mode
-    if ((sock_Descr = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-// change required here 
-//--------------------------------------------------------------------
+    if ((sock_Descr = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP)) < 0)
         DieWithError("socket() failed");
 
     /* Construct the server address structure */
