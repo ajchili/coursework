@@ -70,6 +70,7 @@
     <Content Include="Assets\logo.png" />
     <Content Include="CSS\Login.css" />
     <Content Include="Login.aspx" />
+    <Content Include="Main.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +81,14 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Main.aspx.cs">
+      <DependentUpon>Main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Main.aspx.designer.cs">
+      <DependentUpon>Main.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs" />
     <Compile Include="PetAPuppy.Master.cs">
       <DependentUpon>PetAPuppy.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
