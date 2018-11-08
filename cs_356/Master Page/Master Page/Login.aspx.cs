@@ -40,6 +40,9 @@ namespace Master_Page
                 if (user.login())
                 {
                     // User is logged in
+                    Session["UserName"] = user.UserName;
+                    Session["Password"] = user.Password;
+                    Response.Redirect("main.aspx");
                 }
                 else
                 {
