@@ -5,6 +5,7 @@ void DieWithError(char *errorMessage);  /* Error handling function */
 int handleInitialUserInput();           /* Handles user input for initialization of applciation */
 void getServerDateTime();               /* Obtains date/time from server */
 void getServerQuote();                  /* Obtains quote of the date from server */
+void getServerCountryData();            /* Obtain country data from the server database */
 
 int main(void) {
   system("@cls||clear");                    /* Clears screen */
@@ -21,6 +22,7 @@ int main(void) {
         getServerQuote();
         break;
       case 3:                                 /* Case 3 - Get Country data */
+        getServerCountryData();
         break;
     }
 
