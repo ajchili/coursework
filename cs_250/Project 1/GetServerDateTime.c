@@ -41,7 +41,7 @@ void getServerDateTime() {
         DieWithError("sendto() sent a different number of bytes than expected");
     else {
         /* Print on the client what was sent to the server. */
-        printf("Waiting for response from server...\n", echoStringLen, echoString);
+        printf("Waiting for response from server...\n");
     }
 
     fromSize = sizeof(echoServAddr);

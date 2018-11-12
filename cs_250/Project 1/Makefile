@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -g -Wall -pthread
 INCLUDE1=DieWithError.c HandleClientTCP.c
-INCLUDE2=DieWithError.c GetServerDateTime.c
+INCLUDE2=DieWithError.c CaesarCipher.c GetServerDateTime.c GetServerQuote.c
 
 all: Application EchoServerTCP-Forked-Num
 

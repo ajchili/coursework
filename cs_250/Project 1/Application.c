@@ -4,6 +4,7 @@
 void DieWithError(char *errorMessage);  /* Error handling function */
 int handleInitialUserInput();           /* Handles user input for initialization of applciation */
 void getServerDateTime();               /* Obtains date/time from server */
+void getServerQuote();                  /* Obtains quote of the date from server */
 
 int main(void) {
   system("@cls||clear");                    /* Clears screen */
@@ -17,6 +18,7 @@ int main(void) {
         getServerDateTime();
         break;
       case 2:                                 /* Case 2 - Get Quote of the Date */
+        getServerQuote();
         break;
       case 3:                                 /* Case 3 - Get Country data */
         break;
@@ -43,9 +45,8 @@ int handleInitialUserInput() {
 
   scanf("%d", &selection);
 
-  if (selection < 1 || selection > 3) {
+  if (selection < 1 || selection > 3)
     DieWithError("The selection you made is not valid!");
-  }
 
   return selection;
 }
