@@ -114,7 +114,7 @@ void UDPProcessMain(int servSock)
     struct sockaddr_in echoClntAddr;    /* Client address */
     unsigned int clntLen;               /* Length of client address data structure */
     char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
-    int rcvMsgSize;                    /* Size of received message */
+    int rcvMsgSize;                     /* Size of received message */
 
     for (;;)
     {
@@ -123,13 +123,31 @@ void UDPProcessMain(int servSock)
         if ((rcvMsgSize = recvfrom(servSock, echoBuffer, RCVBUFSIZE, 0, (struct sockaddr *) &echoClntAddr, &clntLen)) < 0)
             DieWithError("recvfrom() failed");
 
-        /* ------Step 4 send to the socket  ------- */
-        /* Send received datagram back to the client */
-        if (sendto(servSock, echoBuffer, rcvMsgSize, 0, (struct sockaddr *) &echoClntAddr, sizeof(echoClntAddr)) != rcvMsgSize)
-            DieWithError("sendto() sent a different number of bytes than expected");
-        else {
-            /* Print on the server what the message was after echoing to client */
-            printf("Received from the client: [%.*s] \n",rcvMsgSize, echoBuffer);
+        /* Ensures message received is a supported command */
+        if (echoBuffer[0] == 'd' &&
+            echoBuffer[1] == 'a' &&
+            echoBuffer[2] == 't' &&
+            echoBuffer[3] == 'e') {
+            /* Get server current date/time */
+            time_t t = time(NULL);
+            struct tm *tm = localtime(&t);
+            char time[64];
+            strftime(time, sizeof(time), "%c", tm);
+            
+            /* Sends server date/time to client and handles any transmission error */
+            if (sendto(servSock, time, sizeof(time), 0, (struct sockaddr *) &echoClntAddr, sizeof(echoClntAddr)) != sizeof(time))
+                DieWithError("sendto() sent a different number of bytes than expected");
+            else {
+                printf("%s", time);
+            }
+        } else {
+            char message[RCVBUFSIZE] = "Action not supported";
+            /* Notifies client of unsupported action and handles any transmission error */
+            if (sendto(servSock, message, RCVBUFSIZE, 0, (struct sockaddr *) &echoClntAddr, sizeof(echoClntAddr)) != RCVBUFSIZE)
+                DieWithError("sendto() sent a different number of bytes than expected");
+            else {
+                printf("ERROR - Unsupported client request: [%.*s] \n", rcvMsgSize, echoBuffer);
+            }
         }
     }
 }

@@ -51,7 +51,7 @@ void getServerDateTime() {
         DieWithError("recvfrom() failed");
 
     /* Print on the client what was received from the server. */
-    printf("%.*s\n", echoStringLen, echoString);
+    printf("%.*s\n", respStringLen, echoBuffer);
 
     /* ------Step 5 close connection with server and release resources ------ */
     close(sock);
