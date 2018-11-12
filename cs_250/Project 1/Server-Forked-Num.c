@@ -31,13 +31,13 @@ int main(int argc, char *argv[])
 
     /* ------Step 0 check user input ------ */
     /* Test for correct number of arguments from user */
-    if (argc != 3) {
-        fprintf(stderr, "Usage:  %s <Server Port> <CHILD FORK LIMIT>\n", argv[0]);
+    if (argc != 2) {
+        fprintf(stderr, "Usage:  %s <CHILD FORK LIMIT>\n", argv[0]);
         exit(1);
     }
 
-    echoServPort = atoi(argv[1]);  	/* First arg:  should be local port */
-    processLimit = atoi(argv[2]);  	/* Second arg:  should be limit for # of children */
+    echoServPort = 3000;  	        /* Server port */
+    processLimit = atoi(argv[2]);  	/* First Argument:  limit for # of children */
 
     /* ------Step 1 create the socket ------- */
     /* Create socket for incoming connections (both TCP and UDP) */
