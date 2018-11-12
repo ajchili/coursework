@@ -1,21 +1,28 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 void DieWithError(char *errorMessage);  /* Error handling function */
-int handleInitialUserInput();
+int handleInitialUserInput();           /* Handles user input for initialization of applciation */
+void getServerDateTime();               /* Obtains date/time from server */
 
 int main(void) {
+  system("@cls||clear");                    /* Clears screen */
+  
   for (;;) {
-    system("@cls||clear");                    /* Clears screen at start of loop */
     int selection = handleInitialUserInput(); /* Determins what action user wants to perform */
+    printf("\n");
 
     switch (selection) {                      /* Handles the selected action */
-      case 1:
+      case 1:                                 /* Case 1 - Get server Date/Time */
+        getServerDateTime();
         break;
-      case 2:
+      case 2:                                 /* Case 2 - Get Quote of the Date */
         break;
-      case 3:
+      case 3:                                 /* Case 3 - Get Country data */
         break;
     }
+
+    printf("\n\n\n\n");
   }
 
   return 0;
