@@ -1,0 +1,11 @@
+CC = gcc
+CFLAGS = -g -Wall
+INCLUDE1=DieWithError.c
+
+all: test1
+
+test1: test1.c
+	$(CC) $(CFLAGS) $@.c $(INCLUDE1) -o $@.o
+
+clean:
+	-rm -f *.o *~ *core*

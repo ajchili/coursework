@@ -1,0 +1,9 @@
+USE indexes;
+
+CREATE TABLE stories (
+	id int NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	author varchar(100) NOT NULL,
+	body MEDIUMTEXT NOT NULL
+);
+
+ALTER TABLE stories ADD FULLTEXT(body);
