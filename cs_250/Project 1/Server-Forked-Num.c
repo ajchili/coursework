@@ -100,10 +100,6 @@ void TCPProcessMain(int servSock)
         	DieWithError("accept() failed");
     
     	/* clntSock is connected to a client! */
-    
-    	printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
-
-        printf("With child process: %d\n", (unsigned int) getpid());
         HandleClientTCP(clntSock);
     }
 }
