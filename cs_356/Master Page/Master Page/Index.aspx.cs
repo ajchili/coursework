@@ -16,9 +16,7 @@ namespace Master_Page
 
         void Page_PreInit(object sender, EventArgs e)
         {
-            DateTime date = DateTime.Now;
-
-            if ((date.Month <= 12 && date.Day <= 30) || (date.Month == 9 && date.Day == 31))
+            if (DateTime.Now.Month >= 11)
             {
                 Page.Theme = "HolidayTheme";
             }
