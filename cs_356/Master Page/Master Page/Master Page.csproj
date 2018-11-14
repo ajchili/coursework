@@ -67,13 +67,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="APP_Themes\DefaultTheme\background.png" />
+    <Content Include="APP_Themes\DefaultTheme\StyleSheet.css" />
+    <Content Include="APP_Themes\HolidayTheme\background.png" />
+    <Content Include="APP_Themes\HolidayTheme\StyleSheet.css" />
     <Content Include="Assets\logo.png" />
     <Content Include="CSS\Login.css" />
+    <Content Include="Index.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Main.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -107,7 +119,9 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="Web.sitemap" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
