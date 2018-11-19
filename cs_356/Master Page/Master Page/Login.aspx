@@ -4,12 +4,12 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="navbarContent" Runat="Server">
-    <a class="navbar-brand" href="/Login.aspx">Pet A Puppy</a>
+    <a class="navbar-brand" href="/Index.aspx">Pet A Puppy</a>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="main" Runat="Server">
     <div class="login-container">
-        <div class="login-form">
+        <div class="login-form content">
             <form runat="server">
                 <img class="login-image" src="Assets/logo.png" alt="Pet A Puppy">
                 <h1 class="h3 mb-3 font-weight-normal text-center">Please login</h1>

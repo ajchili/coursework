@@ -51,5 +51,17 @@ namespace Master_Page
                 }
             }
         }
+
+        void Page_PreInit(object sender, EventArgs e)
+        {
+            if (DateTime.Now.Month >= 11)
+            {
+                Page.Theme = "HolidayTheme";
+            }
+            else
+            {
+                Page.Theme = "DefaultTheme";
+            }
+        }
     }
 }
