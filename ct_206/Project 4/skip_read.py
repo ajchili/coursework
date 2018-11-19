@@ -8,9 +8,10 @@ def open_file(file_name):
 # File object is the only provided parameter
 def read_from_file(f, lines_to_skip):
   data = tuple(f)
-  for i, row in enumerate(data):
-    if i >= int(lines_to_skip):
-      print(row.replace('\n', ''))
+  if (int(lines_to_skip) < len(data)):
+    for i, row in enumerate(data):
+      if i >= int(lines_to_skip):
+        print(row.replace('\n', ''))
 
 # Closes file i/o
 # File object is the only provided parameter
