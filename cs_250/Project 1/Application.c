@@ -4,7 +4,7 @@
 void DieWithError(char *errorMessage);  /* Error handling function */
 int handleInitialUserInput();           /* Handles user input for initialization of applciation */
 void getServerDateTime();               /* Obtains date/time from server */
-void getServerQuote();                  /* Obtains quote of the date from server */
+void getServerQuote();                  /* Obtains quote of the day from server */
 void getServerCountryData();            /* Obtain country data from the server database */
 
 int main(void) {
@@ -42,7 +42,7 @@ int handleInitialUserInput() {
 
   printf("Hello, what would you like do?\n");
   printf("1 - Get the Date/Time\n");
-  printf("2 - Get the Quote of the Date\n");
+  printf("2 - Get the Quote of the Day\n");
   printf("3 - Look up Country Code\n");
 
   scanf("%d", &selection);

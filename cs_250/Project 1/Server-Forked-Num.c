@@ -21,13 +21,15 @@ void UDPProcessMain(int servSock);		            /* Fork main function definition
 
 int main(int argc, char *argv[])
 {
-    int TCPservSock_d;                  /* Socket descriptor for server */
+    int MainTCPservSock_d;              /* Socket descriptor for main TCP server (country) */
+    int SecondaryTCPservSock_d;              /* Socket descriptor for secondary TCP server (quotes) */
     int UDPservSock_d;                  /* UPD Socket descriptor for server*/
     pid_t fork_ProcessID;		        /* Fork Process ID from fork() */
     unsigned int childProcessCount = 0; /* Number of child processes */
     unsigned int processLimit;          /* Number of child processes to create */
-    struct sockaddr_in echoServAddr;    /* Local address */
-    unsigned short echoServPort;        /* Server port */
+    struct sockaddr_in mainServAddr;      /* Local address */
+    struct sockaddr_in secondaryServAddr; /* Local secondary address */
+    unsigned short echoServPort;          /* Server port */
 
     /* ------Step 0 check user input ------ */
     /* Test for correct number of arguments from user */
@@ -36,35 +38,49 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    echoServPort = atoi(argv[1]);  	/* First arg:  should be local port */
+    echoServPort = atoi(argv[1]);  	/* First arg: should be local port */
     processLimit = 3;  	            /* Limit for # of children */
 
     /* ------Step 1 create the socket ------- */
     /* Create socket for incoming connections (both TCP and UDP) */
-    if ((TCPservSock_d = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-        DieWithError("socket() failed (TCP)");
+    if ((MainTCPservSock_d = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
+        DieWithError("socket() failed (TCP - country)");
+
+    if ((SecondaryTCPservSock_d = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
+        DieWithError("socket() failed (TCP - quote)");
 
     if ((UDPservSock_d = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
         DieWithError("socket() failed (UDP)");
       
     /* Construct local address structure */
-    memset(&echoServAddr, 0, sizeof(echoServAddr));   /* Zero out structure */
-    echoServAddr.sin_family = AF_INET;                /* Internet address family */
-    echoServAddr.sin_addr.s_addr = htonl(INADDR_ANY); /* Any incoming interface */
-    echoServAddr.sin_port = htons(echoServPort);      /* Local port */
+    memset(&mainServAddr, 0, sizeof(mainServAddr));   /* Zero out structure */
+    mainServAddr.sin_family = AF_INET;                /* Internet address family */
+    mainServAddr.sin_addr.s_addr = htonl(INADDR_ANY); /* Any incoming interface */
+    mainServAddr.sin_port = htons(echoServPort);      /* Local port */
+
+    memset(&secondaryServAddr, 0, sizeof(secondaryServAddr)); /* Zero out structure */
+    secondaryServAddr.sin_family = AF_INET;                   /* Internet address family */
+    secondaryServAddr.sin_addr.s_addr = htonl(INADDR_ANY);    /* Any incoming interface */
+    secondaryServAddr.sin_port = htons(echoServPort + 1);         /* Local port */
 
     /* ------Step 2 bind the connection ip:port ------- */
     /* Bind to the local address */
-    if (bind(TCPservSock_d, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
-        DieWithError("bind() failed (TCP)");
+    if (bind(MainTCPservSock_d, (struct sockaddr *) &mainServAddr, sizeof(mainServAddr)) < 0)
+        DieWithError("bind() failed (TCP - country)");
 
-    if (bind(UDPservSock_d, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
+    if (bind(SecondaryTCPservSock_d, (struct sockaddr *) &secondaryServAddr, sizeof(secondaryServAddr)) < 0)
+        DieWithError("bind() failed (TCP - quote)");
+
+    if (bind(UDPservSock_d, (struct sockaddr *) &mainServAddr, sizeof(mainServAddr)) < 0)
         DieWithError("bind() failed (UDP)");
 
     /* ------Step 3 listen to the socket for a connection ------- */
     /* Establish the socket to listen for incoming connections */
-    if (listen(TCPservSock_d, MAXPENDING) < 0)
-        DieWithError("listen() failed");
+    if (listen(MainTCPservSock_d, MAXPENDING) < 0)
+        DieWithError("listen() failed (country)");
+
+    if (listen(SecondaryTCPservSock_d, MAXPENDING) < 0)
+        DieWithError("listen() failed (quote)");
 
     for (childProcessCount=0; childProcessCount < processLimit; childProcessCount++) 
     {
@@ -72,20 +88,20 @@ int main(int argc, char *argv[])
         if ((fork_ProcessID = fork()) < 0)
             DieWithError("fork() failed");
         else if (fork_ProcessID == 0)  /* If this is the child process */
-            TCPProcessMain(TCPservSock_d, 1);
+            TCPProcessMain(MainTCPservSock_d, 2);
     }
 
     /* Fork child process and report any errors (TCP socket for random quote) */
     if ((fork_ProcessID = fork()) < 0)
         DieWithError("fork() failed");
     else if (fork_ProcessID == 0)  /* If this is the child process */
-        TCPProcessMain(TCPservSock_d, 1);
+        TCPProcessMain(SecondaryTCPservSock_d, 1);
 
     /* Fork child process and report any errors (UDP socket) */
-        if ((fork_ProcessID = fork()) < 0)
-            DieWithError("fork() failed");
-        else if (fork_ProcessID == 0)  /* If this is the child process */
-            UDPProcessMain(UDPservSock_d);
+    if ((fork_ProcessID = fork()) < 0)
+        DieWithError("fork() failed");
+    else if (fork_ProcessID == 0)  /* If this is the child process */
+        UDPProcessMain(UDPservSock_d);
     exit(0);  /* The children will carry on */
 }
 

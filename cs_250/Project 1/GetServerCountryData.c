@@ -21,9 +21,7 @@ int getServerCountryData() {
   unsigned short echoServPort;     /* Echo server port */
   char *servIP;                    /* Server IP address (dotted quad) */
   char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
-  unsigned int echoStringLen;      /* Length of string to echo */
-  int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
-                                      and total bytes read */
+  int echoStringLen;               /* Length of string to echo */
 
   servIP = "0.0.0.0";                     /* Server IP address (dotted quad) */
   char echoString[] = "country";          /* String to send to echo server */
@@ -34,7 +32,6 @@ int getServerCountryData() {
   /* Create a reliable, stream socket using TCP */
   if ((sock_Descr = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
       DieWithError("socket() failed");
-
 
   /* Construct the server address structure */
   memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
@@ -55,20 +52,26 @@ int getServerCountryData() {
     DieWithError("send() failed");
   else
     printf("Waiting for response from server...\n");
-
       
-  /* ------Step 4 recv message from server ------ */
-  /* Receive the same string back from the server */
-  totalBytesRcvd = 0;
-  while (totalBytesRcvd < echoStringLen)
-  {
-    if ((totalBytesRcvd = recv(sock_Descr, echoBuffer, RCVBUFSIZE, 0)) < 0)
-      DieWithError("recv() failed");
+  if (recv(sock_Descr, echoBuffer, RCVBUFSIZE, 0) < 0)
+    DieWithError("recv() failed");
+      
+  CaesarCipher(2, echoBuffer);
+  if (echoBuffer[0] == 'O' && echoBuffer[1] == 'K') {
+    char countryCode[RCVBUFSIZE];
 
+    printf("Please enter the code of the Country you would like to get information about: ");
+    scanf("%s", countryCode);
+    int countryCodeLength = sizeof(countryCode);
+    
+    if (send(sock_Descr, countryCode, countryCodeLength, 0) != countryCodeLength)
+      DieWithError("send() failed");
+    // else printf("%s", countryCode);
+  } else {
     printf("%s", echoBuffer);
   }
-  printf("\n");    /* Print a final linefeed */
 
   /* ------Step 5 close connection with server and release resources ------ */
   close(sock_Descr);
+  return 0;
 }

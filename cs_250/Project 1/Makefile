@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -g -Wall -pthread
-INCLUDE1=DieWithError.c HandleClientTCP.c HandleClientUDP.c
+INCLUDE1=DieWithError.c CaesarCipher.c HandleClientTCP.c HandleClientUDP.c
 INCLUDE2=DieWithError.c CaesarCipher.c GetServerDateTime.c GetServerQuote.c GetServerCountryData.c
 
 all: Application Server-Forked-Num
