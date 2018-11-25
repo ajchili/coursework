@@ -13,11 +13,11 @@
 
 #define MAXPENDING 5    	/* Maximum outstanding connection requests */
 
-void DieWithError(char *errorMessage);  /* Error handling helper function */
-void HandleClientTCP(int clntSocket);   /* TCP client handling function */
-void HandleClientUDP(int servSock);     /* UDP client handling function */
-void TCPProcessMain(int servSock);		/* Fork main function definition (TCP) */
-void UDPProcessMain(int servSock);		/* Fork main function definition (UDP) */
+void DieWithError(char *errorMessage);              /* Error handling helper function */
+void HandleClientTCP(int clntSocket, int type);     /* TCP client handling function */
+void HandleClientUDP(int servSock);                 /* UDP client handling function */
+void TCPProcessMain(int servSock, int type);		/* Fork main function definition (TCP) */
+void UDPProcessMain(int servSock);		            /* Fork main function definition (UDP) */
 
 int main(int argc, char *argv[])
 {
@@ -31,13 +31,13 @@ int main(int argc, char *argv[])
 
     /* ------Step 0 check user input ------ */
     /* Test for correct number of arguments from user */
-    if (argc != 3) {
-        fprintf(stderr, "Usage:  %s <Server Port> <CHILD FORK LIMIT>\n", argv[0]);
+    if (argc != 2) {
+        fprintf(stderr, "Usage:  %s <Server Port>\n", argv[0]);
         exit(1);
     }
 
     echoServPort = atoi(argv[1]);  	/* First arg:  should be local port */
-    processLimit = atoi(argv[2]);  	/* Second arg:  should be limit for # of children */
+    processLimit = 3;  	            /* Limit for # of children */
 
     /* ------Step 1 create the socket ------- */
     /* Create socket for incoming connections (both TCP and UDP) */
@@ -68,22 +68,28 @@ int main(int argc, char *argv[])
 
     for (childProcessCount=0; childProcessCount < processLimit; childProcessCount++) 
     {
-        /* Fork child process and report any errors (TCP socket) */
+        /* Fork child process and report any errors (TCP socket for CSV database) */
         if ((fork_ProcessID = fork()) < 0)
             DieWithError("fork() failed");
         else if (fork_ProcessID == 0)  /* If this is the child process */
-            TCPProcessMain(TCPservSock_d);
-        
-        /* Fork child process and report any errors (UDP socket) */
+            TCPProcessMain(TCPservSock_d, 1);
+    }
+
+    /* Fork child process and report any errors (TCP socket for random quote) */
+    if ((fork_ProcessID = fork()) < 0)
+        DieWithError("fork() failed");
+    else if (fork_ProcessID == 0)  /* If this is the child process */
+        TCPProcessMain(TCPservSock_d, 1);
+
+    /* Fork child process and report any errors (UDP socket) */
         if ((fork_ProcessID = fork()) < 0)
             DieWithError("fork() failed");
         else if (fork_ProcessID == 0)  /* If this is the child process */
             UDPProcessMain(UDPservSock_d);
-    }
     exit(0);  /* The children will carry on */
 }
 
-void TCPProcessMain(int servSock)
+void TCPProcessMain(int servSock, int type)
 {
     int clntSock;                       /* Socket descriptor for client connection */
     struct sockaddr_in echoClntAddr;    /* Client address */
@@ -100,7 +106,7 @@ void TCPProcessMain(int servSock)
         	DieWithError("accept() failed");
     
     	/* clntSock is connected to a client! */
-        HandleClientTCP(clntSock);
+        HandleClientTCP(clntSock, type);
     }
 }
 

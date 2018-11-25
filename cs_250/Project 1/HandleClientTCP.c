@@ -11,7 +11,13 @@
 
 void DieWithError(char *errorMessage);  /* Error handling function */
 
-void HandleClientTCP(int clntSocket)
+/**
+ * type is the server action that will be handled within this fork
+ * 0 - Quote of the day
+ * 1 - Country Database
+ * Any other number - Defaults to 0 
+ */
+void HandleClientTCP(int clntSocket, int type)
 {
     char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
     int recvMsgSize;                    /* Size of received message */
@@ -27,7 +33,6 @@ void HandleClientTCP(int clntSocket)
     
         /* ------Step 6 send to the client --------- */
         /* Echo message back to client */
-        
         if (send(clntSocket, echoBuffer, recvMsgSize, 0) != recvMsgSize)
             DieWithError("send() failed");
         else {
