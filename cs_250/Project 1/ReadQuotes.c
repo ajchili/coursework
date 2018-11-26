@@ -34,7 +34,7 @@ int getRandomQuote(char **arr, size_t *arr_len)
   if (fseek(in_fp, 0L, SEEK_SET) != 0) 
     DieWithError("FSEEK() failed");
 
-  /* Iterates through all lines before randomLine, then breaks once randomLine is 0. After the break, the buffer is returned. */
+  /* Iterates through all lines before randomLine, then breaks once randomLine is 0. Breaks when the quote is selected. */
   while ((fgets(buffer, 256, in_fp) != NULL)) {
     if (randomLine == 0) break;
     --randomLine;

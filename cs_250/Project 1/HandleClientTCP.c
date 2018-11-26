@@ -9,12 +9,12 @@
 
 #define RCVBUFSIZE 80   	/* Arbitrary size of receive buffer */
 
-void DieWithError(char *errorMessage);                       /* Error handling function */
-int CaesarCipher(int option, char str[]);                    /* String decryption */
+void DieWithError(char *errorMessage);           /* Error handling function */
+int CaesarCipher(int option, char str[]);        /* String decryption */
 int getRandomQuote(char **arr, size_t *arr_len); /* Gets random quote */
-int getQuoteStatus(int quote);                               /* Returns status of quote */
-void likeQuote(int quote);
-void dislikeQuote(int quote);
+int getQuoteStatus(int quote);                   /* Returns status of quote */
+void likeQuote(int quote);                       /* Likes quote */          
+void dislikeQuote(int quote);                    /* Dislikes quote */
 
 /**
  * type is the server action that will be handled within this fork
@@ -36,6 +36,7 @@ void HandleClientTCP(int clntSocket, int type)
     CaesarCipher(2, echoBuffer);
     recvMsgSize = sizeof(echoBuffer);
     
+    /* Creates and encrypt ok and error messages for later use */
     char okMessage[RCVBUFSIZE] = "OK";
     char errorMessage[RCVBUFSIZE] = "Action not supported";
     CaesarCipher(1, okMessage);
@@ -43,7 +44,9 @@ void HandleClientTCP(int clntSocket, int type)
     int okMessageSize = sizeof(okMessage);
     int errorMessageSize = sizeof(errorMessage);
 
-    if (type == 2 &&
+    /* Determines fork type and if requested action is permitable*/
+    
+    if (type == 2 &&                   /* Checks that current fork is for obtaining country data and the request is valid */
         echoBuffer[0] == 'c' &&
         echoBuffer[1] == 'o' &&
         echoBuffer[2] == 'u' &&
@@ -51,46 +54,55 @@ void HandleClientTCP(int clntSocket, int type)
         echoBuffer[4] == 't' &&
         echoBuffer[5] == 'r' &&
         echoBuffer[6] == 'y') {
+        /* Sends ok message to client, indicating that if a country is found it will be sent */
         if (send(clntSocket, okMessage, okMessageSize, 0) != okMessageSize)
             DieWithError("send() failed");
 
+        /* Obtains encrypted country id */
         if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
             DieWithError("recv() failed");
         
         // TODO: get country from file
-    } else if (echoBuffer[0] == 'q' &&
+    } else if (echoBuffer[0] == 'q' && /* Checks that current fork is for obtaining random quotes and the request is valid */
         echoBuffer[1] == 'u' &&
         echoBuffer[2] == 'o' &&
         echoBuffer[3] == 't' &&
         echoBuffer[4] == 'e') {
+        /* Sends ok message to client, indicating a quote will be sent */
         if (send(clntSocket, okMessage, okMessageSize, 0) != okMessageSize)
             DieWithError("send() failed");
 
-        char *quote;
-        size_t quoteLength;
+        /* Obtains random quote */
+        char *quote;                                            /* Random quote */
+        size_t quoteLength;                                     /* Length of random quote */
         int quoteNumber = getRandomQuote(&quote, &quoteLength);
-        char quoteStatus[RCVBUFSIZE];
-        int likes = getQuoteStatus(quoteNumber);
+        char quoteStatus[RCVBUFSIZE];                           /* Status of quote */
+        int likes = getQuoteStatus(quoteNumber);                /* Number of likes a quote has */
+        /* Validates that random quote does not have dislikes, if it does, obtain a new one. This can become an infinite loop if all quotes are disliked. Implementing a solution that only does this n times would be a good solution to prevent any infinite loop issues. */
         while (likes < 0) {
             quoteNumber = getRandomQuote(&quote, &quoteLength);
             likes = getQuoteStatus(quoteNumber);
         }
-        CaesarCipher(1, quote);
-        sprintf(quoteStatus, "%d - %s\n", getQuoteStatus(quoteNumber), likes >= 0 ? "likes" : "dislikes");
-        CaesarCipher(1, quoteStatus);
+        CaesarCipher(1, quote);       /* Encrypts quote */
+        sprintf(quoteStatus, "%d - %s\n", getQuoteStatus(quoteNumber), likes >= 0 ? "likes" : "dislikes");    /* Formats quote status */
+        CaesarCipher(1, quoteStatus); /* Encrypts quote status */
         
+        /* Sends encrypted quote */
         if (send(clntSocket, quote, quoteLength, 0) != quoteLength)
             DieWithError("send() failed");
 
+        /* Sends encrypted quote status */
         if (send(clntSocket, quoteStatus, RCVBUFSIZE, 0) != RCVBUFSIZE)
             DieWithError("send() failed");
 
+        /* Receives user status action (like or dislike) */
         if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
             DieWithError("recv() failed");
 
+        /* Decrypts user status action */
         CaesarCipher(2, echoBuffer);
-        printf("Client Quote Status Response: %s", echoBuffer);
 
+        /* Handles user status action */
         if (echoBuffer[0] == 'L') likeQuote(quoteNumber);
         else if (echoBuffer[0] == 'D') dislikeQuote(quoteNumber);
     } else {
@@ -99,7 +111,6 @@ void HandleClientTCP(int clntSocket, int type)
             DieWithError("send() failed");
     }
 
-    /* ------Step 7 close when program is terminated ------- */
     /* Close client socket and clean up resources*/
     close(clntSocket);
 #ifdef _WIN32 				/* IF ON A WINDOWS PLATFORM YOU WILL HAVE TO CHECK THIS */

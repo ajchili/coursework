@@ -26,8 +26,8 @@ void getServerQuote()
 
   servIP = "0.0.0.0";          /* Server IP address (dotted quad) */
   char echoString[] = "quote"; /* String to send to echo server */
-  CaesarCipher(1, echoString);
-  echoServPort = 3001;
+  CaesarCipher(1, echoString); /* Encrypt message */
+  echoServPort = 3001;         /* Set port of server */
 
   /* ------Step 1 create socket --------------- */
   /* Create a reliable, stream socket using TCP */
@@ -54,32 +54,44 @@ void getServerQuote()
   else
     printf("Waiting for response from server...\n");
 
+  /* Receives message from server (status of request) */
   if (recv(sock_Descr, echoBuffer, RCVBUFSIZE, 0) < 0)
     DieWithError("recv() failed");
-      
+
+  /* Decrypts status of request */
   CaesarCipher(2, echoBuffer);
-  if (echoBuffer[0] == 'O' && echoBuffer[1] == 'K') {
-    char quoteBuffer[256];
+  /* Verifies that request is valid */
+  if (echoBuffer[0] == 'O' && echoBuffer[1] == 'K')
+  {
+    char quoteBuffer[256]; /* Random quote */
+    /* Receives random quote from server */
     if (recv(sock_Descr, quoteBuffer, 256, 0) < 0)
       DieWithError("recv() failed");
-      
+
+    /* Decrypts random quote and displays it to user*/
     CaesarCipher(2, quoteBuffer);
     printf("Random Quote: %s", quoteBuffer);
 
+    /* Receives random quote status from server */
     if (recv(sock_Descr, echoBuffer, RCVBUFSIZE, 0) < 0)
       DieWithError("recv() failed");
 
+    /* Decrypts random quote status and displays it to user*/
     CaesarCipher(2, echoBuffer);
     printf("Quote Status: %s", echoBuffer);
 
-    char status[RCVBUFSIZE];
+    /* Obtains requested status action to be preformed (like/dislike) */
+    char status[RCVBUFSIZE]; /* Quote status action requested by user */
     printf("You can like or dislike this quote (L/D/n): ");
     scanf("%s", status);
     CaesarCipher(1, status);
 
+    /* Sends requested status action to be preformed to server */
     if (send(sock_Descr, status, RCVBUFSIZE, 0) != RCVBUFSIZE)
       DieWithError("send() failed");
-  } else {
+  }
+  else /* Prints error received from server */
+  {
     printf("%s", echoBuffer);
   }
 
