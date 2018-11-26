@@ -38,11 +38,14 @@ int main(int argc, char *argv[])
     /* Test for correct number of arguments from user */
     if (argc != 2)
     {
-        fprintf(stderr, "Usage:  %s <Server Port>\n", argv[0]);
-        exit(1);
+        echoServPort = 3000;
+    }
+    else
+    {
+        printf("The port for Server-Forked-Num was set manually. Please note that Application.c by default uses port 3000 and 3001. To use these ports, do not specify a port on startup of Server-Forked-Num, otherwise, change the ports used in GetServerCountryData.c and GetServerQuote.c respectively.");
+        echoServPort = atoi(argv[1]); /* First arg: should be local port */
     }
 
-    echoServPort = atoi(argv[1]); /* First arg: should be local port */
     processLimit = 3;             /* Limit for # of children */
 
     /* Test server capabilties */

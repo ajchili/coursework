@@ -11,7 +11,7 @@ Project 1 allows clients to use `Application.c` to connect to `Server-Forked-Num
     * Shell wrapper for client functions
     * Takes user input and runs specified files that interact with Server-Fored-Num.c
 * CaesarCipher.c
-    * Function that takes in an integer and character array and will either encrpyt or decrpyt the character array
+    * Function that takes in an integer and character array and will either encrypt or decrypt the character array
     * Similar to ROT13
 * DieWithError.c
     * Error handling function that writes error to terminal and exits application
@@ -22,7 +22,7 @@ Project 1 allows clients to use `Application.c` to connect to `Server-Forked-Num
 * GetServerQuote.c
     * Helper function that communicates via a server on the localhost (`0.0.0.0`) network via port `3001` and TCP. It requests a random quote from the server and then allows a user to like or dislike the comment. These stats are included in the request for a random quote.
 * HandleClientTCP.c
-    * Helper function that communicates with a client. Allows a client to utalize the GetServerCountryData and GetServerQuote helpers once a request is verified.
+    * Helper function that communicates with a client. Allows a client to utilize the GetServerCountryData and GetServerQuote helpers once a request is verified.
 * HandleClientUDP.c
     * Helper function that communicates with a client. It verifies that the date is requested and then sends the determined current date/time on the server and sends it to the client.
 * ReadCountries.c
@@ -35,7 +35,7 @@ Project 1 allows clients to use `Application.c` to connect to `Server-Forked-Num
     * Helper function to like a quote.
     * Helper function to dislike a quote.
 * Server-Forked-Num.c
-    * Main server application. Handles all server functionallity.
+    * Main server application. Handles all server functionality.
     * Starts all Forks and ensures that necessary files exist and can be read from.
 
 ## Protocols in use
@@ -78,4 +78,17 @@ Project 1 allows clients to use `Application.c` to connect to `Server-Forked-Num
             3. Decrypted and displayed to the user
     12. The found country data is encrypted by the server
     13. The encrypted country data is sent to the client
-    14. The clinet decrypts and displays the data to the user
+    14. The client decrypts and displays the data to the user
+
+## What's Working
+* Everything should be in working order.
+
+## What's not Working
+* I experienced an issue when trying to limit the country id to a 6 character array. When decrypting the message server side it would always add an extra character. I circumvented this by changing the length of the character array from 6 -> 80.
+* There is no error handling for when all quotes have dislikes below 1. This results in an infinite loop. While this is highly unlikely given the context of the project. A solution to fix this would be to have a maximum of 5 tries to find a new, liked quote. This would prevent an infinite loop from occurring.
+
+## What I Learned
+1. How to use C for more than just printing `"Hello, World!"`
+2. How to index through files with C
+    * More specifically, the strategies to use for finding data within a file (or line within the file)
+3. Basic client/server communications and how to implement them for simple and efficient data transfer capabilities
