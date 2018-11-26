@@ -59,17 +59,29 @@ void getServerQuote()
       
   CaesarCipher(2, echoBuffer);
   if (echoBuffer[0] == 'O' && echoBuffer[1] == 'K') {
-    // TODO: Send ready
+    char quoteBuffer[256];
+    if (recv(sock_Descr, quoteBuffer, 256, 0) < 0)
+      DieWithError("recv() failed");
+      
+    CaesarCipher(2, quoteBuffer);
+    printf("Random Quote: %s", quoteBuffer);
+
+    if (recv(sock_Descr, echoBuffer, RCVBUFSIZE, 0) < 0)
+      DieWithError("recv() failed");
+
+    CaesarCipher(2, echoBuffer);
+    printf("Quote Status: %s", echoBuffer);
+
+    char status[RCVBUFSIZE];
+    printf("You can like or dislike this quote (L/D/n): ");
+    scanf("%s", status);
+    CaesarCipher(1, status);
+
+    if (send(sock_Descr, status, RCVBUFSIZE, 0) != RCVBUFSIZE)
+      DieWithError("send() failed");
   } else {
     printf("%s", echoBuffer);
   }
-
-  char quoteBuffer[256];
-  if (recv(sock_Descr, quoteBuffer, 256, 0) < 0)
-    DieWithError("recv() failed");
-    
-  CaesarCipher(2, quoteBuffer);
-  printf("Random Quote: %s", quoteBuffer);
 
   /* ------Step 5 close connection with server and release resources ------ */
   close(sock_Descr);

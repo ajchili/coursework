@@ -34,4 +34,15 @@ Project 1 allows clients to use `Application.c` to connect to `Server-Forked-Num
     6. Server sends date/time to client
     7. Client displays server date/time
 * Obtaining server quote of the day
+    1. TCP socket creation by client
+    2. Connection to server socket
+    3. Encrypted message sent from client, body of "quote"
+    4. Encrypted message is verified by server to be "quote" _(verifies that decrypted message is "quote")_
+    5. Encrypted message sent from server, body of "OK"
+    6. Encrypted message is verified by client to be "OK" _(verifies that decrypted message is "OK")_
+    7. Server obtains random quote that does not have any dislikes
+    8. Server encrypts quote and sends it to client
+    9. Server encrypts the status of the quote and sends it to client
+    10. Client encrypts user action, [L]ike [D]islike or [n], and sends it to the server to be processed
+    11. Server decrypts and processes user action, liking, disliking, or doing nothing with the quote
 * Obtaining country data from server

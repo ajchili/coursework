@@ -9,9 +9,12 @@
 
 #define RCVBUFSIZE 80   	/* Arbitrary size of receive buffer */
 
-void DieWithError(char *errorMessage);    /* Error handling function */
-int CaesarCipher(int option, char str[]); /* String decryption */
-void getRandomQuote(char **arr, size_t *arr_len); /* Gets random quote */
+void DieWithError(char *errorMessage);                       /* Error handling function */
+int CaesarCipher(int option, char str[]);                    /* String decryption */
+int getRandomQuote(char **arr, size_t *arr_len); /* Gets random quote */
+int getQuoteStatus(int quote);                               /* Returns status of quote */
+void likeQuote(int quote);
+void dislikeQuote(int quote);
 
 /**
  * type is the server action that will be handled within this fork
@@ -65,11 +68,31 @@ void HandleClientTCP(int clntSocket, int type)
 
         char *quote;
         size_t quoteLength;
-        getRandomQuote(&quote, &quoteLength);
+        int quoteNumber = getRandomQuote(&quote, &quoteLength);
+        char quoteStatus[RCVBUFSIZE];
+        int likes = getQuoteStatus(quoteNumber);
+        while (likes < 0) {
+            quoteNumber = getRandomQuote(&quote, &quoteLength);
+            likes = getQuoteStatus(quoteNumber);
+        }
         CaesarCipher(1, quote);
+        sprintf(quoteStatus, "%d - %s\n", getQuoteStatus(quoteNumber), likes >= 0 ? "likes" : "dislikes");
+        CaesarCipher(1, quoteStatus);
         
         if (send(clntSocket, quote, quoteLength, 0) != quoteLength)
             DieWithError("send() failed");
+
+        if (send(clntSocket, quoteStatus, RCVBUFSIZE, 0) != RCVBUFSIZE)
+            DieWithError("send() failed");
+
+        if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
+            DieWithError("recv() failed");
+
+        CaesarCipher(2, echoBuffer);
+        printf("Client Quote Status Response: %s", echoBuffer);
+
+        if (echoBuffer[0] == 'L') likeQuote(quoteNumber);
+        else if (echoBuffer[0] == 'D') dislikeQuote(quoteNumber);
     } else {
         /* Notifies client of unsupported action and handles any transmission error */
         if (send(clntSocket, errorMessage, errorMessageSize, 0) != errorMessageSize)

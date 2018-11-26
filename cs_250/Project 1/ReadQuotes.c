@@ -8,11 +8,13 @@
 
 void DieWithError(char *errorMessage);
 
+int quoteStatuses[NUMBER_OF_QUOTES];
+
 /**
  * Reads Quote_File.txt to and sets provided parameters to quote and the
- * length of the quote.
+ * length of the quote and returns quote number.
  */
-void getRandomQuote(char **arr, size_t *arr_len)
+int getRandomQuote(char **arr, size_t *arr_len)
 {
   FILE *in_fp;                                  /* File object */
   char *buffer = malloc(sizeof(char) * 256);    /* Quote buffer */
@@ -26,6 +28,7 @@ void getRandomQuote(char **arr, size_t *arr_len)
   /* Gets random line to return */
   srand(time(NULL));
   int randomLine = rand() % NUMBER_OF_QUOTES;
+  int quote = randomLine;
 
   /* Seeks to begining of file */
   if (fseek(in_fp, 0L, SEEK_SET) != 0) 
@@ -42,4 +45,24 @@ void getRandomQuote(char **arr, size_t *arr_len)
   
   /* Set provided char array to buffer */
   *arr = buffer;
+  return quote;
+}
+
+/* Returns integer value that represents the status of a quote.
+ * < 0 represents a quote that is disliked
+ * = 0 represents a quote that is neutral
+ * > 0 represents a quote that is liked
+ */
+int getQuoteStatus(int quote) {
+  return quoteStatuses[quote];
+}
+
+/* Likes provided quote. */
+void likeQuote(int quote) {
+  quoteStatuses[quote]++;
+}
+
+/* Dislikes provided quote. */
+void dislikeQuote(int quote) {
+  quoteStatuses[quote]--;
 }
