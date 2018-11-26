@@ -11,6 +11,7 @@
 
 void DieWithError(char *errorMessage);    /* Error handling function */
 int CaesarCipher(int option, char str[]); /* String decryption */
+void getRandomQuote(char **arr, size_t *arr_len); /* Gets random quote */
 
 /**
  * type is the server action that will be handled within this fork
@@ -62,7 +63,13 @@ void HandleClientTCP(int clntSocket, int type)
         if (send(clntSocket, okMessage, okMessageSize, 0) != okMessageSize)
             DieWithError("send() failed");
 
-        // TODO: get quote from file
+        char *quote;
+        size_t quoteLength;
+        getRandomQuote(&quote, &quoteLength);
+        CaesarCipher(1, quote);
+        
+        if (send(clntSocket, quote, quoteLength, 0) != quoteLength)
+            DieWithError("send() failed");
     } else {
         /* Notifies client of unsupported action and handles any transmission error */
         if (send(clntSocket, errorMessage, errorMessageSize, 0) != errorMessageSize)
@@ -72,7 +79,6 @@ void HandleClientTCP(int clntSocket, int type)
     /* ------Step 7 close when program is terminated ------- */
     /* Close client socket and clean up resources*/
     close(clntSocket);
-    printf("closed\n");
 #ifdef _WIN32 				/* IF ON A WINDOWS PLATFORM YOU WILL HAVE TO CHECK THIS */
     WSACleanup()
 #endif

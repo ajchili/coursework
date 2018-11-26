@@ -102,6 +102,7 @@ int main(int argc, char *argv[])
         DieWithError("fork() failed");
     else if (fork_ProcessID == 0)  /* If this is the child process */
         UDPProcessMain(UDPservSock_d);
+        
     exit(0);  /* The children will carry on */
 }
 

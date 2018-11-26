@@ -15,7 +15,7 @@
 void DieWithError(char *errorMessage);    /* Error handling function */
 int CaesarCipher(int option, char str[]); /* String encryption */
 
-int getServerCountryData() {
+void getServerCountryData() {
   int sock_Descr;                  /* Socket descriptor */
   struct sockaddr_in echoServAddr; /* Echo server address */
   unsigned short echoServPort;     /* Echo server port */
@@ -73,5 +73,4 @@ int getServerCountryData() {
 
   /* ------Step 5 close connection with server and release resources ------ */
   close(sock_Descr);
-  return 0;
 }

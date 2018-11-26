@@ -15,7 +15,7 @@
 void DieWithError(char *errorMessage);    /* Error handling function */
 int CaesarCipher(int option, char str[]); /* String encryption */
 
-int getServerQuote()
+void getServerQuote()
 {
   int sock_Descr;                  /* Socket descriptor */
   struct sockaddr_in echoServAddr; /* Echo server address */
@@ -63,6 +63,13 @@ int getServerQuote()
   } else {
     printf("%s", echoBuffer);
   }
+
+  char quoteBuffer[256];
+  if (recv(sock_Descr, quoteBuffer, 256, 0) < 0)
+    DieWithError("recv() failed");
+    
+  CaesarCipher(2, quoteBuffer);
+  printf("Random Quote: %s", quoteBuffer);
 
   /* ------Step 5 close connection with server and release resources ------ */
   close(sock_Descr);
