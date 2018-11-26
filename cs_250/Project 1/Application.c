@@ -30,7 +30,7 @@ int main(void)
       break;
     }
 
-    system("@cls||clear"); /* Clears screen */
+    printf("\n\n\n\n");
   }
 
   return 0;

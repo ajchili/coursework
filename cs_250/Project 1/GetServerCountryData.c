@@ -60,15 +60,21 @@ void getServerCountryData()
   CaesarCipher(2, echoBuffer);
   if (echoBuffer[0] == 'O' && echoBuffer[1] == 'K')
   {
-    char countryCode[RCVBUFSIZE];
+    char countryCode[6];
 
     printf("Please enter the code of the Country you would like to get information about: ");
     scanf("%s", countryCode);
     int countryCodeLength = sizeof(countryCode);
+    CaesarCipher(1, countryCode);
 
     if (send(sock_Descr, countryCode, countryCodeLength, 0) != countryCodeLength)
       DieWithError("send() failed");
-    // else printf("%s", countryCode);
+      
+    if (recv(sock_Descr, echoBuffer, RCVBUFSIZE, 0) < 0)
+      DieWithError("recv() failed");
+
+    CaesarCipher(2, echoBuffer);
+    printf("%s", echoBuffer);
   }
   else
   {
