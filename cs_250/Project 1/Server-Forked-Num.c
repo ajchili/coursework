@@ -13,11 +13,14 @@
 
 #define MAXPENDING 5 /* Maximum outstanding connection requests */
 
-void DieWithError(char *errorMessage);          /* Error handling helper function */
-void HandleClientTCP(int clntSocket, int type); /* TCP client handling function */
-void HandleClientUDP(int servSock);             /* UDP client handling function */
-void TCPProcessMain(int servSock, int type);    /* Fork main function definition (TCP) */
-void UDPProcessMain(int servSock);              /* Fork main function definition (UDP) */
+void DieWithError(char *errorMessage);                          /* Error handling helper function */
+void HandleClientTCP(int clntSocket, int type);                 /* TCP client handling function */
+void HandleClientUDP(int servSock);                             /* UDP client handling function */
+void TCPProcessMain(int servSock, int type);                    /* Fork main function definition (TCP) */
+void UDPProcessMain(int servSock);                              /* Fork main function definition (UDP) */
+void testServerCapabilites();                                   /* Tests to ensure that all files necessary are present and readable */
+int getRandomQuote(char **arr, size_t *arr_len);                /* Gets random quote */
+int getCountryData(char code[80], char **arr, size_t *arr_len); /* Obtains country data from country database with provided country id */
 
 int main(int argc, char *argv[])
 {
@@ -41,6 +44,9 @@ int main(int argc, char *argv[])
 
     echoServPort = atoi(argv[1]); /* First arg: should be local port */
     processLimit = 3;             /* Limit for # of children */
+
+    /* Test server capabilties */
+    testServerCapabilites();
 
     /* ------Step 1 create the socket ------- */
     /* Create socket for incoming connections (both TCP and UDP) */
@@ -134,4 +140,16 @@ void UDPProcessMain(int servSock)
     {
         HandleClientUDP(servSock);
     }
+}
+
+void testServerCapabilites() {
+    /* Ensures that a random quote can be obtained */
+    char *quote;                                            /* Random quote */
+    size_t quoteLength;                                     /* Length of random quote */
+    getRandomQuote(&quote, &quoteLength);
+
+    /* Ensures that country data can be obtained */
+    char *country;        /* Country data */
+    size_t countryLength; /* Length of country data */
+    getCountryData("123456", &country, &countryLength);
 }

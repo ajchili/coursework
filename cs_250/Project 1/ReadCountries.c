@@ -23,11 +23,11 @@ int getCountryData(char code[STRING_LENGTH], char **arr, size_t *arr_len)
 
   /* Opens file or dies if fails */
   if (in_fp == NULL)
-    DieWithError("FOPEN() failed");
+    DieWithError("FOPEN() failed (country)");
 
   /* Seeks to begining of file */
   if (fseek(in_fp, 0L, SEEK_SET) != 0)
-    DieWithError("FSEEK() failed");
+    DieWithError("FSEEK() failed (country)");
 
   /* Iterates line by line through file to find a line with the same id as the one provided */
   while ((fgets(buffer, STRING_LENGTH, in_fp) != NULL))

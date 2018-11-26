@@ -23,7 +23,7 @@ int getRandomQuote(char **arr, size_t *arr_len)
 
   /* Opens file or dies if fails */
   if (in_fp == NULL)
-    DieWithError("FOPEN() failed");
+    DieWithError("FOPEN() failed (quotes)");
 
   /* Gets random line to return */
   srand(time(NULL));
@@ -32,7 +32,7 @@ int getRandomQuote(char **arr, size_t *arr_len)
 
   /* Seeks to begining of file */
   if (fseek(in_fp, 0L, SEEK_SET) != 0) 
-    DieWithError("FSEEK() failed");
+    DieWithError("FSEEK() failed (quotes)");
 
   /* Iterates through all lines before randomLine, then breaks once randomLine is 0. Breaks when the quote is selected. */
   while ((fgets(buffer, 256, in_fp) != NULL)) {
