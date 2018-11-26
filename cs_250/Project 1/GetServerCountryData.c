@@ -54,29 +54,34 @@ void getServerCountryData()
   else
     printf("Waiting for response from server...\n");
 
+  /* Receives message from server (status of request) */
   if (recv(sock_Descr, echoBuffer, RCVBUFSIZE, 0) < 0)
     DieWithError("recv() failed");
 
+  /* Decrypts status of request */
   CaesarCipher(2, echoBuffer);
+  /* Verifies that request is valid */
   if (echoBuffer[0] == 'O' && echoBuffer[1] == 'K')
   {
-    char countryCode[6];
-
+    char countryCode[6]; /* Country code */
     printf("Please enter the code of the Country you would like to get information about: ");
-    scanf("%s", countryCode);
-    int countryCodeLength = sizeof(countryCode);
+    scanf("%s", countryCode); /* Sets country code that user wants to obtain data about */
+    /* Encrypt country code */
     CaesarCipher(1, countryCode);
 
-    if (send(sock_Descr, countryCode, countryCodeLength, 0) != countryCodeLength)
+    /* Send encrypted country code to server */
+    if (send(sock_Descr, countryCode, 6, 0) != 6)
       DieWithError("send() failed");
-      
+
+    /* Receive country data (this will always receive data, even if the country is not in the database). Should a country not be in the database, the data received will be an error message from the server. */
     if (recv(sock_Descr, echoBuffer, RCVBUFSIZE, 0) < 0)
       DieWithError("recv() failed");
 
+    /* Decrypt and print echoBuffer */
     CaesarCipher(2, echoBuffer);
     printf("%s", echoBuffer);
   }
-  else
+  else /* Prints error received from server */
   {
     printf("%s", echoBuffer);
   }

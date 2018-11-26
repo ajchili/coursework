@@ -45,8 +45,7 @@ void HandleClientTCP(int clntSocket, int type)
     int okMessageSize = sizeof(okMessage);
     int errorMessageSize = sizeof(errorMessage);
 
-    /* Determines fork type and if requested action is permitable*/
-
+    /* Determines fork type and if requested action is permitable */
     if (type == 2 && /* Checks that current fork is for obtaining country data and the request is valid */
         echoBuffer[0] == 'c' &&
         echoBuffer[1] == 'o' &&
@@ -65,17 +64,22 @@ void HandleClientTCP(int clntSocket, int type)
         if ((recvMsgSize = recv(clntSocket, countryId, RCVBUFSIZE, 0)) < 0)
             DieWithError("recv() failed");
 
+        /* Decrypts country id */
         CaesarCipher(2, countryId);
-        char *country;
-        size_t countryLength;
+        char *country;        /* Country data */
+        size_t countryLength; /* Length of country data */
+        /* Searches country database file to get country data. */
         if (getCountryData(countryId, &country, &countryLength) == 1)
         {
+            /* Encrypts country data */
             CaesarCipher(1, country);
+            /* Sends country data to client */
             if (send(clntSocket, country, countryLength, 0) != countryLength)
                 DieWithError("send() failed");
         }
         else
         {
+            /* Enmcrypts and sends failure message. This only occurs if no country is found with the povided id. */
             char failedMessage[RCVBUFSIZE] = "A country with that specified id was unable to be found.";
             CaesarCipher(1, failedMessage);
             int failedMessageSize = sizeof(failedMessage);
