@@ -15,8 +15,9 @@
 #define MAXBUFF 80
 #define MAXPENDING 5
 
-void DieWithError(char *errorMessage);    /* Error handling helper function */
-static void print_src(int, sctp_assoc_t); //Lab7 Part B - What is this for??
+void DieWithError(char *errorMessage);                             /* Error handling helper function */
+static void print_src(int, sctp_assoc_t);                          //Lab7 Part B - What is this for??
+unsigned short ServiceResolution(char service[], char protocol[]); /* Obtains service port from services file on machine */
 
 int main(int argc, char *argv[])
 {
@@ -39,17 +40,7 @@ int main(int argc, char *argv[])
     int maxIdle = 1;
     int msgFlags;
 
-    //------------------------------------
-
-    /* ------Step 0 check user input ------ */
-    /* Test for correct number of arguments from user */
-    if (argc != 2)
-    {
-        fprintf(stderr, "Usage:  %s <Server Port>\n", argv[0]);
-        exit(1);
-    }
-
-    echoServPort = atoi(argv[1]); /* First arg:  should be local port */
+    echoServPort = ServiceResolution("EchoSCTPService", "sctp"); /* Local port from services file */
 
     /* ------Step 1 create the socket ------- */
     /* Create socket for incoming connections */
@@ -60,7 +51,7 @@ int main(int argc, char *argv[])
     memset(&echoServAddr, 0, sizeof(echoServAddr)); /* Zero out structure */
     echoServAddr.sin6_family = AF_INET6;            /* Internet address family */
     echoServAddr.sin6_addr = in6addr_any;           /* Any incoming interface */
-    echoServAddr.sin6_port = htons(echoServPort);   /* Local port */
+    echoServAddr.sin6_port = ntohs(echoServPort);   /* Local port */
 
     /* ------Step 2 bind the connection ip:port ------- */
     /* Bind to the local address */
