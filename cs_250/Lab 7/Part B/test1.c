@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 	while (--argc > 0) {
 		ptr = *++argv;
 		if ( (hptr = gethostbyname(ptr)) == NULL) {
-      DieWithError("gethostbyname() failed");
+                        DieWithError("gethostbyname() failed");
 			continue;
 		}
 		printf("official host name: %s\n", hptr->h_name);

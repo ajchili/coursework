@@ -8,7 +8,7 @@ void DieWithError(char *errorMessage);  /* Error handling helper function */
 unsigned short ServiceResolution(char service[], char protocol[]) {
 	struct servent *serv; 	/* Structure containing service information */
 	unsigned short port; 	/* Port to return */
-	if ((port = atoi(service)) == 0)
+	if ((port = atoi(service)) == O)
 	{
 		/* Is port numeric? */
 		/* Not numeric - Try to find as name */
@@ -18,8 +18,10 @@ unsigned short ServiceResolution(char service[], char protocol[]) {
 		}
 		else
 		   port = serv->s_port; /* Found port (network byte order) by name */
-		}
-	else
+	}
+	else 
+        {
 		port = htons(port) ; /* Convert port to network byte order */
-		return port;
+        }
+	return port;
 }

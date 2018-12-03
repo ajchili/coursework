@@ -12,9 +12,8 @@
 #include <netinet/sctp.h>  	/* for SCTP support       */
 #endif
 
-void DieWithError(char *errorMessage);      /* Error handling function */
-unsigned long NameResolution(char name[]);  /* Obtains ip address from provided url or name */
-static void print_src(int , sctp_assoc_t ); /* Terminal printing helper function */
+void DieWithError(char *errorMessage);  /* Error handling function */
+static void print_src(int , sctp_assoc_t ); //Lab7 Part B - What is this for??
 
 int main(int argc, char *argv[])
 {
@@ -24,16 +23,22 @@ int main(int argc, char *argv[])
     char *servIP;                    /* Server IP address (dotted quad) */
     char *echoString;                /* String to send to echo server */
     unsigned int echoStringLen;      /* Length of string to echo */
-    int totalBytesRcvd;    	         /* Bytes read in single recv() and total bytes read */
+    int totalBytesRcvd;    	     /* Bytes read in single recv() 
+                                        and total bytes read */
 
-    struct sctp_event_subscribe sctpEventSub;   /* STCP subscription object */
-    bzero(&sctpEventSub, sizeof(sctpEventSub)); /* Zero out sctp_event_subscribe */
-    sctpEventSub.sctp_data_io_event = 1;        /* Allow input and output events subscription */
+//------------------------------------
 
-    struct sctp_sndrcvinfo sndrInfo;            /* Detailed information about the message */
-    socklen_t servLen;                          /* Length of server address */
-    ssize_t sendSize;                           /* Length of message */
-    int msgFlags = 0;                           /* SCTP socket options passed */
+// Lab 7 Part B - comment this section
+    struct sctp_event_subscribe sctpEventSub;
+    bzero(&sctpEventSub, sizeof(sctpEventSub));
+    sctpEventSub.sctp_data_io_event = 1;
+
+    struct sctp_sndrcvinfo sndrInfo;
+    socklen_t servLen;
+    ssize_t sendSize;
+    int msgFlags = 0;
+
+//------------------------------------
 
 
     /* ------Step 0 check user input ------ */
@@ -45,8 +50,8 @@ int main(int argc, char *argv[])
        exit(1);
     }
 
-    servIP = argv[1];                                       /* First arg: server IP address (dotted quad) */
-    echoString = argv[2];                                   /* Second arg: string to echo */
+    servIP = argv[1];             /* First arg: server IP address (dotted quad) */
+    echoString = argv[2];         /* Second arg: string to echo */
 
     if (argc == 4)
         echoServPort = atoi(argv[3]); /* Use given port, if any */
@@ -57,56 +62,64 @@ int main(int argc, char *argv[])
     if ((sock_Descr = socket(PF_INET, SOCK_SEQPACKET, IPPROTO_SCTP)) < 0)
         DieWithError("socket() failed");
 
-    /* Used to specify notification and ancillary data that should be received */
+//------------------------------------
+// Lab 7 Part B - comment this section
     if (setsockopt(sock_Descr, IPPROTO_SCTP, SCTP_EVENTS, &sctpEventSub, sizeof(sctpEventSub)) < 0 )
         DieWithError("setsocketopt() SCTP_Events failed");
 
-    /* Construct the server address structure */
-    memset(&echoServAddr, 0, sizeof(echoServAddr));         /* Zero out structure */
-    echoServAddr.sin_family      = AF_INET;                 /* Internet address family */
-    echoServAddr.sin_addr.s_addr = NameResolution(servIP);  /* Server address (name or IP) */
-    echoServAddr.sin_port        = htons(echoServPort);     /* Server port */
+//------------------------------------
 
-    echoStringLen = strlen(echoString);                     /* Determine input length */
+    /* Construct the server address structure */
+    memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
+    echoServAddr.sin_family      = AF_INET;             /* Internet address family */
+    echoServAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
+    echoServAddr.sin_port        = htons(echoServPort); /* Server port */
+
+    echoStringLen = strlen(echoString);                 /* Determine input length */
 
     /* ------Step 2 send message to server ------- */
     /* Send the string to the server */
-    servLen = sizeof(echoServAddr);     /* Sets the length of the provided server address */
-    bzero(&sndrInfo, sizeof(sndrInfo));                /* Zeros out sndrInfo */
-    if ((sendSize = sctp_sendmsg(sock_Descr,           /* Socket descriptor */
-                    echoString,                        /* Message being send */
-                    echoStringLen,                     /* Length of message being sent */
-                    (struct sockaddr *) &echoServAddr, /* Server address */
-                    servLen,                           /* Length of server address */
-                    0,                                 /* Pprotocol payload identifier passed with the data */
-                    0,                                 /* SCTP socket options passed */
-                    sndrInfo.sinfo_stream,             /* SCTP stream number */
-                    0,                                 /* Time to live */
-                    0)) != echoStringLen)              /* Context */
+//------------------------------------
+// Lab 7 Part B - comment this section - what are the fields for?
+    servLen = sizeof(echoServAddr);
+    bzero(&sndrInfo, sizeof(sndrInfo));
+    if ((sendSize = sctp_sendmsg(sock_Descr,
+                    echoString,
+                    echoStringLen,
+                    (struct sockaddr *) &echoServAddr,
+                    servLen,
+                    0, 0, 
+                    sndrInfo.sinfo_stream,
+                    0,0            )) != echoStringLen)
         DieWithError("send() sent a different number of bytes than expected");
     else
         printf("Sent to the Server: [%.*s]\n",echoStringLen, echoString);      /* Print the echo buffer */
+//------------------------------------
         
     /* ------Step 3 recv message from server ------ */
     /* Receive the same string back from the server */
-    if ((totalBytesRcvd = sctp_recvmsg(sock_Descr,           /* Socket */
-                          echoString,                        /* Message being received */
-                          sizeof(echoStringLen),             /* Length of message being received */
-                          (struct sockaddr *) &echoServAddr, /* Server address */
-                          &servLen,                          /* Length of server address */
-                          &sndrInfo,                         /* Detailed information about the message */
-                          &msgFlags)) < 0 )                  /* Flags */
+//------------------------------------
+// Lab 7 Part B - comment this section - what are the fields for?
+    if ((totalBytesRcvd = sctp_recvmsg(sock_Descr,
+                          echoString,
+                          sizeof(echoStringLen),
+                          (struct sockaddr *) &echoServAddr,
+                          &servLen,
+                          &sndrInfo,
+                          &msgFlags)) < 0 )
         DieWithError("recv() had an error ");
     else {
         print_src(sock_Descr, sndrInfo.sinfo_assoc_id);
         printf("Recvd from Server: [%.*s]\n",echoStringLen, echoString);      /* Print the echo buffer */
     }
+//------------------------------------
 
 
     /* ------Step 4 close connection with server and release resources ------ */
-    /* Shuts down communication on socket descriptor */
-    /* SHUT_WR disables further send operations and initiates the shutdown to terminate the association (also allows local endpoint to read the data queued prior to SHUTDOWN */
-    shutdown(sock_Descr, SHUT_WR);
+//------------------------------------
+// Lab 7 Part B - comment this section - what behavior do we expect from the shutdown?
+    shutdown(sock_Descr,SHUT_WR);
+//------------------------------------
 
 #ifdef _WINDOWS			/* IF ON A WINDOWS PLATFORM YOU WILL HAVE TO CHECK THIS */
     WSACleanup()
@@ -114,31 +127,33 @@ int main(int argc, char *argv[])
     exit(0);
 }
 
-/* Prints socket descriptor data for provided association id */
+//------------------------------------
+// Lab 7 Part B - comment this section - What is this function for ?
 static void print_src(int fd, sctp_assoc_t assoc_id)
 {
-        struct sctp_status sstat;      /* SCTP Stats */
-        struct sctp_paddrinfo *spinfo; /* SCTP address information */
-        char tmpname[INET_ADDRSTRLEN]; /* IP address or name of socket */
-        unsigned int port;             /* Port */
-        unsigned int ulen;             /* Socket length */
-        struct sockaddr_in *s_in;      /* Socket descriptor */
+// Lab 7 Part B - comment this section - What are the fields for?
+        struct sctp_status sstat;
+        struct sctp_paddrinfo *spinfo;
+        char tmpname[INET_ADDRSTRLEN];
+        unsigned int port;
+        unsigned int ulen;
+        struct sockaddr_in *s_in;
 
-        bzero(&sstat, sizeof (sstat)); /* Zero out SCTP Stats */
+        bzero(&sstat, sizeof (sstat));
 
-        ulen = sizeof (sstat);         /* Sets ulen to size of sstat */
-        
-        /* Obtains and returns SCTP level optioms that are associated with the provided socket */
+        ulen = sizeof (sstat);
+// Lab 7 Part B - comment this section - What values are we interested in returning?
         if (sctp_opt_info(fd, assoc_id, SCTP_STATUS, &sstat, &ulen) < 0) {
-            perror("sctp_opt_info()");
-            return;
+                perror("sctp_opt_info()");
+                return;
         }
         spinfo = &sstat.sstat_primary;
 
-        /* Sets socket descriptor then prints out that a message is received and the socket descriptor data */
+// Lab 7 Part B - comment this section - What are we doing on each line?
         s_in = (struct sockaddr_in *) &spinfo->spinfo_address;
         inet_ntop(AF_INET, &s_in->sin_addr, tmpname, sizeof (tmpname));
         port = ntohs(s_in->sin_port);
         printf("Msg from Server on association - %d IP:Port - %s:%d\n", assoc_id, tmpname, port);
 }
+//------------------------------------
 
