@@ -3,12 +3,12 @@ CFLAGS = -g -Wall
 SCTPFLAG = -lsctp
 INCLUDE1=DieWithError.c
 
-all: EchoClientMto1SCTP EchoServerMto1SCTP
+all: EchoClientMto1SCTPv6 EchoServerMto1SCTPv6
 
-EchoClientMto1SCTP: EchoClientMto1SCTP.c
+EchoClientMto1SCTPv6: EchoClientMto1SCTPv6.c
 	$(CC) $(CFLAGS) $@.c $(INCLUDE1) -o $@.o $(SCTPFLAG)
 
-EchoServerMto1SCTP: EchoServerMto1SCTP.c
+EchoServerMto1SCTPv6: EchoServerMto1SCTPv6.c
 	$(CC) $(CFLAGS) $@.c $(INCLUDE1) -o $@.o $(SCTPFLAG)
 
 clean:
