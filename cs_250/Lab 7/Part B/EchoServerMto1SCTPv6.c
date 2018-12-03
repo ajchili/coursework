@@ -20,10 +20,10 @@ static void print_src(int, sctp_assoc_t); //Lab7 Part B - What is this for??
 
 int main(int argc, char *argv[])
 {
-    int servSock_d;                  /* Socket descriptor for server */
-    struct sockaddr_in echoServAddr; /* Local address */
-    struct sockaddr_in echoClntAddr; /* Client address */
-    unsigned short echoServPort;     /* Server port */
+    int servSock_d;                   /* Socket descriptor for server */
+    struct sockaddr_in6 echoServAddr; /* Local address */
+    struct sockaddr_in6 echoClntAddr; /* Client address */
+    unsigned short echoServPort;      /* Server port */
 
     //------------------------------------
     //Lab7 Part B - What are these fields for?
@@ -53,14 +53,14 @@ int main(int argc, char *argv[])
 
     /* ------Step 1 create the socket ------- */
     /* Create socket for incoming connections */
-    if ((servSock_d = socket(PF_INET, SOCK_SEQPACKET, IPPROTO_SCTP)) < 0)
+    if ((servSock_d = socket(PF_INET6, SOCK_SEQPACKET, IPPROTO_SCTP)) < 0)
         DieWithError("socket() failed");
 
     /* Construct local address structure */
-    memset(&echoServAddr, 0, sizeof(echoServAddr));   /* Zero out structure */
-    echoServAddr.sin_family = AF_INET;                /* Internet address family */
-    echoServAddr.sin_addr.s_addr = htonl(INADDR_ANY); /* Any incoming interface */
-    echoServAddr.sin_port = htons(echoServPort);      /* Local port */
+    memset(&echoServAddr, 0, sizeof(echoServAddr)); /* Zero out structure */
+    echoServAddr.sin6_family = AF_INET6;            /* Internet address family */
+    echoServAddr.sin6_addr = in6addr_any;           /* Any incoming interface */
+    echoServAddr.sin6_port = htons(echoServPort);   /* Local port */
 
     /* ------Step 2 bind the connection ip:port ------- */
     /* Bind to the local address */
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     for (;;) /* Infinite Loop - run until process killed */
     {
         /* Set the size of the in-out parameter */
-        clntLen = sizeof(struct sockaddr_in);
+        clntLen = sizeof(struct sockaddr_in6);
 
         /* ------Step 4 recv from the client ------- */
         //------------------------------------
@@ -129,10 +129,10 @@ static void print_src(int fd, sctp_assoc_t assoc_id)
 {
     struct sctp_status sstat;
     struct sctp_paddrinfo *spinfo;
-    char tmpname[INET_ADDRSTRLEN];
+    char tmpname[INET6_ADDRSTRLEN];
     unsigned int port;
     unsigned int ulen;
-    struct sockaddr_in *s_in;
+    struct sockaddr_in6 *s_in;
 
     bzero(&sstat, sizeof(sstat));
 
@@ -144,9 +144,9 @@ static void print_src(int fd, sctp_assoc_t assoc_id)
     }
     spinfo = &sstat.sstat_primary;
 
-    s_in = (struct sockaddr_in *)&spinfo->spinfo_address;
-    inet_ntop(AF_INET, &s_in->sin_addr, tmpname, sizeof(tmpname));
-    port = ntohs(s_in->sin_port);
+    s_in = (struct sockaddr_in6 *)&spinfo->spinfo_address;
+    inet_ntop(AF_INET6, &s_in->sin6_addr, tmpname, sizeof(tmpname));
+    port = ntohs(s_in->sin6_port);
     printf("Msg from client on association - %d IP:Port - %s:%d\n", assoc_id, tmpname, port);
     //------------------------------------
 }

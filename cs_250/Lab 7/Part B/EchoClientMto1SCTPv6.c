@@ -17,13 +17,13 @@ static void print_src(int, sctp_assoc_t); //Lab7 Part B - What is this for??
 
 int main(int argc, char *argv[])
 {
-    int sock_Descr;                  /* Socket descriptor */
-    struct sockaddr_in echoServAddr; /* Echo server address */
-    unsigned short echoServPort;     /* Echo server port */
-    char *servIP;                    /* Server IP address (dotted quad) */
-    char *echoString;                /* String to send to echo server */
-    unsigned int echoStringLen;      /* Length of string to echo */
-    int totalBytesRcvd;              /* Bytes read in single recv() 
+    int sock_Descr;                   /* Socket descriptor */
+    struct sockaddr_in6 echoServAddr; /* Echo server address */
+    unsigned short echoServPort;      /* Echo server port */
+    char *servIP;                     /* Server IP address (dotted quad) */
+    char *echoString;                 /* String to send to echo server */
+    unsigned int echoStringLen;       /* Length of string to echo */
+    int totalBytesRcvd;               /* Bytes read in single recv() 
                                         and total bytes read */
 
     //------------------------------------
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
         echoServPort = 7; /* 7 is the well-known port for the echo service */
 
     /* ------Step 1 create socket --------------- */
-    if ((sock_Descr = socket(PF_INET, SOCK_SEQPACKET, IPPROTO_SCTP)) < 0)
+    if ((sock_Descr = socket(PF_INET6, SOCK_SEQPACKET, IPPROTO_SCTP)) < 0)
         DieWithError("socket() failed");
 
     //------------------------------------
@@ -69,10 +69,11 @@ int main(int argc, char *argv[])
     //------------------------------------
 
     /* Construct the server address structure */
-    memset(&echoServAddr, 0, sizeof(echoServAddr));   /* Zero out structure */
-    echoServAddr.sin_family = AF_INET;                /* Internet address family */
-    echoServAddr.sin_addr.s_addr = inet_addr(servIP); /* Server IP address */
-    echoServAddr.sin_port = htons(echoServPort);      /* Server port */
+    memset(&echoServAddr, 0, sizeof(echoServAddr));                /* Zero out structure */
+    echoServAddr.sin6_family = AF_INET6;                           /* Internet address family */
+    if (inet_pton(AF_INET6, servIP, &echoServAddr.sin6_addr) <= 0) /* Server IP */
+        DieWithError("inet_pton error for input IP address");
+    echoServAddr.sin6_port = htons(echoServPort); /* Server port */
 
     echoStringLen = strlen(echoString); /* Determine input length */
 
@@ -133,10 +134,10 @@ static void print_src(int fd, sctp_assoc_t assoc_id)
     // Lab 7 Part B - comment this section - What are the fields for?
     struct sctp_status sstat;
     struct sctp_paddrinfo *spinfo;
-    char tmpname[INET_ADDRSTRLEN];
+    char tmpname[INET6_ADDRSTRLEN];
     unsigned int port;
     unsigned int ulen;
-    struct sockaddr_in *s_in;
+    struct sockaddr_in6 *s_in;
 
     bzero(&sstat, sizeof(sstat));
 
@@ -150,9 +151,9 @@ static void print_src(int fd, sctp_assoc_t assoc_id)
     spinfo = &sstat.sstat_primary;
 
     // Lab 7 Part B - comment this section - What are we doing on each line?
-    s_in = (struct sockaddr_in *)&spinfo->spinfo_address;
-    inet_ntop(AF_INET, &s_in->sin_addr, tmpname, sizeof(tmpname));
-    port = ntohs(s_in->sin_port);
+    s_in = (struct sockaddr_in6 *)&spinfo->spinfo_address;
+    inet_ntop(AF_INET, &s_in->sin6_addr, tmpname, sizeof(tmpname));
+    port = ntohs(s_in->sin6_port);
     printf("Msg from Server on association - %d IP:Port - %s:%d\n", assoc_id, tmpname, port);
 }
 //------------------------------------
