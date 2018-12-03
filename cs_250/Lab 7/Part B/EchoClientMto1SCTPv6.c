@@ -12,8 +12,9 @@
 #include <netinet/sctp.h> /* for SCTP support       */
 #endif
 
-void DieWithError(char *errorMessage);    /* Error handling function */
-static void print_src(int, sctp_assoc_t); //Lab7 Part B - What is this for??
+void DieWithError(char *errorMessage);                             /* Error handling function */
+static void print_src(int, sctp_assoc_t);                          //Lab7 Part B - What is this for??
+unsigned short ServiceResolution(char service[], char protocol[]); /* Obtains service port from services file on machine */
 
 int main(int argc, char *argv[])
 {
@@ -44,7 +45,7 @@ int main(int argc, char *argv[])
     /* Test for correct number of arguments */
     if ((argc < 3) || (argc > 4)) /* Test for correct number of arguments */
     {
-        fprintf(stderr, "Usage: %s <Server IP> <Echo Word> [<Echo Port>]\n",
+        fprintf(stderr, "Usage: %s <Server IP> <Echo Word> [<Echo Service>]\n",
                 argv[0]);
         exit(1);
     }
@@ -52,10 +53,14 @@ int main(int argc, char *argv[])
     servIP = argv[1];     /* First arg: server IP address (dotted quad) */
     echoString = argv[2]; /* Second arg: string to echo */
 
+    printf("%s", argv[3]);
+
     if (argc == 4)
-        echoServPort = atoi(argv[3]); /* Use given port, if any */
+        echoServPort = ServiceResolution(argv[3], "sctp"); /* Use given service, if any */
     else
-        echoServPort = 7; /* 7 is the well-known port for the echo service */
+        echoServPort = ServiceResolution("EchoSCTPService", "sctp"); /* Local port from services file */
+
+    printf("%u", echoServPort);
 
     /* ------Step 1 create socket --------------- */
     if ((sock_Descr = socket(PF_INET6, SOCK_SEQPACKET, IPPROTO_SCTP)) < 0)
@@ -73,7 +78,7 @@ int main(int argc, char *argv[])
     echoServAddr.sin6_family = AF_INET6;                           /* Internet address family */
     if (inet_pton(AF_INET6, servIP, &echoServAddr.sin6_addr) <= 0) /* Server IP */
         DieWithError("inet_pton error for input IP address");
-    echoServAddr.sin6_port = htons(echoServPort); /* Server port */
+    echoServAddr.sin6_port = ntohs(echoServPort); /* Server port */
 
     echoStringLen = strlen(echoString); /* Determine input length */
 
