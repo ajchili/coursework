@@ -40,7 +40,10 @@ int main(int argc, char *argv[])
     int maxIdle = 1;
     int msgFlags;
 
-    echoServPort = ServiceResolution("EchoSCTPService", "sctp"); /* Local port from services file */
+    if (argc == 2)
+        echoServPort = ServiceResolution(argv[1], "sctp"); /* Local port or service provided by user */
+    else
+        echoServPort = ServiceResolution("EchoSCTPService", "sctp"); /* Local port from services file */
 
     /* ------Step 1 create the socket ------- */
     /* Create socket for incoming connections */
