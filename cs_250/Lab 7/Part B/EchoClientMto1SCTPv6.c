@@ -8,8 +8,10 @@
 #include <sys/socket.h>   /* for socket(), bind(), and connect() */
 #include <string.h>       /* for memset() */
 #include <unistd.h>       /* for close() */
-#include <netinet/in.h>   /* for IVP6 and SCTP support       */
-#include <netinet/sctp.h> /* for SCTP support       */
+#include <arpa/inet.h>    /* for sockaddr_in and inet_ntoa() */
+#include <netdb.h>        /* for IPV6,  SCTP support */
+#include <netinet/in.h>   /* for IVP6 and SCTP support */
+#include <netinet/sctp.h> /* for SCTP support */
 #endif
 
 void DieWithError(char *errorMessage);                             /* Error handling function */
@@ -24,8 +26,8 @@ int main(int argc, char *argv[])
     char *servIP;                     /* Server IP address (dotted quad) */
     char *echoString;                 /* String to send to echo server */
     unsigned int echoStringLen;       /* Length of string to echo */
-    int totalBytesRcvd;               /* Bytes read in single recv() 
-                                        and total bytes read */
+    int totalBytesRcvd;               /* Bytes read in single recv() and total bytes read */
+    struct addrinfo *addptr, hints;
 
     //------------------------------------
 
@@ -53,14 +55,10 @@ int main(int argc, char *argv[])
     servIP = argv[1];     /* First arg: server IP address (dotted quad) */
     echoString = argv[2]; /* Second arg: string to echo */
 
-    printf("%s", argv[3]);
-
     if (argc == 4)
         echoServPort = ServiceResolution(argv[3], "sctp"); /* Use given service, if any */
     else
         echoServPort = ServiceResolution("EchoSCTPService", "sctp"); /* Local port from services file */
-
-    printf("%u", echoServPort);
 
     /* ------Step 1 create socket --------------- */
     if ((sock_Descr = socket(PF_INET6, SOCK_SEQPACKET, IPPROTO_SCTP)) < 0)
@@ -73,10 +71,25 @@ int main(int argc, char *argv[])
 
     //------------------------------------
 
+    hints.ai_flags = AI_CANONNAME;
+    hints.ai_family = AF_INET6;
+    hints.ai_socktype = SOCK_SEQPACKET;
+
+    /* Obatains host information */
+    if ((getaddrinfo(servIP, "3000", &hints, &addptr)) != 0) /* Arbitrary port is used to ensure function success */
+        DieWithError("getaddrinfo() failed");
+
+    struct sockaddr_in6 *sin6;
+    char result6[INET6_ADDRSTRLEN];
+    sin6 = (struct sockaddr_in6 *)addptr->ai_addr;
+
+    if ((inet_ntop(AF_INET6, &sin6->sin6_addr, result6, sizeof(result6)) == NULL))
+        DieWithError("inet_ntop failed");
+
     /* Construct the server address structure */
-    memset(&echoServAddr, 0, sizeof(echoServAddr));                /* Zero out structure */
-    echoServAddr.sin6_family = AF_INET6;                           /* Internet address family */
-    if (inet_pton(AF_INET6, servIP, &echoServAddr.sin6_addr) <= 0) /* Server IP */
+    memset(&echoServAddr, 0, sizeof(echoServAddr));                 /* Zero out structure */
+    echoServAddr.sin6_family = AF_INET6;                            /* Internet address family */
+    if (inet_pton(AF_INET6, result6, &echoServAddr.sin6_addr) <= 0) /* Server IP */
         DieWithError("inet_pton error for input IP address");
     echoServAddr.sin6_port = ntohs(echoServPort); /* Server port */
 
