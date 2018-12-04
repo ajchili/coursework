@@ -1,0 +1,12 @@
+{
+  "name": "cs-320-final",
+  "version": "0.1.0",
+  "description": "Final Project for CS 320.",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kirin Patel",
+  "license": "MIT"
+}
