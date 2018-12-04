@@ -8,15 +8,15 @@
 #include <sys/socket.h>   /* for socket(), bind(), and connect() */
 #include <string.h>       /* for memset() */
 #include <unistd.h>       /* for close() */
-#include <netinet/in.h>   /* for IPV6,  SCTP support         */
-#include <netinet/sctp.h> /* for SCTP support       */
+#include <netinet/in.h>   /* for IPV6 and SCTP support */
+#include <netinet/sctp.h> /* for SCTP support */
 #endif
 
 #define MAXBUFF 80
 #define MAXPENDING 5
 
 void DieWithError(char *errorMessage);                             /* Error handling helper function */
-static void print_src(int, sctp_assoc_t);                          //Lab7 Part B - What is this for??
+static void print_src(int, sctp_assoc_t);                          /* Prints IP and Port infromation about the server the message was sent and received from */
 unsigned short ServiceResolution(char service[], char protocol[]); /* Obtains service port from services file on machine */
 
 int main(int argc, char *argv[])
@@ -26,19 +26,17 @@ int main(int argc, char *argv[])
     struct sockaddr_in6 echoClntAddr; /* Client address */
     unsigned short echoServPort;      /* Server port */
 
-    //------------------------------------
-    //Lab7 Part B - What are these fields for?
-    char readBuffer[MAXBUFF - 1];
-    struct sctp_event_subscribe sctpEventSub;
-    bzero(&sctpEventSub, sizeof(sctpEventSub));
-    sctpEventSub.sctp_data_io_event = 1;
+    char readBuffer[MAXBUFF - 1];               /* Maximum read buffer for messages received by the server */
+    struct sctp_event_subscribe sctpEventSub;   /* SCTP events that should be subscribed to */
+    bzero(&sctpEventSub, sizeof(sctpEventSub)); /* Zeros out sctpEventSub */
+    sctpEventSub.sctp_data_io_event = 1;        /* Sets sctpEventSub event data event type to enable detailed sender infromation */
 
-    struct sctp_sndrcvinfo sndrInfo;
-    socklen_t clntLen;
-    ssize_t readSize;
-    int reUse = 1;
-    int maxIdle = 1;
-    int msgFlags;
+    struct sctp_sndrcvinfo sndrInfo; /* Detailed information about the message */
+    socklen_t clntLen;               /* Length of client IP */
+    ssize_t readSize;                /* Size of message received from client */
+    int reUse = 1;                   /* Allow reuse of local addresses */
+    int maxIdle = 1;                 /* Associations that are idle for more than the specified number of seconds to automatically close */
+    int msgFlags;                    /* SCTP socket options passed */
 
     if (argc == 2)
         echoServPort = ServiceResolution(argv[1], "sctp"); /* Local port or service provided by user */
@@ -61,13 +59,13 @@ int main(int argc, char *argv[])
     if (bind(servSock_d, (struct sockaddr *)&echoServAddr, sizeof(echoServAddr)) < 0)
         DieWithError("bind() failed");
 
-    //------------------------------------
-    //Lab7 Part B - Why are we setting the following options and what arew we setting them to?
-
+    /* Allows the socket to reuse the same address for specified reUse */
     if (setsockopt(servSock_d, SOL_SOCKET, SO_REUSEADDR, &reUse, sizeof(reUse)) < 0)
         DieWithError("setsocketopt() SO_REUSEADDR failed");
+    /* Allows SCTP socket to auto close after specified maxIdle time */
     if (setsockopt(servSock_d, IPPROTO_SCTP, SCTP_AUTOCLOSE, &maxIdle, sizeof(maxIdle)) < 0)
         DieWithError("setsocketopt() SCTP_AUTOCLOSE failed");
+    /* Sets the socket options */
     if (setsockopt(servSock_d, IPPROTO_SCTP, SCTP_EVENTS, &sctpEventSub, sizeof(sctpEventSub)) < 0)
         DieWithError("setsocketopt() SCTP_Events failed");
 
@@ -84,8 +82,7 @@ int main(int argc, char *argv[])
         clntLen = sizeof(struct sockaddr_in6);
 
         /* ------Step 4 recv from the client ------- */
-        //------------------------------------
-        //Lab7 Part B - Why are the fields and what are we doing?
+        /* Reads message that is sent by client on the socket */
         readSize = sctp_recvmsg(servSock_d,
                                 readBuffer,
                                 sizeof(readBuffer),
@@ -93,16 +90,15 @@ int main(int argc, char *argv[])
                                 &clntLen,
                                 &sndrInfo,
                                 &msgFlags);
+        /* Ensures a message is actually received */
         if (readSize > 0)
         {
             print_src(servSock_d, sndrInfo.sinfo_assoc_id);
             printf("Msg recvd from client: [%.*s]\n", (int)readSize, readBuffer);
         }
-        //------------------------------------
 
         /* ------Step 5 send to the client --------- */
-        //------------------------------------
-        //Lab7 Part B - Why are the fields and what are we doing?
+        /* Sends received message back to client (echoing) */
         sctp_sendmsg(servSock_d,
                      readBuffer,
                      readSize,
@@ -117,20 +113,20 @@ int main(int argc, char *argv[])
     /* ------Step 5+ implied close when program is terminated ------- */
 }
 
-//------------------------------------
-//Lab7 Part B - Comments should be the same for here as in EchoClientMto1SCTP.c just copy here
+/* Prints IP and Port infromation about the server the message was sent and received from */
 static void print_src(int fd, sctp_assoc_t assoc_id)
 {
-    struct sctp_status sstat;
-    struct sctp_paddrinfo *spinfo;
-    char tmpname[INET6_ADDRSTRLEN];
-    unsigned int port;
-    unsigned int ulen;
-    struct sockaddr_in6 *s_in;
+    struct sctp_status sstat;       /* Socket option argument  */
+    struct sctp_paddrinfo *spinfo;  /* Socket address information */
+    char tmpname[INET6_ADDRSTRLEN]; /* Char array to hold IPV6 server IP */
+    unsigned int port;              /* Port */
+    unsigned int ulen;              /* Length of sctp status */
+    struct sockaddr_in6 *s_in;      /* Socket descriptor */
 
     bzero(&sstat, sizeof(sstat));
 
     ulen = sizeof(sstat);
+    /* Return the information of a SCTP socket option (0 being successful) */
     if (sctp_opt_info(fd, assoc_id, SCTP_STATUS, &sstat, &ulen) < 0)
     {
         perror("sctp_opt_info()");
@@ -138,9 +134,8 @@ static void print_src(int fd, sctp_assoc_t assoc_id)
     }
     spinfo = &sstat.sstat_primary;
 
-    s_in = (struct sockaddr_in6 *)&spinfo->spinfo_address;
-    inet_ntop(AF_INET6, &s_in->sin6_addr, tmpname, sizeof(tmpname));
-    port = ntohs(s_in->sin6_port);
-    printf("Msg from client on association - %d IP:Port - %s:%d\n", assoc_id, tmpname, port);
-    //------------------------------------
+    s_in = (struct sockaddr_in6 *)&spinfo->spinfo_address;                                    /* Obtains socket descriptor from spinfo */
+    inet_ntop(AF_INET, &s_in->sin6_addr, tmpname, sizeof(tmpname));                           /* Converts IP address from binary to text */
+    port = ntohs(s_in->sin6_port);                                                            /* Obtains port from socket descriptor */
+    printf("Msg from Server on association - %d IP:Port - %s:%d\n", assoc_id, tmpname, port); /* Prints formatted message with IP and port */
 }
