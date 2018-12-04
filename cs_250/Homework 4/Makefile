@@ -2,12 +2,12 @@ CC = gcc
 CFLAGS = -g -Wall
 INCLUDE1=DieWithError.c
 
-all: BroadcastSender BroadcastReceiver
+all: BroadcastSenderv6 BroadcastReceiverv6
 
-BroadcastSender: BroadcastSender.c
+BroadcastSenderv6: BroadcastSenderv6.c
 	$(CC) $(CFLAGS) $< $(INCLUDE1) -o $@.o
 
-BroadcastReceiver: BroadcastReceiver.c
+BroadcastReceiverv6: BroadcastReceiverv6.c
 	$(CC) $(CFLAGS) $< $(INCLUDE1) -o $@.o
 
 clean:
