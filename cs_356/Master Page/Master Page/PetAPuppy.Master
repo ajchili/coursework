@@ -18,35 +18,36 @@
     <asp:contentplaceholder id="headers" runat="server" />
 </head>
 <body>
+    <form runat="server">
+        <!--
 
-    <!--
+            Navbar Content:
+            The Navbar displayed in the top of a webpage. This will be dynamically set depending on
+            what page is currently active and will depend on the authentication status of a user.
 
-        Navbar Content:
-        The Navbar displayed in the top of a webpage. This will be dynamically set depending on
-        what page is currently active and will depend on the authentication status of a user.
+        -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <asp:contentplaceholder id="navbarContent" runat="server" />
+        </nav>
 
-    -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <asp:contentplaceholder id="navbarContent" runat="server" />
-    </nav>
+        <!--
 
-    <!--
+            Main Content:
+            The body of a web page using this Master.
 
-        Main Content:
-        The body of a web page using this Master.
-
-    -->
-    <asp:contentplaceholder id="main" runat="server" />
+        -->
+        <asp:contentplaceholder id="main" runat="server" />
     
 
-    <!--
+        <!--
 
-        Footer Content:
-        Any additional information or content that may be relevant to a page can be placed in
-        the footer.
+            Footer Content:
+            Any additional information or content that may be relevant to a page can be placed in
+            the footer.
 
-    -->
-    <asp:contentplaceholder id="footer" runat="server" />
+        -->
+        <asp:contentplaceholder id="footer" runat="server" />
+    </form>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
