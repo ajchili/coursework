@@ -11,25 +11,28 @@ namespace Master_Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["ticketId"] != null)
+            if (!IsPostBack)
             {
-                Models.Ticket.get(grdTicketTable, int.Parse(Session["ticketId"].ToString()));
-                if (Session["UserName"] != null && Session["Password"] != null)
+                if (Session["ticketId"] != null)
                 {
-                    grdTicketTable.Visible = false;
-                    editPanel.Visible = true;
-                    GridViewRow row = grdTicketTable.Rows[0];
+                    Models.Ticket.get(grdTicketTable, int.Parse(Session["ticketId"].ToString()));
+                    if (Session["UserName"] != null && Session["Password"] != null)
+                    {
+                        grdTicketTable.Visible = false;
+                        editPanel.Visible = true;
+                        GridViewRow row = grdTicketTable.Rows[0];
 
-                    txtTitle.Text = row.Cells[2].Text;
-                    txtDescription.Text = row.Cells[3].Text;
-                    txtState.Text = row.Cells[4].Text;
-                    txtAssignedTo.Text = row.Cells[9].Text;
+                        txtTitle.Text = row.Cells[2].Text;
+                        txtDescription.Text = row.Cells[3].Text;
+                        txtState.Text = row.Cells[4].Text;
+                        txtAssignedTo.Text = row.Cells[9].Text;
+                    }
                 }
-            }
-            else
-            {
-                // Redirects if no ticket id is present
-                Response.Redirect("Main.aspx");
+                else
+                {
+                    // Redirects if no ticket id is present
+                    Response.Redirect("Main.aspx");
+                }
             }
         }
 

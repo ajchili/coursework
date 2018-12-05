@@ -132,7 +132,7 @@ namespace Master_Page.Models
                 }
                 int edited = cmd.ExecuteNonQuery();
                 conn.Close();
-                return edited == 0;
+                return edited == 1;
             }
             else
             {
@@ -164,7 +164,7 @@ namespace Master_Page.Models
                 }
                 int resolved = cmd.ExecuteNonQuery();
                 conn.Close();
-                return resolved == 0;
+                return resolved == 1;
             }
             else
             {

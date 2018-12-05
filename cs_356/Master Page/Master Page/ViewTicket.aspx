@@ -42,7 +42,7 @@
                 <div class="invalid-feedback">Invalid number.</div>
 			</div>
             <asp:Button ID="btnSubmit" runat="server" class="btn btn-lg btn-primary btn-block mt-3" Text="Save" OnClick="submitForm" />
-            <asp:Button ID="btnResolve" runat="server" class="btn btn-lg btn-primary btn-block mt-3" Text="Resolve" />
+            <asp:Button ID="btnResolve" runat="server" class="btn btn-lg btn-primary btn-block mt-3" Text="Resolve" OnClick="resolveForm" />
             <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
         </div>
     </asp:Panel>
