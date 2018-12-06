@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient; //libraries for database connections
+using System.Configuration; //libraries for workign with web config
+using System.Data;
 
 namespace Master_Page
 {
@@ -14,9 +17,8 @@ namespace Master_Page
             if (Session["UserName"] != null && Session["Password"] != null)
             {
                 Models.User user = new Models.User(Session["UserName"].ToString(), Session["Password"].ToString());
-                Response.Write("User is authenticated via a session.");
-                Response.Write(user.UserName);
-                Response.Write(user.Password);
+                // Populates grdTicketTable with tickets from database.
+                SqlDataReader ticketReader = Models.Ticket.getAllTickets(grdTicketTable);
             }
             else
             {
@@ -27,7 +29,7 @@ namespace Master_Page
 
         void Page_PreInit(object sender, EventArgs e)
         {
-            if (DateTime.Now.Month >= 11)
+            if (DateTime.Now.Month == 12)
             {
                 Page.Theme = "HolidayTheme";
             }
@@ -35,6 +37,13 @@ namespace Master_Page
             {
                 Page.Theme = "DefaultTheme";
             }
+        }
+        
+        protected void gridViewSelectedIndexChanged(object sender, EventArgs e)
+        {
+            GridViewRow row = grdTicketTable.SelectedRow;
+            Session["ticketId"] = row.Cells[1].Text;
+            Response.Redirect("ViewTicket.aspx");
         }
     }
 }

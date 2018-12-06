@@ -32,7 +32,7 @@ namespace Master_Page.Models
             if (isValidUserName() && isValidPassword())
             {
                 conn.Open();
-                conn.ChangeDatabase("PAPHelpDesk");
+                conn.ChangeDatabase("PetAPuppyKirinPatel");
                 SqlCommand cmd = new SqlCommand("LoginUser", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@strUserName", SqlDbType.VarChar).Value = UserName;
@@ -55,7 +55,7 @@ namespace Master_Page.Models
             if (isValidUserName() && isValidPassword())
             {
                 conn.Open();
-                conn.ChangeDatabase("PAPHelpDesk");
+                conn.ChangeDatabase("PetAPuppyKirinPatel");
                 SqlCommand cmd = new SqlCommand("GetUser", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@strUserName", SqlDbType.VarChar).Value = UserName;
@@ -94,7 +94,7 @@ namespace Master_Page.Models
             if (canCreate())
             {
                 conn.Open();
-                conn.ChangeDatabase("PAPHelpDesk");
+                conn.ChangeDatabase("PetAPuppyKirinPatel");
                 SqlCommand cmd = new SqlCommand("CreateUser", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@strUserName", SqlDbType.VarChar).Value = UserName;

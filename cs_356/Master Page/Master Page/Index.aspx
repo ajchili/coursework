@@ -9,11 +9,9 @@
 <asp:Content ContentPlaceHolderID="main" runat="server">
     <div class="container content mt-5">
         <h2>Pet a Puppy Site Map</h2>
-        <form runat="server">
-            <asp:SiteMapDataSource ID="smPAP" runat="server" />
-            <asp:TreeView runat="server" DataSourceID="smPAP">
-            </asp:TreeView>
-        </form>
+        <asp:SiteMapDataSource ID="smPAP" runat="server" />
+        <asp:TreeView runat="server" DataSourceID="smPAP">
+        </asp:TreeView>
     </div>
 </asp:Content>
 

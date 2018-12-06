@@ -2,6 +2,10 @@
 	background-image: url('background.png');
 }
 
+.login-container {
+	background-color: transparent;
+}
+
 .content {
 	background-color: #ffffff;
 }
