@@ -2,7 +2,10 @@ CC = gcc
 CFLAGS = -g -Wall
 INCLUDE1=DieWithError.c
 
-all: SigAction MulticastSender MulticastReceiver BroadcastSender BroadcastReceiver
+all: Application SigAction MulticastSender MulticastReceiver BroadcastSender BroadcastReceiver
+
+Application: Application.c
+	$(CC) $(CFLAGS) $< $(INCLUDE1) -o $@.o
 
 SigAction: SigAction.c
 	$(CC) $(CFLAGS) $< $(INCLUDE1) -o $@.o
