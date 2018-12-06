@@ -1,0 +1,12 @@
+CC = gcc
+CFLAGS = -g -Wall
+INCLUDE = ErrorHandler.c DaemonInit.c SignalHandler.c
+
+all: BroadcastDaemSender
+
+BroadcastDaemSender: BroadcastDaemSender.c
+	$(CC) $(CFLAGS) $< $(INCLUDE) -o $@.o
+
+clean:
+	-rm -f *.o *~ *core*
+	-rm -rf *.o.dSYM
