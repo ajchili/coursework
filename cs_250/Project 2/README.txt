@@ -1,3 +1,5 @@
+This was originally in Markdown, if there are formatting issues please let me know. I can send a Markdown view of the original README.
+
 # Project 2
 * A "3 tier message broker" that integrates a terminal interface for users that interacts with a BroadcastRelay to send and receive messages from a MulticastRelay. This allows for:
     * Messages to be sent to specific domains
