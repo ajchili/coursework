@@ -1,11 +1,12 @@
 CC = gcc
 CFLAGS = -g -Wall
 INCLUDE1=DieWithError.c
+APPLICATIONINCLUDE=DieWithError.c BroadcastRelay.c NameResolution.c ServiceResolution.c
 
 all: Application SigAction MulticastSender MulticastReceiver BroadcastSender BroadcastReceiver
 
 Application: Application.c
-	$(CC) $(CFLAGS) $< $(INCLUDE1) -o $@.o
+	$(CC) $(CFLAGS) $< $(APPLICATIONINCLUDE) -o $@.o
 
 SigAction: SigAction.c
 	$(CC) $(CFLAGS) $< $(INCLUDE1) -o $@.o
