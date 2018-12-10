@@ -39,7 +39,7 @@ void sendMessageToDomain(char domain, char *message)
     /* Construct local address structure */
     memset(&broadcastAddr, 0, sizeof(broadcastAddr));                  /* Zero out structure */
     broadcastAddr.sin_family = AF_INET;                                /* Internet address family */
-    broadcastAddr.sin_addr.s_addr = NameResolution("CS250MsgHost");    /* Broadcast IP address */
+    broadcastAddr.sin_addr.s_addr = htonl(INADDR_ANY);                 /* Broadcast IP address */
     broadcastAddr.sin_port = ServiceResolution("CS250MsgServ", "udp"); /* Broadcast port */
 
     char *messageWithDomain;                         /* Message with domain prepended to it */
@@ -62,5 +62,48 @@ void sendMessageToDomain(char domain, char *message)
 
 void readMessagesOnDomain(char domain)
 {
-  // TODO
+  int sock;                           /* Socket descriptor */
+  struct sockaddr_in echoServAddr;    /* Echo server address */
+  struct sockaddr_in fromAddr;        /* Source address of echo */
+  unsigned int fromSize;              /* In-out of address size for recvfrom() */
+  char *servIP;                       /* IP address of server */
+  char *echoString;                   /* String to send to echo server */
+  char echoBuffer[MAXRECVSTRING + 1]; /* Buffer for receiving echoed string */
+  int echoStringLen;                  /* Length of string to echo */
+  int respStringLen;                  /* Length of received response */
+
+  servIP = "0.0.0.0";  /* Server IP address (dotted quad) */
+
+  if ((sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
+    DieWithError("socket() failed");
+
+  echoString = "ready";
+  echoStringLen = strlen(echoString); /* Determine input length */
+
+  /* Construct the server address structure */
+  memset(&echoServAddr, 0, sizeof(echoServAddr));                   /* Zero out structure */
+  echoServAddr.sin_family = AF_INET;                                /* Internet addr family */
+  echoServAddr.sin_addr.s_addr = inet_addr(servIP);                 /* Server IP address */
+  echoServAddr.sin_port = ServiceResolution("CS250MsgServSender", "udp"); /* Server port */
+
+  /* Send received datagram back to the client */
+  if (sendto(sock, echoString, echoStringLen, 0, (struct sockaddr *)&echoServAddr, sizeof(echoServAddr)) != echoStringLen)
+    DieWithError("sendto() sent a different number of bytes than expected");
+  else
+  {
+    /* Print on the client what was sent to the server. */
+    printf("Waiting for response from server...\n");
+  }
+
+  fromSize = sizeof(echoServAddr);
+
+  /* Block until receive message from a client */
+  if ((respStringLen = recvfrom(sock, echoBuffer, MAXRECVSTRING, 0, (struct sockaddr *)&fromAddr, &fromSize)) < 0)
+    DieWithError("recvfrom() failed");
+
+  /* Print on the client what was received from the server. */
+  printf("%.*s\n", respStringLen, echoBuffer);
+
+  /* ------Step 5 close connection with server and release resources ------ */
+  close(sock);
 }
