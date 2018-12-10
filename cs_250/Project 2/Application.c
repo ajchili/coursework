@@ -5,6 +5,7 @@ void DieWithError(char *errorMessage);                /* Error handling function
 int handleInitialUserInput();                         /* Handles user input for initialization of applciation */
 void getMessage(char *message);                       /* Obtains string from user to be sent to server. */
 void sendMessageToDomain(char domain, char *message); /* Sends provided message to specified domain */
+void readMessagesOnDomain();                          /* */
 
 int main(void)
 {
@@ -36,6 +37,7 @@ int main(void)
       break;
     case 4:
       /* Read all messages sent to domain that user is on */
+      readMessagesOnDomain();
       break;
     }
   }
