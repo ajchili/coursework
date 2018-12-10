@@ -30,8 +30,7 @@ void sendMessageToDomain(char domain, char *message)
 
     /* Set socket to allow broadcast */
     broadcastPermission = 1;
-    if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (void *)&broadcastPermission,
-                   sizeof(broadcastPermission)) < 0)
+    if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (void *)&broadcastPermission, sizeof(broadcastPermission)) < 0)
       DieWithError("setsockopt() failed");
 
     /* Construct local address structure */
@@ -40,11 +39,16 @@ void sendMessageToDomain(char domain, char *message)
     broadcastAddr.sin_addr.s_addr = NameResolution("CS250MsgHost");    /* Broadcast IP address */
     broadcastAddr.sin_port = ServiceResolution("CS250MsgServ", "udp"); /* Broadcast port */
 
-    sendStringLen = strlen(message); /* Find length of message */
-    for (;;)                         /* Run forever */
+    char *messageWithDomain;                         /* Message with domain prepended to it */
+    messageWithDomain = malloc(strlen(message) + 5); /* Set length of new message */
+    messageWithDomain[0] = domain;                   /* Set domain */
+    strcat(messageWithDomain, " - ");                /* Add spacer */
+    strcat(messageWithDomain, message);              /* Add message */
+    sendStringLen = strlen(messageWithDomain);       /* Find length of message */
+    for (;;)                                         /* Run forever */
     {
-      /* Broadcast sendString in datagram to clients every 3 seconds*/
-      if (sendto(sock, message, sendStringLen, 0, (struct sockaddr *)&broadcastAddr, sizeof(broadcastAddr)) != sendStringLen)
+      /* Broadcast message in datagram to clients every 3 seconds*/
+      if (sendto(sock, messageWithDomain, sendStringLen, 0, (struct sockaddr *)&broadcastAddr, sizeof(broadcastAddr)) != sendStringLen)
         DieWithError("sendto() sent a different number of bytes than expected");
 
       sleep(3); /* Avoids flooding the network */
