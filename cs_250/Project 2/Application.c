@@ -5,7 +5,7 @@ void DieWithError(char *errorMessage);                /* Error handling function
 int handleInitialUserInput();                         /* Handles user input for initialization of applciation */
 void getMessage(char *message);                       /* Obtains string from user to be sent to server. */
 void sendMessageToDomain(char domain, char *message); /* Sends provided message to specified domain */
-void readMessagesOnDomain();                          /* */
+void readMessagesOnDomain(char domain);               /* */
 
 int main(void)
 {
@@ -37,7 +37,11 @@ int main(void)
       break;
     case 4:
       /* Read all messages sent to domain that user is on */
-      readMessagesOnDomain();
+      readMessagesOnDomain('A');
+      break;
+    case 5:
+      /* Read all messages sent to domain that user is on */
+      readMessagesOnDomain('B');
       break;
     }
   }
@@ -58,11 +62,12 @@ int handleInitialUserInput()
   printf("1 - Send message to domain A\n");
   printf("2 - Send message to domain B\n");
   printf("3 - Send message to both domains\n");
-  printf("4 - View messages sent to your domain\n");
+  printf("4 - View messages sent to your domain (A)\n");
+  printf("5 - View messages sent to your domain (B)\n");
 
   scanf("%d", &selection);
 
-  if (selection < 1 || selection > 4)
+  if (selection < 1 || selection > 5)
     DieWithError("The selection you made is not valid!");
 
   return selection;

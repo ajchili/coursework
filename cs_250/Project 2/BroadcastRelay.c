@@ -58,7 +58,7 @@ void sendMessageToDomain(char domain, char *message)
   }
 }
 
-void readMessagesOnDomain()
+void readMessagesOnDomain(char domain)
 {
   int sock;                           /* Socket */
   struct sockaddr_in broadcastAddr;   /* Broadcast Address */
@@ -85,8 +85,11 @@ void readMessagesOnDomain()
   if ((recvStringLen = recvfrom(sock, recvString, MAXRECVSTRING, 0, NULL, 0)) < 0)
     DieWithError("recvfrom() failed");
 
-  recvString[recvStringLen] = '\0';
-  printf("%s\n", recvString + 4); /* Print the received string */
+  if (recvString[0] == domain || recvString[0] == 'C')
+  {
+    recvString[recvStringLen] = '\0';
+    printf("%s\n", recvString + 4); /* Print the received string without domain */
+  }
 
   close(sock);
 }
