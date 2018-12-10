@@ -11,6 +11,7 @@
 void DieWithError(char *errorMessage);     /* External error handling function */
 unsigned long NameResolution(char name[]); /* Obtains IPV4 address from host name */
 unsigned short ServiceResolution(char service[], char protocol[]);
+void broadcastSender(char *messages[MAXRECVSTRINGS]);
 void broadcastReceiver(char *messages[MAXRECVSTRINGS]);
 
 int main(void)
@@ -23,6 +24,78 @@ int main(void)
     DieWithError("fork() failed");
   else if (fork_ProcessID == 0)
     broadcastReceiver(messages);
+
+  /* Create fork */
+  if ((fork_ProcessID = fork()) < 0)
+    DieWithError("fork() failed");
+  else if (fork_ProcessID == 0)
+    broadcastSender(messages);
+}
+
+void broadcastSender(char *messages[MAXRECVSTRINGS])
+{
+  int sock;                        /* Socket descriptor */
+  struct sockaddr_in echoServAddr; /* Local address */
+  struct sockaddr_in echoClntAddr; /* Client address */
+  unsigned int clntLen;            /* Length of client address data structure */
+
+  /* ------Step 1 create the socket ------- */
+  if ((sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
+    DieWithError("socket() failed");
+
+  /* Construct local address structure */
+  memset(&echoServAddr, 0, sizeof(echoServAddr));                         /* Zero out structure */
+  echoServAddr.sin_family = AF_INET;                                      /* Internet address family */
+  echoServAddr.sin_addr.s_addr = htonl(INADDR_ANY);                       /* Any incoming interface */
+  echoServAddr.sin_port = ServiceResolution("CS250MsgServSender", "udp"); /* Local port */
+
+  /* ------Step 2 bind the connection ip:port ------- */
+  /* Bind to the local address */
+  if (bind(sock, (struct sockaddr *)&echoServAddr, sizeof(echoServAddr)) < 0)
+    DieWithError("bind() failed");
+
+  for (;;) /* Infinite Loop - run until process killed */
+  {
+    /* Set the size of the in-out parameter */
+    clntLen = sizeof(echoClntAddr);
+
+    char buffer[MAXRECVSTRINGS];
+    if (recvfrom(sock, buffer, MAXRECVSTRINGS, 0, (struct sockaddr *)&echoClntAddr, &clntLen) < 0)
+      DieWithError("recvfrom() failed");
+
+    printf("[%s]\n", buffer);
+
+    /* ------Step 4 send to the socket  ------- */
+    /* Send received datagram back to the client */
+    for (int i = 0; i < MAXRECVSTRINGS; i++)
+    {
+      if (messages[i] != NULL)
+      {
+        int messageSize = sizeof(messages[i]);
+        if (sendto(sock,
+                   messages[i],
+                   messageSize,
+                   0,
+                   (struct sockaddr *)&echoClntAddr,
+                   sizeof(echoClntAddr)) != messageSize)
+          DieWithError("sendto() sent a different number of bytes than expected");
+      }
+      else
+      {
+        char *message = "end";
+        int messageSize = sizeof(message);
+        if (sendto(sock,
+                   message,
+                   messageSize,
+                   0,
+                   (struct sockaddr *)&echoClntAddr,
+                   sizeof(echoClntAddr)) != messageSize)
+          DieWithError("sendto() sent a different number of bytes than expected");
+
+        break;
+      }
+    }
+  }
 }
 
 void broadcastReceiver(char *messages[MAXRECVSTRINGS])
@@ -46,7 +119,6 @@ void broadcastReceiver(char *messages[MAXRECVSTRINGS])
   if (bind(sock, (struct sockaddr *)&broadcastAddr, sizeof(broadcastAddr)) < 0)
     DieWithError("bind() failed");
 
-  int numOfRepeats = 0; /* Number of times any message is received multiple times */
   int length = 0;
   for (;;)
   {
