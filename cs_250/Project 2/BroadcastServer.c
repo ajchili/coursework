@@ -64,6 +64,15 @@ void broadcastSender(char *messages[])
     if (recvfrom(sock, buffer, MAXRECVSTRINGS, 0, (struct sockaddr *)&echoClntAddr, &clntLen) < 0)
       DieWithError("recvfrom() failed");
 
+    messages[0] = "A - First message";
+    messages[1] = "B - Testing";
+    messages[2] = "C - Sending to both";
+    messages[3] = "A - Hello all!";
+    messages[4] = "B - Hi";
+    messages[5] = "B - Hi";
+    messages[6] = "C - Sending to both";
+    messages[7] = "A - Hello again!";
+
     /* ------Step 4 send to the socket  ------- */
     /* Send received datagram back to the client */
     for (int i = 0; i < MAXRECVSTRINGS; i++)
