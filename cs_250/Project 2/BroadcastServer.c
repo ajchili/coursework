@@ -11,12 +11,13 @@
 void DieWithError(char *errorMessage);     /* External error handling function */
 unsigned long NameResolution(char name[]); /* Obtains IPV4 address from host name */
 unsigned short ServiceResolution(char service[], char protocol[]);
-void broadcastSender(char *messages[MAXRECVSTRINGS]);
-void broadcastReceiver(char *messages[MAXRECVSTRINGS]);
+void broadcastSender(char *messages[]);
+void broadcastReceiver(char *messages[]);
 
 int main(void)
 {
   char *messages[MAXRECVSTRINGS]; /* Array of seen messages */
+  memset(&messages, 0, sizeof(messages)); 
   pid_t fork_ProcessID;           /* Fork Process ID from fork() */
 
   /* Create fork */
@@ -32,7 +33,7 @@ int main(void)
     broadcastSender(messages);
 }
 
-void broadcastSender(char *messages[MAXRECVSTRINGS])
+void broadcastSender(char *messages[])
 {
   int sock;                        /* Socket descriptor */
   struct sockaddr_in echoServAddr; /* Local address */
@@ -63,21 +64,18 @@ void broadcastSender(char *messages[MAXRECVSTRINGS])
     if (recvfrom(sock, buffer, MAXRECVSTRINGS, 0, (struct sockaddr *)&echoClntAddr, &clntLen) < 0)
       DieWithError("recvfrom() failed");
 
-    printf("[%s]\n", buffer);
-
     /* ------Step 4 send to the socket  ------- */
     /* Send received datagram back to the client */
     for (int i = 0; i < MAXRECVSTRINGS; i++)
     {
       if (messages[i] != NULL)
       {
-        int messageSize = sizeof(messages[i]);
         if (sendto(sock,
                    messages[i],
-                   messageSize,
+                   255,
                    0,
                    (struct sockaddr *)&echoClntAddr,
-                   sizeof(echoClntAddr)) != messageSize)
+                   sizeof(echoClntAddr)) != 255)
           DieWithError("sendto() sent a different number of bytes than expected");
       }
       else
@@ -98,7 +96,7 @@ void broadcastSender(char *messages[MAXRECVSTRINGS])
   }
 }
 
-void broadcastReceiver(char *messages[MAXRECVSTRINGS])
+void broadcastReceiver(char *messages[])
 {
   int sock;                           /* Socket */
   struct sockaddr_in broadcastAddr;   /* Broadcast Address */
@@ -130,7 +128,7 @@ void broadcastReceiver(char *messages[MAXRECVSTRINGS])
     {
       if (messages[i] == NULL)
       {
-        messages[i] = recvString;
+        messages[length] = recvString;
         length++;
         break;
       }
