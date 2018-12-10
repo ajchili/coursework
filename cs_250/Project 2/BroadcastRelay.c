@@ -4,6 +4,8 @@
 #include <stdlib.h>     /* for atoi() and exit() */
 #include <string.h>     /* for memset() */
 #include <unistd.h>     /* for close() */
+#include <sys/types.h>
+#include <signal.h>
 
 #define MAXRECVSTRING 255 /* Longest string to receive */
 
@@ -62,34 +64,29 @@ void readMessagesOnDomain()
   struct sockaddr_in broadcastAddr;   /* Broadcast Address */
   char recvString[MAXRECVSTRING + 1]; /* Buffer for received string */
   int recvStringLen;                  /* Length of received string */
-  pid_t fork_ProcessID;               /* Fork Process ID from fork() */
 
-  /* Create fork */
-  if ((fork_ProcessID = fork()) < 0)
-    DieWithError("fork() failed");
-  else if (fork_ProcessID == 0)
-  {
-    /* Create a best-effort datagram socket using UDP */
-    if ((sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
-      DieWithError("socket() failed");
+  /* Create a best-effort datagram socket using UDP */
+  if ((sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
+    DieWithError("socket() failed");
 
-    /* Construct bind structure */
-    memset(&broadcastAddr, 0, sizeof(broadcastAddr));                  /* Zero out structure */
-    broadcastAddr.sin_family = AF_INET;                                /* Internet address family */
-    broadcastAddr.sin_addr.s_addr = htonl(INADDR_ANY);                 /* Any incoming interface */
-    broadcastAddr.sin_port = ServiceResolution("CS250MsgServ", "udp"); /* Broadcast port */
+  /* Construct bind structure */
+  memset(&broadcastAddr, 0, sizeof(broadcastAddr));                  /* Zero out structure */
+  broadcastAddr.sin_family = AF_INET;                                /* Internet address family */
+  broadcastAddr.sin_addr.s_addr = htonl(INADDR_ANY);                 /* Any incoming interface */
+  broadcastAddr.sin_port = ServiceResolution("CS250MsgServ", "udp"); /* Broadcast port */
 
-    /* Bind to the broadcast port */
-    if (bind(sock, (struct sockaddr *)&broadcastAddr, sizeof(broadcastAddr)) < 0)
-      DieWithError("bind() failed");
+  printf("Receiving messages...\n");
 
-    /* Receive a single datagram from the server */
-    if ((recvStringLen = recvfrom(sock, recvString, MAXRECVSTRING, 0, NULL, 0)) < 0)
-      DieWithError("recvfrom() failed");
+  /* Bind to the broadcast port */
+  if (bind(sock, (struct sockaddr *)&broadcastAddr, sizeof(broadcastAddr)) < 0)
+    DieWithError("bind() failed");
 
-    recvString[recvStringLen] = '\0';
-    printf("Received: %s\n", recvString); /* Print the received string */
+  /* Receive a single datagram from the server */
+  if ((recvStringLen = recvfrom(sock, recvString, MAXRECVSTRING, 0, NULL, 0)) < 0)
+    DieWithError("recvfrom() failed");
 
-    close(sock);
-  }
+  recvString[recvStringLen] = '\0';
+  printf("%s\n", recvString + 4); /* Print the received string */
+
+  close(sock);
 }
