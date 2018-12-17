@@ -9,7 +9,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kirin Patel",
-  "license": "MIT",
   "dependencies": {
     "bcrypt": "^3.0.2",
     "express": "^4.16.4",
