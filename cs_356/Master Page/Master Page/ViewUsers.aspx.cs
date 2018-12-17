@@ -5,23 +5,17 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient; //libraries for database connections
-using System.Configuration; //libraries for workign with web config
-using System.Data;
-using System.Globalization;
 
 namespace Master_Page
 {
-    public partial class Main : System.Web.UI.Page
+    public partial class ViewUsers : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserName"] != null && Session["Password"] != null)
             {
                 Models.User user = new Models.User(Session["UserName"].ToString(), Session["Password"].ToString());
-                // Populates grdTicketTable with tickets from database.
-                SqlDataReader highPriorityReader = Models.Ticket.getTicketsAtPriority(grdHighPriorityTicketTable, 2);
-                SqlDataReader mediumPriorityReader = Models.Ticket.getTicketsAtPriority(grdMediumPriorityTicketTable, 1);
-                SqlDataReader lowPriorityReader = Models.Ticket.getTicketsAtPriority(grdLowPriorityTicketTable, 0);
+                SqlDataReader reader = Models.User.getAllUsers(grdUsersTable);
             }
             else
             {
@@ -46,22 +40,42 @@ namespace Master_Page
         {
             GridView gridView = (GridView)sender;
             GridViewRow row = gridView.SelectedRow;
-            Session["ticketId"] = row.Cells[1].Text;
-            Response.Redirect("ViewTicket.aspx");
+
+            String action = ((LinkButton)row.Cells[0].Controls[0]).Text.ToLower();
+            if (action == "activate")
+            {
+                Models.User.activateUser(Convert.ToInt32(row.Cells[2].Text), "SuperSecretPasswordThatMustBeUpdated123!@#");
+                Response.Redirect("ViewUsers.aspx");
+            }
+            else if (action == "deactivate")
+            {
+                Models.User.deactiavteUser(Convert.ToInt32(row.Cells[2].Text));
+                Response.Redirect("ViewUsers.aspx");
+            }
+        }
+
+        protected void gridViewEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView gridView = (GridView)sender;
+            GridViewRow row = gridView.Rows[e.NewEditIndex];
+            Session["user"] = row.Cells[2].Text;
+            Response.Redirect("EditUser.aspx");
         }
 
         protected void gridViewDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                DateTime createDate = DateTime.Parse(e.Row.Cells[4].Text.Split(' ')[0]);
-                if ((createDate - DateTime.Today).TotalDays >= 7)
+                String password = e.Row.Cells[7].Text;
+                if (password != "&nbsp;")
                 {
-                    e.Row.Attributes.Add("class", "bg-danger");
+                    ((LinkButton)e.Row.Cells[0].Controls[0]).Text = "Deactivate";
                 }
-                else if ((createDate - DateTime.Today).TotalDays > 3)
+                else
                 {
-                    e.Row.Attributes.Add("class", "bg-warning");
+                    ((LinkButton)e.Row.Cells[0].Controls[0]).Text = "Activate";
+                    ((LinkButton)e.Row.Cells[1].Controls[0]).Enabled = false;
+                    e.Row.Attributes.Add("class", "bg-danger");
                 }
             }
         }

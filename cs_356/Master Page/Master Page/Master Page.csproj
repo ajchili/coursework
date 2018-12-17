@@ -73,12 +73,17 @@
     <Content Include="APP_Themes\HolidayTheme\StyleSheet.css" />
     <Content Include="Assets\logo.png" />
     <Content Include="CreateTicket.aspx" />
+    <Content Include="EditUser.aspx" />
+    <Content Include="CreateUser.aspx" />
     <Content Include="CSS\Login.css" />
+    <Content Include="CSS\Main.css" />
     <Content Include="Index.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Main.aspx" />
+    <Content Include="UserTickets.aspx" />
     <Content Include="ViewMyTickets.aspx" />
     <Content Include="ViewTicket.aspx" />
+    <Content Include="ViewUsers.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +93,20 @@
     </Compile>
     <Compile Include="CreateTicket.aspx.designer.cs">
       <DependentUpon>CreateTicket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditUser.aspx.cs">
+      <DependentUpon>EditUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditUser.aspx.designer.cs">
+      <DependentUpon>EditUser.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreateUser.aspx.cs">
+      <DependentUpon>CreateUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateUser.aspx.designer.cs">
+      <DependentUpon>CreateUser.aspx</DependentUpon>
     </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
@@ -120,6 +139,13 @@
       <DependentUpon>PetAPuppy.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserTickets.aspx.cs">
+      <DependentUpon>UserTickets.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserTickets.aspx.designer.cs">
+      <DependentUpon>UserTickets.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewMyTickets.aspx.cs">
       <DependentUpon>ViewMyTickets.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -133,6 +159,13 @@
     </Compile>
     <Compile Include="ViewTicket.aspx.designer.cs">
       <DependentUpon>ViewTicket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewUsers.aspx.cs">
+      <DependentUpon>ViewUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewUsers.aspx.designer.cs">
+      <DependentUpon>ViewUsers.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

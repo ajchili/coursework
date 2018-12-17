@@ -15,7 +15,7 @@
 			<div class="form-group">
                 <label for="main_txtUsername">Username</label>
 				<asp:TextBox id="txtUsername" runat="server" type="text" class="form-control" placeholder="Username" MaxLength="30"></asp:TextBox>
-                <div class="invalid-feedback">Your username must be at least 5 characters short and 10 characters long.</div>
+                <div class="invalid-feedback">Your username must be at least 5 characters short and 30 characters long.</div>
 			</div>
 			<div class="form-group">
                 <label for="main_txtPassword">Password</label>

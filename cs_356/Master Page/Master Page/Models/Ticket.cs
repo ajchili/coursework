@@ -22,6 +22,8 @@ namespace Master_Page.Models
 
         public int Status { get; set; }
 
+        public int Priority { get; set; }
+
         public DateTime DateCreated { get; set; }
 
         public DateTime DateUpdated { get; set; }
@@ -82,6 +84,34 @@ namespace Master_Page.Models
             return reader;
         }
 
+        public static SqlDataReader getTicketsAtPriority(GridView gridView, int priority)
+        {
+            conn.Open();
+            conn.ChangeDatabase("PetAPuppyKirinPatel");
+            SqlCommand cmd = new SqlCommand("GetAllTicketsAtPriority", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@intPriority", SqlDbType.Int).Value = priority;
+            SqlDataReader reader = cmd.ExecuteReader();
+            gridView.DataSource = reader;
+            gridView.DataBind();
+            conn.Close();
+            return reader;
+        }
+
+        public static SqlDataReader getResolvedTicketsForUser(GridView gridView, int id)
+        {
+            conn.Open();
+            conn.ChangeDatabase("PetAPuppyKirinPatel");
+            SqlCommand cmd = new SqlCommand("GetMyResolvedTickets", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@intAssignedUser", SqlDbType.Int).Value = id;
+            SqlDataReader reader = cmd.ExecuteReader();
+            gridView.DataSource = reader;
+            gridView.DataBind();
+            conn.Close();
+            return reader;
+        }
+
         /**
          * Creates a new ticket based on properties of Ticket object.
          */
@@ -95,7 +125,8 @@ namespace Master_Page.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@strTitle", SqlDbType.VarChar).Value = Title;
                 cmd.Parameters.Add("@strDescription", SqlDbType.VarChar).Value = Description;
-                cmd.Parameters.Add("@intCurrentState", SqlDbType.Int).Value = 1;
+                cmd.Parameters.Add("@intCurrentState", SqlDbType.Int).Value = -1;
+                cmd.Parameters.Add("@intPriority", SqlDbType.Int).Value = 0;
                 cmd.Parameters.Add("@dateResolved", SqlDbType.DateTime).Value = DBNull.Value;
                 cmd.Parameters.Add("@strSubmitter", SqlDbType.VarChar).Value = Submitter;
                 cmd.Parameters.Add("@intAssignedUser", SqlDbType.Int).Value = DBNull.Value;
@@ -120,6 +151,7 @@ namespace Master_Page.Models
                 cmd.Parameters.Add("@strTitle", SqlDbType.VarChar).Value = Title;
                 cmd.Parameters.Add("@strDescription", SqlDbType.VarChar).Value = Description;
                 cmd.Parameters.Add("@intCurrentState", SqlDbType.Int).Value = Status;
+                cmd.Parameters.Add("@intPriority", SqlDbType.Int).Value = Priority;
                 cmd.Parameters.Add("@dateResolved", SqlDbType.DateTime).Value = DBNull.Value;
                 cmd.Parameters.Add("@strSubmitter", SqlDbType.VarChar).Value = Submitter;
                 if (AssignedUser != 0)
@@ -140,20 +172,22 @@ namespace Master_Page.Models
             }
         }
 
-        public Boolean resolve()
+        public Boolean resolve(String resolutionDetails)
         {
             if (Title != null && Submitter != null)
             {
                 conn.Open();
                 conn.ChangeDatabase("PetAPuppyKirinPatel");
-                SqlCommand cmd = new SqlCommand("EditTicket", conn);
+                SqlCommand cmd = new SqlCommand("ResolveTicket", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@intId", SqlDbType.Int).Value = ID;
                 cmd.Parameters.Add("@strTitle", SqlDbType.VarChar).Value = Title;
                 cmd.Parameters.Add("@strDescription", SqlDbType.VarChar).Value = Description;
                 cmd.Parameters.Add("@intCurrentState", SqlDbType.Int).Value = Status;
+                cmd.Parameters.Add("@intPriority", SqlDbType.Int).Value = Priority;
                 cmd.Parameters.Add("@dateResolved", SqlDbType.DateTime).Value = DateTime.Now;
                 cmd.Parameters.Add("@strSubmitter", SqlDbType.VarChar).Value = Submitter;
+                cmd.Parameters.Add("@strResolutionDetails", SqlDbType.VarChar).Value = resolutionDetails;
                 if (AssignedUser != 0)
                 {
                     cmd.Parameters.Add("@intAssignedUser", SqlDbType.Int).Value = AssignedUser;

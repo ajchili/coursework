@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PetAPuppy.Master" AutoEventWireup="true" CodeBehind="Main.aspx.cs" Inherits="Master_Page.Main" %>
 <asp:Content ContentPlaceHolderID="headers" runat="server">
+    <link href="CSS/Main.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ContentPlaceHolderID="navbarContent" runat="server">
     <a class="navbar-brand" href="/Main.aspx">Pet A Puppy</a>
@@ -10,25 +11,86 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
+                <a class="nav-link" href="/UserTickets.aspx">My Tickets</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/ViewUsers.aspx">Users</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/CreateTicket.aspx">Create Ticket</a>
             </li>
         </ul>
     </div>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="main" runat="server">
-    <asp:GridView ID="grdTicketTable" class="table bg-light" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" DataKeyNames="id" EmptyDataText="No data was found." OnSelectedIndexChanged="gridViewSelectedIndexChanged">
-        <Columns>
-            <asp:CommandField ShowSelectButton="True" />
-            <asp:BoundField DataField="id" HeaderText="Ticket #" InsertVisible="False" ReadOnly="True" SortExpression="Ticket #" />
-            <asp:BoundField DataField="title" HeaderText="Title" />
-            <asp:BoundField DataField="description" HeaderText="Description" />
-            <asp:BoundField DataField="dateCreated" HeaderText="Created On" />
-            <asp:BoundField DataField="dateUpdated" HeaderText="Last Updated" />
-            <asp:BoundField DataField="dateResolved" HeaderText="Resolved On" />
-            <asp:BoundField DataField="submitter" HeaderText="Reporter" />
-            <asp:BoundField DataField="assignedUser" HeaderText="Assigned To" />
-        </Columns>
-    </asp:GridView>
+    <div class="row no-gutters">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">High Priority</h5>
+                    <div class="overflow-scroll-x">
+                        <asp:GridView ID="grdHighPriorityTicketTable" class="table bg-light" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" DataKeyNames="id" EmptyDataText="No data was found." OnSelectedIndexChanged="gridViewSelectedIndexChanged" OnRowDataBound="gridViewDataBound">
+                            <Columns>
+                                <asp:CommandField ShowSelectButton="True" />
+                                <asp:BoundField DataField="id" HeaderText="#" InsertVisible="False" ReadOnly="True" SortExpression="Ticket #" />
+                                <asp:BoundField DataField="title" HeaderText="Title" />
+                                <asp:BoundField DataField="description" HeaderText="Description" />
+                                <asp:BoundField DataField="dateCreated" HeaderText="Created" />
+                                <asp:BoundField DataField="dateUpdated" HeaderText="Updated" />
+                                <asp:BoundField DataField="dateResolved" HeaderText="Resolved" />
+                                <asp:BoundField DataField="submitter" HeaderText="Reporter" />
+                                <asp:BoundField DataField="assignedUser" HeaderText="Assignee" />
+                            </Columns>
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Medium Priority</h5>
+                    <div class="overflow-scroll-x">
+                        <asp:GridView ID="grdMediumPriorityTicketTable" class="table bg-light" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" DataKeyNames="id" EmptyDataText="No data was found." OnSelectedIndexChanged="gridViewSelectedIndexChanged" OnRowDataBound="gridViewDataBound">
+                            <Columns>
+                                <asp:CommandField ShowSelectButton="True" />
+                                <asp:BoundField DataField="id" HeaderText="#" InsertVisible="False" ReadOnly="True" SortExpression="Ticket #" />
+                                <asp:BoundField DataField="title" HeaderText="Title" />
+                                <asp:BoundField DataField="description" HeaderText="Description" />
+                                <asp:BoundField DataField="dateCreated" HeaderText="Created" />
+                                <asp:BoundField DataField="dateUpdated" HeaderText="Updated" />
+                                <asp:BoundField DataField="dateResolved" HeaderText="Resolved" />
+                                <asp:BoundField DataField="submitter" HeaderText="Reporter" />
+                                <asp:BoundField DataField="assignedUser" HeaderText="Assignee" />
+                            </Columns>
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Low Priority</h5>
+                    <div class="overflow-scroll-x">
+                        <asp:GridView ID="grdLowPriorityTicketTable" class="table bg-light" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" DataKeyNames="id" EmptyDataText="No data was found." OnSelectedIndexChanged="gridViewSelectedIndexChanged" OnRowDataBound="gridViewDataBound">
+                            <Columns>
+                                <asp:CommandField ShowSelectButton="True" />
+                                <asp:BoundField DataField="id" HeaderText="#" InsertVisible="False" ReadOnly="True" SortExpression="Ticket #" />
+                                <asp:BoundField DataField="title" HeaderText="Title" />
+                                <asp:BoundField DataField="description" HeaderText="Description" />
+                                <asp:BoundField DataField="dateCreated" HeaderText="Created" />
+                                <asp:BoundField DataField="dateUpdated" HeaderText="Updated" />
+                                <asp:BoundField DataField="dateResolved" HeaderText="Resolved" />
+                                <asp:BoundField DataField="submitter" HeaderText="Reporter" />
+                                <asp:BoundField DataField="assignedUser" HeaderText="Assignee" />
+                            </Columns>
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="footer" runat="server">
 </asp:Content>
