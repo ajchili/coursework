@@ -24,8 +24,18 @@ namespace Master_Page
 
                         txtTitle.Text = row.Cells[2].Text;
                         txtDescription.Text = row.Cells[3].Text;
-                        txtState.Text = row.Cells[4].Text;
-                        txtAssignedTo.Text = row.Cells[9].Text;
+                        ddlState.SelectedIndex = Convert.ToInt32(row.Cells[4].Text) + 1;
+                        ddlPriority.SelectedIndex = Convert.ToInt32(row.Cells[5].Text);
+                        Models.User[] users = Models.User.getAllUsers();
+                        ddlAssignedTo.SelectedIndex = -1;
+                        for (int i = 0; i < users.Length; i++)
+                        {
+                            ddlAssignedTo.Items.Add(users[i].UserName);
+                            if (row.Cells[10].Text != "&nbsp;" && Convert.ToInt32(row.Cells[10].Text) == users[i].Id)
+                            {
+                                ddlAssignedTo.SelectedIndex = i;
+                            }
+                        }
                     }
                 }
                 else
@@ -54,12 +64,12 @@ namespace Master_Page
             Boolean canSubmit = true;
             String title = txtTitle.Text;
             String description = txtDescription.Text;
-            int state;
-            int assignedTo;
+            String resolutionDetails = txtResolutionDetails.Text;
+            int state = Convert.ToInt32(ddlState.SelectedValue);
+            int priority = Convert.ToInt32(ddlPriority.SelectedValue);
 
             txtTitle.CssClass = "form-control is-valid";
-            txtState.CssClass = "form-control is-valid";
-            txtAssignedTo.CssClass = "form-control is-valid";
+            txtResolutionDetails.CssClass = "form-control is-valid";
 
             if (title.Length == 0)
             {
@@ -67,14 +77,14 @@ namespace Master_Page
                 txtTitle.CssClass = "form-control is-invalid";
             }
 
-            if (!Int32.TryParse(txtState.Text, out state))
+
+            if (resolutionDetails.Length == 0)
             {
                 canSubmit = false;
-                txtState.CssClass = "form-control is-invalid";
+                txtResolutionDetails.CssClass = "form-control is-invalid";
             }
 
-
-            Int32.TryParse(txtAssignedTo.Text, out assignedTo);
+            Models.User[] users = Models.User.getAllUsers();
 
             if (canSubmit)
             {
@@ -83,12 +93,16 @@ namespace Master_Page
                 ticket.Title = title;
                 ticket.Description = description;
                 ticket.Status = state;
-                ticket.Submitter = row.Cells[8].Text;
-                ticket.AssignedUser = assignedTo;
+                ticket.Priority = priority;
+                ticket.Submitter = row.Cells[9].Text;
+                if (users[ddlAssignedTo.SelectedIndex] != null)
+                {
+                    ticket.AssignedUser = users[ddlAssignedTo.SelectedIndex].Id;
+                }
                 Boolean result;
                 if (shouldResolve)
                 {
-                    result = ticket.resolve();
+                    result = ticket.resolve(resolutionDetails);
                 }
                 else
                 {

@@ -12,6 +12,7 @@
             <asp:BoundField DataField="title" HeaderText="Title" />
             <asp:BoundField DataField="description" HeaderText="Description" />
             <asp:BoundField DataField="currentState" HeaderText="Status" />
+            <asp:BoundField DataField="ticketPriority" HeaderText="Priority" />
             <asp:BoundField DataField="dateCreated" HeaderText="Created On" />
             <asp:BoundField DataField="dateUpdated" HeaderText="Last Updated" />
             <asp:BoundField DataField="dateResolved" HeaderText="Resolved On" />
@@ -32,16 +33,35 @@
 				<asp:TextBox id="txtDescription" runat="server" type="text" class="form-control" placeholder="Description" MaxLength="255"></asp:TextBox>
 			</div>
 			<div class="form-group">
-                <label for="main_txtState">State</label>
-				<asp:TextBox id="txtState" runat="server" type="number" class="form-control" placeholder="State" MaxLength="4"></asp:TextBox>
-                <div class="invalid-feedback">A state is required.</div>
+                <label for="main_ddlState">State</label>
+                <asp:DropDownList ID="ddlState" runat="server" class="form-control">
+                    <asp:ListItem Value="-1">Backlog</asp:ListItem>
+                    <asp:ListItem Value="0">Blocked</asp:ListItem>
+                    <asp:ListItem Value="1">In Progress</asp:ListItem>
+                    <asp:ListItem Value="2">Awaiting Testing</asp:ListItem>
+                    <asp:ListItem Value="3">Done</asp:ListItem>
+                </asp:DropDownList>
 			</div>
 			<div class="form-group">
-                <label for="main_txtAssignedTo">Assigned To</label>
-				<asp:TextBox id="txtAssignedTo" runat="server" type="number" class="form-control" placeholder="Assigned To" MaxLength="4"></asp:TextBox>
-                <div class="invalid-feedback">Invalid number.</div>
+                <label for="main_ddlPriority">Priority</label>
+                <asp:DropDownList ID="ddlPriority" runat="server" class="form-control">
+                    <asp:ListItem Value="0">Low</asp:ListItem>
+                    <asp:ListItem Value="1">Medium</asp:ListItem>
+                    <asp:ListItem Value="2">High</asp:ListItem>
+                </asp:DropDownList>
+			</div>
+			<div class="form-group">
+                <label for="main_ddlAssignedTo">Assigned To</label>
+                <asp:DropDownList ID="ddlAssignedTo" runat="server" class="form-control">
+                </asp:DropDownList>
+                <div class="invalid-feedback">In.</div>
 			</div>
             <asp:Button ID="btnSubmit" runat="server" class="btn btn-lg btn-primary btn-block mt-3" Text="Save" OnClick="submitForm" />
+			<div class="form-group">
+                <label for="main_txtResolutionDetails">Resolution Details</label>
+				<asp:TextBox id="txtResolutionDetails" runat="server" type="text" class="form-control" placeholder="Resolution Details" MaxLength="255"></asp:TextBox>
+                <div class="invalid-feedback">Details are required.</div>
+			</div>
             <asp:Button ID="btnResolve" runat="server" class="btn btn-lg btn-primary btn-block mt-3" Text="Resolve" OnClick="resolveForm" />
             <p class="mt-5 mb-3 text-muted text-center">© 2017-2018</p>
         </div>

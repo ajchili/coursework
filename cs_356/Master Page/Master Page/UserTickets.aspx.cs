@@ -5,23 +5,17 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient; //libraries for database connections
-using System.Configuration; //libraries for workign with web config
-using System.Data;
-using System.Globalization;
 
 namespace Master_Page
 {
-    public partial class Main : System.Web.UI.Page
+    public partial class UserTickets : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserName"] != null && Session["Password"] != null)
             {
                 Models.User user = new Models.User(Session["UserName"].ToString(), Session["Password"].ToString());
-                // Populates grdTicketTable with tickets from database.
-                SqlDataReader highPriorityReader = Models.Ticket.getTicketsAtPriority(grdHighPriorityTicketTable, 2);
-                SqlDataReader mediumPriorityReader = Models.Ticket.getTicketsAtPriority(grdMediumPriorityTicketTable, 1);
-                SqlDataReader lowPriorityReader = Models.Ticket.getTicketsAtPriority(grdLowPriorityTicketTable, 0);
+                SqlDataReader resolvedReader = Models.Ticket.getResolvedTicketsForUser(grdResolvedTicketTable, user.getId());
             }
             else
             {
@@ -55,11 +49,12 @@ namespace Master_Page
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 DateTime createDate = DateTime.Parse(e.Row.Cells[4].Text.Split(' ')[0]);
-                if ((createDate - DateTime.Today).TotalDays >= 7)
+                DateTime resolveDate = DateTime.Parse(e.Row.Cells[4].Text.Split(' ')[0]);
+                if ((resolveDate - createDate).TotalDays >= 7)
                 {
                     e.Row.Attributes.Add("class", "bg-danger");
                 }
-                else if ((createDate - DateTime.Today).TotalDays > 3)
+                else if ((resolveDate - createDate).TotalDays > 3)
                 {
                     e.Row.Attributes.Add("class", "bg-warning");
                 }
