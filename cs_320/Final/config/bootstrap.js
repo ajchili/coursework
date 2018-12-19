@@ -24,9 +24,7 @@ const bootstrap = {
         .createDataFolder()
         .then(() => {
           Promise.all(promises)
-            .then(() => {
-              resolve();
-            })
+            .then(() => resolve())
             .catch(err => reject(err));
         })
         .catch(err => reject(err));
