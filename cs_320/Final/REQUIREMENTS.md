@@ -6,5 +6,5 @@
 - [x] Ability to insert data
 - [x] Ability to read data
 - [ ] Ability to update data
-- [ ] Ability to delete data
+- [x] Ability to delete data
 - [ ] Ability to backup data

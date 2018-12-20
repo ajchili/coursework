@@ -43,12 +43,15 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
-  let id = req.params.id;
-  data.getDatabase(id, (err, database) => {
-    if (err) res.status(500).send();
-    else res.status(200).json(database);
-  });
+router.post('/delete', (req, res) => {
+  if (!req.body.id) res.status(400).send();
+  else {
+    let id = req.body.id;
+    data.deleteDatabase(id, (err) => {
+      if (err) res.status(500).send();
+      else res.status(200).send();
+    });
+  }
 });
 
 router.post('/documents/create', (req, res) => {
@@ -61,6 +64,14 @@ router.post('/documents/create', (req, res) => {
       else res.status(200).json(document);
     });
   }
+});
+
+router.get('/:id', (req, res) => {
+  let id = req.params.id;
+  data.getDatabase(id, (err, database) => {
+    if (err) res.status(500).send();
+    else res.status(200).json(database);
+  });
 });
 
 router.get('/:id/documents', (req, res) => {
@@ -80,6 +91,18 @@ router.get('/:database/documents/:document', (req, res) => {
     if (err) res.status(500).send();
     else res.status(200).json(document);
   });
+});
+
+router.post('/:database/documents/delete', (req, res) => {
+  let database = req.params.database;
+  if (!req.body.document) res.status(400).send();
+  else {
+    let document = req.body.document;
+    data.deleteDocument({database, document}, (err) => {
+      if (err) res.status(500).send();
+      else res.status(200).send();
+    });
+  }
 });
 
 module.exports = router;
