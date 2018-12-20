@@ -1,6 +1,6 @@
 ## Final Project Requirements
 * Create a basic database system
-- [ ] Authentication
+- [x] Authentication
 - [ ] Ability to create databases
 - [ ] Ability to create documents
 - [ ] Ability to insert data
@@ -8,4 +8,3 @@
 - [ ] Ability to update data
 - [ ] Ability to delete data
 - [ ] Ability to backup data
-- [ ] Ability to compress data
