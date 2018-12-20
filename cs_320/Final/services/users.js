@@ -44,8 +44,9 @@ const writeToDatabase = data => {
  */
 const runNextRequest = () => {
   if (requests.length) {
-    let request = requests.pop();
-    users[request.method](request.parameters, request.callback);
+    let request = requests.shift();
+    if (!request) runNextRequest();
+    else users[request.method](request.parameters, request.callback);
   }
 };
 
@@ -65,6 +66,7 @@ const users = {
         callback
       });
     } else {
+      requests.push(null);
       readFromDatabase()
         .then(data => {
           let user = data.find(user => user.username === credentials.username);
@@ -98,6 +100,7 @@ const users = {
         callback
       });
     } else {
+      requests.push(null);
       readFromDatabase()
         .then(data => {
           let user = data.find(user => user.id === id);
