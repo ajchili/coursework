@@ -79,6 +79,32 @@ const data = {
         });
     }
   },
+  getDatabase: (id, callback) => {
+    if (requests.length) {
+      requests.push({
+        method: 'getDatabase',
+        parameters: id,
+        callback
+      });
+    } else {
+      requests.push(null);
+      readFromDatabase()
+        .then(data => {
+          let database = data[id];
+          if (database) {
+            callback(null, {id, name: database.name});
+            runNextRequest();
+          } else {
+            callback(new Error('Database does not exist!'), null);
+            runNextRequest();
+          }
+        })
+        .catch(err => {
+          callback(err, null);
+          runNextRequest();
+        });
+    }
+  },
   createDocument: (requirements, callback) => {
     
   }

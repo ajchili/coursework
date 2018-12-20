@@ -36,4 +36,12 @@ router.post('/create', (req, res) => {
   }
 });
 
+router.get('/:id', (req, res) => {
+  let id = req.params.id;
+  data.getDatabase(id, (err, database) => {
+    if (err) res.status(500).send();
+    else res.status(200).json(database);
+  });
+});
+
 module.exports = router;
