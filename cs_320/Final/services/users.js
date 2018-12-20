@@ -46,7 +46,7 @@ const runNextRequest = () => {
   if (requests.length) {
     let request = requests.shift();
     if (!request) runNextRequest();
-    else users[request.method](request.parameters, request.callback);
+    else users[request.method](request.parameters, request.callback, true);
   }
 };
 
@@ -58,8 +58,8 @@ const users = {
    * @param credentials User credentials
    * @param callback    Callback function to be called on completion
    */
-  validatePassword: (credentials, callback) => {
-    if (requests.length) {
+  validatePassword: (credentials, callback, ignoreRequests = false) => {
+    if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'validatePassword',
         parameters: credentials,
@@ -92,8 +92,8 @@ const users = {
    * @param id       Id of user to generate JWT for
    * @param callback Callback function to called on completion
    */
-  generateJWT: (id, callback) => {
-    if (requests.length) {
+  generateJWT: (id, callback, ignoreRequests) => {
+    if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'generateJWT',
         parameters: id,
@@ -134,8 +134,8 @@ const users = {
         });
     }
   },
-  verifyJWT: (token, callback) => {
-    if (requests.length) {
+  verifyJWT: (token, callback, ignoreRequests) => {
+    if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'verifyJWT',
         parameters: token,

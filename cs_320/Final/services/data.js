@@ -42,16 +42,16 @@ const writeToDatabase = data => {
  * Runs next request in requests queue if one exists.
  */
 const runNextRequest = () => {
-  if (requests.length) {
+ if (requests.length) {
     let request = requests.shift();
     if (!request) runNextRequest();
-    else data[request.method](request.parameters, request.callback);
+    else data[request.method](request.parameters, request.callback, true);
   }
 };
 
 const data = {
-  createDatabase: (name, callback) => {
-    if (requests.length) {
+  createDatabase: (name, callback, ignoreRequests = false) => {
+    if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'createDatabase',
         parameters: name,
@@ -79,8 +79,8 @@ const data = {
         });
     }
   },
-  getDatabase: (id, callback) => {
-    if (requests.length) {
+  getDatabase: (id, callback, ignoreRequests = false) => {
+    if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'getDatabase',
         parameters: id,
@@ -105,8 +105,8 @@ const data = {
         });
     }
   },
-  getAllDatabases: (callback) => {
-    if (requests.length) {
+  getAllDatabases: (callback, ignoreRequests = false) => {
+    if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'getAllDatabases',
         parameters: callback,
@@ -125,8 +125,8 @@ const data = {
         });
     }
   },
-  deleteDatabase: (id, callback) => {
-    if (requests.length) {
+  deleteDatabase: (id, callback, ignoreRequests = false) => {
+   if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'deleteDatabase',
         parameters: id,
@@ -158,8 +158,8 @@ const data = {
         });
     }
   },
-  createDocument: (requirements, callback) => {
-    if (requests.length) {
+  createDocument: (requirements, callback, ignoreRequests = false) => {
+   if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'createDocument',
         parameters: requirements,
@@ -200,8 +200,8 @@ const data = {
         });
     }
   },
-  getDocument: (requirements, callback) => {
-    if (requests.length) {
+  getDocument: (requirements, callback, ignoreRequests = false) => {
+   if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'getDocument',
         parameters: requirements,
@@ -232,8 +232,8 @@ const data = {
         });
     }
   },
-  getAllDocument: (id, callback) => {
-    if (requests.length) {
+  getAllDocument: (id, callback, ignoreRequests = false) => {
+   if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'getAllDocument',
         parameters: id,
@@ -258,8 +258,8 @@ const data = {
         });
     }
   },
-  deleteDocument: (requirements, callback) => {
-    if (requests.length) {
+  deleteDocument: (requirements, callback, ignoreRequests = false) => {
+   if (requests.length && !ignoreRequests) {
       requests.push({
         method: 'deleteDocument',
         parameters: requirements,
@@ -295,6 +295,99 @@ const data = {
         })
         .catch(err => {
           callback(err);
+          runNextRequest();
+        });
+    }
+  },
+  setDocument: (requirements, callback, ignoreRequests = false) => {
+   if (requests.length && !ignoreRequests) {
+      requests.push({
+        method: 'setDocument',
+        parameters: requirements,
+        callback
+      });
+    } else {
+      requests.push(null);
+      readFromDatabase()
+        .then(data => {
+          let database = data[requirements.database];
+          if (database) {
+            let document = database.documents.find(document => document.id === requirements.document);
+            if (document) {
+              let index = database.documents.indexOf(document);
+              database.documents[index] = {
+                ...requirements.documentData,
+                id: document.id,
+                createAt: document.createdAt,
+                updatedAt: new Date().getTime()
+              };
+              writeToDatabase(data)
+                .then(() => {
+                  callback(null, database.documents[index]);
+                  runNextRequest();
+                })
+                .catch(err => {
+                  callback(err, null);
+                  runNextRequest();
+                });
+            } else {
+              callback(new Error('Document does not exist!'), null);
+              runNextRequest();
+            }
+          } else {
+            callback(new Error('Database does not exist!'), null);
+            runNextRequest();
+          }
+        })
+        .catch(err => {
+          callback(err, null);
+          runNextRequest();
+        });
+    }
+  },
+  updateDocument: (requirements, callback, ignoreRequests = false) => {
+   if (requests.length && !ignoreRequests) {
+      requests.push({
+        method: 'updateDocument',
+        parameters: requirements,
+        callback
+      });
+    } else {
+      requests.push(null);
+      readFromDatabase()
+        .then(data => {
+          let database = data[requirements.database];
+          if (database) {
+            let document = database.documents.find(document => document.id === requirements.document);
+            if (document) {
+              let index = database.documents.indexOf(document);
+              database.documents[index] = {
+                ...document,
+                ...requirements.documentData,
+                id: document.id,
+                updatedAt: new Date().getTime()
+              };
+              database.documents[index].createdAt = document.createdAt;
+              writeToDatabase(data)
+                .then(() => {
+                  callback(null, database.documents[index]);
+                  runNextRequest();
+                })
+                .catch(err => {
+                  callback(err, null);
+                  runNextRequest();
+                });
+            } else {
+              callback(new Error('Document does not exist!'), null);
+              runNextRequest();
+            }
+          } else {
+            callback(new Error('Database does not exist!'), null);
+            runNextRequest();
+          }
+        })
+        .catch(err => {
+          callback(err, null);
           runNextRequest();
         });
     }

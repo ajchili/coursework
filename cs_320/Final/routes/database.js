@@ -54,18 +54,6 @@ router.post('/delete', (req, res) => {
   }
 });
 
-router.post('/documents/create', (req, res) => {
-  if (!req.body.database) res.status(400).send();
-  else {
-    let database = req.body.database;
-    let document = req.body.document || {};
-    data.createDocument({database, document}, (err, document) => {
-      if (err) res.status(500).send();
-      else res.status(200).json(document);
-    });
-  }
-});
-
 router.get('/:id', (req, res) => {
   let id = req.params.id;
   data.getDatabase(id, (err, database) => {
@@ -76,11 +64,18 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/documents', (req, res) => {
   let id = req.params.id;
-  console.log(id);
   data.getAllDocument(id, (err, documents) => {
-    console.error(err)
     if (err) res.status(500).send();
     else res.status(200).json(documents);
+  });
+});
+
+router.post('/:id/documents/create', (req, res) => {
+  let database = req.params.id;
+  let document = req.body.document || {};
+  data.createDocument({database, document}, (err, document) => {
+    if (err) res.status(500).send();
+    else res.status(200).json(document);
   });
 });
 
@@ -93,16 +88,33 @@ router.get('/:database/documents/:document', (req, res) => {
   });
 });
 
-router.post('/:database/documents/delete', (req, res) => {
+router.post('/:database/documents/:document/set', (req, res) => {
   let database = req.params.database;
-  if (!req.body.document) res.status(400).send();
-  else {
-    let document = req.body.document;
-    data.deleteDocument({database, document}, (err) => {
-      if (err) res.status(500).send();
-      else res.status(200).send();
-    });
-  }
+  let document = req.params.document;
+  let documentData = req.body.data || {};
+  data.setDocument({database, document, documentData}, (err, document) => {
+    if (err) res.status(500).send();
+    else res.status(200).json(document);
+  });
+});
+
+router.post('/:database/documents/:document/update', (req, res) => {
+  let database = req.params.database;
+  let document = req.params.document;
+  let documentData = req.body.data || {};
+  data.updateDocument({database, document, documentData}, (err, document) => {
+    if (err) res.status(500).send();
+    else res.status(200).send(document);
+  });
+});
+
+router.post('/:database/documents/:document/delete', (req, res) => {
+  let database = req.params.database;
+  let document = req.params.document;
+  data.deleteDocument({database, document}, (err) => {
+    if (err) res.status(500).send();
+    else res.status(200).send();
+  });
 });
 
 module.exports = router;
