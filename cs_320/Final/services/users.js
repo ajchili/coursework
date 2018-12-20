@@ -133,6 +133,37 @@ const users = {
           runNextRequest();
         });
     }
+  },
+  verifyJWT: (token, callback) => {
+    if (requests.length) {
+      requests.push({
+        method: 'verifyJWT',
+        parameters: token,
+        callback
+      });
+    } else {
+      requests.push(null);
+      jwt.verify(token, 'secret', (err, decoded) => {
+        if (err) callback(err, null);
+        else {
+          readFromDatabase()
+            .then(data => {
+              let user = data.find(user => user.id === decoded.id);
+              if (user) {
+                callback(null, decoded.iat > new Date().getTime());
+                runNextRequest();
+              } else {
+                callback(new Error('User does not exist!'), null);
+                runNextRequest();
+              }
+            })
+            .catch(err => {
+              callback(err, null);
+              runNextRequest();
+            });
+        }
+      });
+    }
   }
 };
 
