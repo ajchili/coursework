@@ -17,6 +17,13 @@ router.use((req, res, next) => {
   }
 });
 
+router.get('/', (req, res) => {
+  data.getAllDatabases((err, databases) => {
+    if (err) res.status(500).send();
+    else res.status(200).json(databases);
+  });
+});
+
 router.post('/create', (req, res) => {
   if (!req.body.name && !req.body.names) res.status(400).send();
   else {
@@ -36,10 +43,17 @@ router.post('/create', (req, res) => {
   }
 });
 
-router.get('/', (req, res) => {
-  data.getAllDatabases((err, databases) => {
+router.get('/download', (req, res) => {
+  data.download({}, (err, data) => {
     if (err) res.status(500).send();
-    else res.status(200).json(databases);
+    else {
+      res.setHeader('Content-disposition', 'attachment; filename=backup.json');
+      res.setHeader('Content-type', 'application/json');
+      res.write(JSON.stringify(data), err => {
+        if (err) res.status(500).send();
+        else res.end();
+      });
+    }
   });
 });
 

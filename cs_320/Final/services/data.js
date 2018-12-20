@@ -391,6 +391,26 @@ const data = {
           runNextRequest();
         });
     }
+  },
+  download: (requirements, callback, ignoreRequests = false) => {
+    if (requests.length && !ignoreRequests) {
+      requests.push({
+        method: 'download',
+        parameters: requirements,
+        callback
+      });
+    } else {
+      requests.push(null);
+      readFromDatabase()
+        .then(data => {
+          callback(null, data);
+          runNextRequest();
+        })
+        .catch(err => {
+          callback(err, null);
+          runNextRequest();
+        });
+    }
   }
 };
 

@@ -7,4 +7,4 @@
 - [x] Ability to read data
 - [x] Ability to update data
 - [x] Ability to delete data
-- [ ] Ability to backup data
+- [x] Ability to backup data
