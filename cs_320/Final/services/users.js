@@ -8,6 +8,12 @@ const usersDB = path.join(dataPath, "users.json");
 
 const requests = [];
 
+/**
+ * Reads user database file and resolves data in file
+ * if no error on read occurs.
+ * 
+ * Returns Promise<JSON object>
+ */
 const readFromDatabase = () => {
   return new Promise((resolve, reject) => {
     fs.readFile(usersDB, (err, data) => {
@@ -17,6 +23,13 @@ const readFromDatabase = () => {
   });
 };
 
+/**
+ * Writes provided JSON objecty to user database file.
+ * 
+ * @param data JSON object
+ * 
+ * Returns Promise<Void>
+ */
 const writeToDatabase = data => {
   return new Promise((resolve, reject) => {
     fs.writeFile(usersDB, JSON.stringify(data), err => {
@@ -26,6 +39,9 @@ const writeToDatabase = data => {
   });
 };
 
+/**
+ * Runs next request in requests queue if one exists.
+ */
 const runNextRequest = () => {
   if (requests.length) {
     let request = requests.pop();
@@ -34,6 +50,13 @@ const runNextRequest = () => {
 };
 
 const users = {
+  /**
+   * Determines if user exists for provided credentials and if the
+   * provided credentials are accurate.
+   * 
+   * @param credentials User credentials
+   * @param callback    Callback function to be called on completion
+   */
   validatePassword: (credentials, callback) => {
     if (requests.length) {
       requests.push({
@@ -61,6 +84,12 @@ const users = {
         });
     }
   },
+  /**
+   * Gererates a JWT for a user with the specified id.
+   * 
+   * @param id       Id of user to generate JWT for
+   * @param callback Callback function to called on completion
+   */
   generateJWT: (id, callback) => {
     if (requests.length) {
       requests.push({
