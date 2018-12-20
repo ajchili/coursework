@@ -105,6 +105,26 @@ const data = {
         });
     }
   },
+  getAllDatabases: (callback) => {
+    if (requests.length) {
+      requests.push({
+        method: 'getAllDatabases',
+        parameters: callback,
+        callback: null
+      });
+    } else {
+      requests.push(null);
+      readFromDatabase()
+        .then(data => {
+          callback(null, Object.keys(data));
+          runNextRequest();
+        })
+        .catch(err => {
+          callback(err, null);
+          runNextRequest();
+        });
+    }
+  },
   createDocument: (requirements, callback) => {
     
   }
