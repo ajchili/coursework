@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "dev": "./node_modules/nodemon/bin/nodemon.js index.js",
+    "dev": "./node_modules/nodemon/bin/nodemon.js --config nodemon.json index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kirin Patel",
