@@ -11,6 +11,7 @@
   "author": "Kirin Patel",
   "dependencies": {
     "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.4.0"
