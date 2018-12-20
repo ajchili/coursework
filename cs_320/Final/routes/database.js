@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const users = require('../services/users');
 const data = require('../services/data');
-const document = require('./document');
 
 router.use((req, res, next) => {
   if (!req.headers || !req.headers.authorization) res.status(401).send();
@@ -17,8 +16,6 @@ router.use((req, res, next) => {
     } else res.status(400).send('Bearer TOKEN must be provided!');
   }
 });
-
-router.use('/documents', document);
 
 router.post('/create', (req, res) => {
   if (!req.body.name && !req.body.names) res.status(400).send();
@@ -51,6 +48,37 @@ router.get('/:id', (req, res) => {
   data.getDatabase(id, (err, database) => {
     if (err) res.status(500).send();
     else res.status(200).json(database);
+  });
+});
+
+router.post('/documents/create', (req, res) => {
+  if (!req.body.database) res.status(400).send();
+  else {
+    let database = req.body.database;
+    let document = req.body.document || {};
+    data.createDocument({database, document}, (err, document) => {
+      if (err) res.status(500).send();
+      else res.status(200).json(document);
+    });
+  }
+});
+
+router.get('/:id/documents', (req, res) => {
+  let id = req.params.id;
+  console.log(id);
+  data.getAllDocument(id, (err, documents) => {
+    console.error(err)
+    if (err) res.status(500).send();
+    else res.status(200).json(documents);
+  });
+});
+
+router.get('/:database/documents/:document', (req, res) => {
+  let database = req.params.database;
+  let document = req.params.document;
+  data.getDocument({database, document}, (err, document) => {
+    if (err) res.status(500).send();
+    else res.status(200).json(document);
   });
 });
 

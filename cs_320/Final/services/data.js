@@ -166,6 +166,64 @@ const data = {
           runNextRequest();
         });
     }
+  },
+  getDocument: (requirements, callback) => {
+    if (requests.length) {
+      requests.push({
+        method: 'getDocument',
+        parameters: requirements,
+        callback
+      });
+    } else {
+      requests.push(null);
+      readFromDatabase()
+        .then(data => {
+          let database = data[requirements.database];
+          if (database) {
+            let document = database.documents.find(document => document.id === requirements.document);
+            if (document) {
+              callback(null, document);
+              runNextRequest();
+            } else {
+              callback(new Error('Document does not exist!'), null);
+              runNextRequest();
+            }
+          } else {
+            callback(new Error('Database does not exist!'), null);
+            runNextRequest();
+          }
+        })
+        .catch(err => {
+          callback(err, null);
+          runNextRequest();
+        });
+    }
+  },
+  getAllDocument: (id, callback) => {
+    if (requests.length) {
+      requests.push({
+        method: 'getDocument',
+        parameters: id,
+        callback
+      });
+    } else {
+      requests.push(null);
+      readFromDatabase()
+        .then(data => {
+          let database = data[id];
+          if (database) {
+            callback(null, database.documents);
+            runNextRequest();
+          } else {
+            callback(new Error('Database does not exist!'), null);
+            runNextRequest();
+          }
+        })
+        .catch(err => {
+          callback(err, null);
+          runNextRequest();
+        });
+    }
   }
 };
 
