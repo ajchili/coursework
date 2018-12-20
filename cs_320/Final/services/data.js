@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const shortid = require('shortid');
 
 const dataPath = path.join(__dirname, "../data");
 const dataDB = path.join(dataPath, "data.json");
@@ -14,7 +15,7 @@ const requests = [];
  */
 const readFromDatabase = () => {
   return new Promise((resolve, reject) => {
-    fs.readFile(usersDB, (err, data) => {
+    fs.readFile(dataDB, (err, data) => {
       if (err) reject(err);
       else resolve(JSON.parse(data));
     });
@@ -30,7 +31,7 @@ const readFromDatabase = () => {
  */
 const writeToDatabase = data => {
   return new Promise((resolve, reject) => {
-    fs.writeFile(usersDB, JSON.stringify(data), err => {
+    fs.writeFile(dataDB, JSON.stringify(data), err => {
       if (err) reject(err);
       else resolve();
     });
@@ -43,13 +44,40 @@ const writeToDatabase = data => {
 const runNextRequest = () => {
   if (requests.length) {
     let request = requests.shift();
-    data[request.method](request.parameters, request.callback);
+    if (!request) runNextRequest();
+    else data[request.method](request.parameters, request.callback);
   }
 };
 
 const data = {
   createDatabase: (name, callback) => {
-
+    if (requests.length) {
+      requests.push({
+        method: 'createDatabase',
+        parameters: name,
+        callback
+      });
+    } else {
+      requests.push(null);
+      readFromDatabase()
+        .then(data => {
+          let id = shortid.generate();
+          data[id] = {name, documents: []};
+          writeToDatabase(data)
+            .then(() => {
+              callback(null, id);
+              runNextRequest();          
+            })
+            .catch(err => {
+              callback(err, null);
+              runNextRequest();
+            });
+        })
+        .catch(err => {
+          callback(err, null);
+          runNextRequest();
+        });
+    }
   },
   createDocument: (requirements, callback) => {
     

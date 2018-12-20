@@ -17,8 +17,23 @@ router.use((req, res, next) => {
   }
 });
 
-router.get('/', (req, res) => {
-  res.status(200).send('hello');
+router.post('/create', (req, res) => {
+  if (!req.body.name && !req.body.names) res.status(400).send();
+  else {
+    let names = req.body.names || [req.body.name];
+    let promises = [];
+    names.forEach(name => {
+      promises.push(new Promise((resolve, reject) => {
+        data.createDatabase(name, (err, id) => {
+          if (err) reject(err);
+          else resolve(id);
+        });
+      }));
+    });
+    Promise.all(promises)
+      .then(ids => res.status(200).send(ids))
+      .catch(err => res.status(500).send());
+  }
 });
 
 module.exports = router;
