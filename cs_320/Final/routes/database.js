@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const users = require('../services/users');
 const data = require('../services/data');
+const document = require('./document');
 
 router.use((req, res, next) => {
   if (!req.headers || !req.headers.authorization) res.status(401).send();
@@ -16,6 +17,8 @@ router.use((req, res, next) => {
     } else res.status(400).send('Bearer TOKEN must be provided!');
   }
 });
+
+router.use('/documents', document);
 
 router.post('/create', (req, res) => {
   if (!req.body.name && !req.body.names) res.status(400).send();

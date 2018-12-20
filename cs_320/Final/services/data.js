@@ -126,7 +126,46 @@ const data = {
     }
   },
   createDocument: (requirements, callback) => {
-    
+    if (requests.length) {
+      requests.push({
+        method: 'createDocument',
+        parameters: requirements,
+        callback
+      });
+    } else {
+      requests.push(null);
+      readFromDatabase()
+        .then(data => {
+          let database = data[requirements.database];
+          if (database) {
+            let id = shortid.generate();
+            let createdAt = new Date().getTime();
+            let document = {
+              id,
+              createdAt,
+              updatedAt: createdAt,
+              ...requirements.document
+            };
+            database.documents.push(document);
+            writeToDatabase(data)
+              .then(() => {
+                callback(null, document);
+                runNextRequest();
+              })
+              .catch(err => {
+                callback(err, null);
+                runNextRequest();
+              });
+          } else {
+            callback(new Error('Database does not exist!'), null);
+            runNextRequest();
+          }
+        })
+        .catch(err => {
+          callback(err, null);
+          runNextRequest();
+        });
+    }
   }
 };
 

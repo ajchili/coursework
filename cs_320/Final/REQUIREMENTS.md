@@ -2,8 +2,8 @@
 * Create a basic database system
 - [x] Authentication
 - [x] Ability to create databases
-- [ ] Ability to create documents
-- [ ] Ability to insert data
+- [x] Ability to create documents
+- [x] Ability to insert data
 - [ ] Ability to read data
 - [ ] Ability to update data
 - [ ] Ability to delete data
