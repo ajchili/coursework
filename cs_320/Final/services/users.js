@@ -28,7 +28,8 @@ const writeToDatabase = data => {
 
 const runNextRequest = () => {
   if (requests.length) {
-    // TODO: Implement
+    let request = requests.pop();
+    users[request.method](request.parameters, request.callback);
   }
 };
 
