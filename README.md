@@ -15,3 +15,4 @@ While the code in this repository is hosted on Github, it is not meant to be a c
 * [CS 320](https://github.com/ajchili/coursework/tree/master/cs_320) Database Administration
 * [CS 356](https://github.com/ajchili/coursework/tree/master/cs_356) Dynamic Web Page Development
 * [CT 206](https://github.com/ajchili/coursework/tree/master/ct_206) Scripting Languages
+* [CT 376](https://github.com/ajchili/coursework/tree/master/ct_376) Javascript
