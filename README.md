@@ -1,7 +1,7 @@
 # coursework
 Below are all the classes I have or am taking relating to CS.
 
-While the code in this repository is hosted on Github, it is not meant to be a cheat sheet for the courses. My work is not something to be taken and written as your own. This code is not permitted to be copied/used within the courses that are below or other academic environments.
+While the code in this repository is hosted on Github, it is not meant to be a cheat sheet for the courses. My work is not something to be taken and written as your own. This code is not permitted to be copied/used within the courses that are listed below or in any other academic environments.
 
 ### High School Courses
 * [AP Computer Science](https://github.com/ajchili/coursework/tree/master/ap_comp_sci)
