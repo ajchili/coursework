@@ -12,8 +12,8 @@
  */
 fibonacciWords = n => {
   const fibonacci = ["A", "B"];
-  if (n > -1 && n < 2) return fibonacci[n];
-  else if (n > -1) {
+  if (n > 0 && n < 2) return fibonacci[n - 1];
+  else if (n > 0) {
     for (let i = 2; i < n; i++) {
       fibonacci.push(fibonacci[i - 2].concat(fibonacci[i - 1]));
     }
@@ -21,8 +21,6 @@ fibonacciWords = n => {
   } else throw new Error("Invalid number range provided.");
 };
 
-console.log(fibonacciWords(3));
-console.log(fibonacciWords(5));
-console.log(fibonacciWords(7));
-console.log(fibonacciWords(9));
-console.log(fibonacciWords(11));
+for (let i = 1; i < 10; i++) {
+  console.log(i, fibonacciWords(i));
+}
