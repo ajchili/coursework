@@ -114,9 +114,11 @@ class Snake {
     let head = this.body[0];
     if (head.x < 0 || head.x > WIDTH - 1 || head.y < 0 || head.y > HEIGHT - 1)
       return true;
-    this.body.slice(1).forEach(piece => {
+    let body = this.body.slice(1);
+    for (let i = 0; i < body.length; i++) {
+      let piece = body[i];
       if (piece.x === head.x && piece.y === head.y) return true;
-    });
+    }
     return false;
   }
 }
@@ -140,19 +142,23 @@ class Board {
         switch (key) {
           // W
           case 119:
-            this.snake.direction = DIRECTION.UP;
+            if (this.snake.direction !== DIRECTION.DOWN)
+              this.snake.direction = DIRECTION.UP;
             break;
           // D
           case 100:
-            this.snake.direction = DIRECTION.RIGHT;
+            if (this.snake.direction !== DIRECTION.LEFT)
+              this.snake.direction = DIRECTION.RIGHT;
             break;
           // S
           case 115:
-            this.snake.direction = DIRECTION.DOWN;
+            if (this.snake.direction !== DIRECTION.UP)
+              this.snake.direction = DIRECTION.DOWN;
             break;
           // A
           case 97:
-            this.snake.direction = DIRECTION.LEFT;
+            if (this.snake.direction !== DIRECTION.RIGHT)
+              this.snake.direction = DIRECTION.LEFT;
             break;
           default:
             break;
@@ -181,6 +187,7 @@ class Board {
     if (this.canSnakeEat()) {
       this.score++;
       this.food = new Food();
+      this.snake.grow();
     }
     this.draw();
   }
