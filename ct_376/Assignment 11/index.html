@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Regex Viewer</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="flags">
+      <p id="flags"></p>
+      <div id="flags-menu" class="flags-menu">
+        <label><input type="checkbox" checked value="g" /> Global</label>
+        <br />
+        <label><input type="checkbox" value="i" /> Case Insensitive</label>
+        <br />
+        <label><input type="checkbox" value="m" /> Multiline</label>
+        <br />
+        <label><input type="checkbox" value="u" /> Unicode</label>
+        <br />
+        <label><input type="checkbox" value="y" /> Sticky</label>
+        <br />
+        <button id="close-flags-menu">Close</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="textareas">
+        <textarea id="text" placeholder="Text"></textarea>
+        <textarea id="expression" placeholder="Expression"></textarea>
+      </div>
+      <p id="result" class="result"></p>
+    </div>
+    <script src="regexViewer.js"></script>
+  </body>
+</html>
