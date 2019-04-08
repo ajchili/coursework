@@ -12,7 +12,7 @@ textarea {
   resize: none;
   flex: 1;
   font-size: 1.5em;
-	font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
@@ -36,10 +36,10 @@ textarea {
 }
 
 .result {
-	overflow-y: scroll;
-	padding: 5px;
-	font-size: 1.5em;
-	font-family: Arial, Helvetica, sans-serif;
+  overflow-y: scroll;
+  padding: 5px;
+  font-size: 1.5em;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .match {
@@ -56,12 +56,12 @@ textarea {
 }
 
 .flags-menu {
-	display: none;
-	width: 150px;
-	position: absolute;
-	right: 0px;
+  display: none;
+  width: 150px;
+  position: absolute;
+  right: 0px;
   bottom: 0px;
   background-color: rgb(200, 200, 200);
-	border-radius: 5px;
-	padding: 5px;
+  border-radius: 5px;
+  padding: 5px;
 }
