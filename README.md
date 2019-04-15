@@ -8,7 +8,7 @@ While the code in this repository is hosted on Github, it is not meant to be a c
 
 ### College Courses
 * [CS 100](https://github.com/ajchili/coursework/tree/master/cs_100) Introduction to Programming Languages
-* [CS 225](https://github.com/ajchili/coursework/tree/master/cs_225) Intermediate Java Programming
+* [CS 225](https://ajchili.github.com/coursework/cs_225) Intermediate Java Programming
 * [CS 230](https://github.com/ajchili/coursework/tree/master/cs_230) Data Structures
 * [CS 250](https://github.com/ajchili/coursework/tree/master/cs_250) Introduction to Network Programming Using C
 * [CS 305](https://github.com/ajchili/coursework/tree/master/cs_305) Android Application Development
@@ -16,4 +16,4 @@ While the code in this repository is hosted on Github, it is not meant to be a c
 * [CS 320](https://github.com/ajchili/coursework/tree/master/cs_320) Database Administration
 * [CS 356](https://github.com/ajchili/coursework/tree/master/cs_356) Dynamic Web Page Development
 * [CT 206](https://github.com/ajchili/coursework/tree/master/ct_206) Scripting Languages
-* [CT 376](https://github.com/ajchili/coursework/tree/master/ct_376) Javascript
+* [CT 376](https://ajchili.github.io/coursework/ct_376) Javascript
