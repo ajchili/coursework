@@ -13,8 +13,11 @@ While the code in this repository is hosted on Github, it is not meant to be a c
 * [CS 230](https://github.com/ajchili/coursework/tree/master/cs_230) Data Structures
 * [CS 250](https://github.com/ajchili/coursework/tree/master/cs_250) Introduction to Network Programming Using C
 * [CS 305](https://github.com/ajchili/coursework/tree/master/cs_305) Android Application Development
+* [CS 316](https://github.com/ajchili/coursework/tree/master/cs_316) Intelligent Systems
 * [CS 310](https://github.com/ajchili/coursework/tree/master/cs_310) Computer Algorithms
 * [CS 320](https://github.com/ajchili/coursework/tree/master/cs_320) Database Administration
 * [CS 356](https://github.com/ajchili/coursework/tree/master/cs_356) Dynamic Web Page Development
+* [CS 405](https://github.com/ajchili/coursework/tree/master/cs_405) Intro to Software Design with UML
+* [CS 418](https://github.com/ajchili/coursework/tree/master/cs_418) Operating Systems
 * [CT 206](https://github.com/ajchili/coursework/tree/master/ct_206) Scripting Languages
 * [CT 376](https://github.com/ajchili/coursework/tree/master/ct_376) Javascript
