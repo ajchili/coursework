@@ -1,0 +1,2 @@
+# Assignment 3
+Assignment 3 uses the [search](https://github.com/aimacode/aima-python/blob/master/search.py) Python file from the [aima-python repository](https://github.com/aimacode/aima-python). The 316_search.py file must be run within the aima-python repository to properly work.
