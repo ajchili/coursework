@@ -1,0 +1,2 @@
+# Assignment 5
+Assignment 5 uses the [search](https://github.com/aimacode/aima-python/blob/master/csp.py) Python file from the [aima-python repository](https://github.com/aimacode/aima-python). The 316_map.py file must be run within the aima-python repository to properly work.
