@@ -1,0 +1,3 @@
+[submodule "cs_316/aima-python"]
+	path = cs_316/aima-python
+	url = https://github.com/aimacode/aima-python
