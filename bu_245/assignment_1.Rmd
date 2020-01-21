@@ -1,0 +1,12 @@
+---
+title: "Hello, World!"
+author: "Kirin Patel"
+date: "1/21/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+My introduction to R & R studio.
