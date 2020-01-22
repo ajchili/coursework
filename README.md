@@ -8,7 +8,7 @@ While the code in this repository is hosted on Github, it is not meant to be a c
 
 ### College Courses
 * Senior Design
-    * [Code](https://github.com/ajchili/autormz) autoRMZ
+    * [autoRMZ](https://github.com/ajchili/autormz) Code
     * [AE 457](https://github.com/ajchili/coursework/tree/master/ae_457) Senior Design I
     * [AE 458](https://github.com/ajchili/coursework/tree/master/ae_458) Senior Design II
 * [BU 245](https://github.com/ajchili/coursework/tree/master/bu_245) Writing & Communication in Data Science
