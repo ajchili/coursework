@@ -1,0 +1,107 @@
+---
+title: "Blog Post Summary"
+author: "Kirin Patel"
+date: "1/21/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The Blog Post
+
+[The Tentpoles of Data Science](https://simplystatistics.org/2019/01/18/
+the-tentpoles-of-data-science/) was written by Roger Peng on January 18th, 2019.
+
+
+## Summary
+
+In the blog post, _The Tentpoles of Data Science_, Roger Peng presents and
+describes five essential foundations for data science. These are:
+
+1. Application of Thinking to a Problem
+2. Creation and Management of Data Processing and Data Transformations
+3. Analysis of Involved Human Relationships
+4. Application of Statistics to Quantify Evidence
+5. Developing Narratives and Stories From Data Analytics
+
+Within each essential foundation, Roger explains and relates each to the work
+of a data scientist, stating that
+
+> "...being a good data scientist requires mastering skills in a wide range of
+> areas. However, these five tentpoles are not haphazardly chosen; rather they
+> reflect the interwoven set of skills that are needed to solve complex data
+> problems."
+
+Each of the five essential foundations for data science on their own are not
+enough to allow a data scientist to be effective and productive, but when
+combined, ensure that a data scientist can effectively address and problem that
+they are presented with.
+
+
+### Application of Thinking to a Problem
+
+Roger describes the first essential foundation of data science to encompass the
+following:
+
+* Develop an accurate understanding of a problem
+* Present informative and appropriate questions
+* Develop new and appropriate approaches to a problem
+* Extract relevant and crucial information from a given subject area and apply
+it continually and in new spaces
+
+Roger's descriptions of the application of thinking to a problem highlight the
+importance of obtaining a complete and correct understanding of a given
+problem. Without a solid understanding of the problem, questions that are
+presented are limited and flawed. Furthermore, previous and newly obtained
+relevant and crucial information cannot be applied accurately and effectively.
+If a given sitatuion and environment are not properly understood, a good faith
+effort to understand and solve a problem cannot be taken.
+
+
+### Creation and Management of Data Processing and Data Transformations
+
+When Roger discusses the creation and management of data processing and data
+transformations, Roger stresses the importance of reproducibility within
+experiments and reports. When an experiment or report lacks reproducibility,
+the validity of the results are reduced to nothing. Should a data scientist
+have no way to replicate and duplicate results, then there is no way to confirm
+results. Additionally, the method of sharing experiments and reports is
+discussed by Roget. Specifically, the workflow involved with sharing between
+teams and software must be managed in a way to minimize errors during
+transmission.
+
+
+### Analysis of Involved Human Relationships
+
+Human relationships can exist in two major states according to Roger, within
+the context of a team or multiple people and within the context of a solo
+adventure. For contexts that include a team or multiple peaople, a good working
+relationship must be obtained and maintained between teammembers and those
+outside of the team itself. Without a good working relationship, Roger states
+that poor work is an expected result. However, for a data scientist working
+alone, Roger states that external human relationships are still necessary to
+ensure that any necessary resources and aid can be obtained.
+
+> "Failures in data analysis can often be traced back to a breakdown in human
+> relationships and in communication between team members."
+
+
+### Application of Statistics to Quantify Evidence
+
+Knowing what the statistical methods are is crutical for a data scientest.
+Alongisde this, a data scientist must also know when it is appropriate to apply
+a given statsitical method in any situation and given any dataset. A data
+scientist must also know how given restrictions can affect the effectiveness of
+a given method and react accordingly.
+
+
+### Developing Narratives and Stories From Data Analytics
+
+A data scientist must be able to distill obtained data and analyses into
+digestible and understandable narratives and stories. This must be done to
+convey the importance of the analysis being done. Furthurmore, by condensing
+and distilling analyses, an audience can be given a way to reason about the
+data provided and better understand how the data is tied to a presented result.
+This will allow any audience to understand the outcome.
