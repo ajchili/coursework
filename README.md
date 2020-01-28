@@ -7,7 +7,10 @@ While the code in this repository is hosted on Github, it is not meant to be a c
 * [AP Computer Science](https://github.com/ajchili/coursework/tree/master/ap_comp_sci)
 
 ### College Courses
-* [AE 457](https://github.com/ajchili/coursework/tree/master/ae_457) Senior Design I
+* Senior Design
+    * [autoRMZ](https://github.com/ajchili/autormz) Code
+    * [AE 457](https://github.com/ajchili/coursework/tree/master/ae_457) Senior Design I
+    * [AE 458](https://github.com/ajchili/coursework/tree/master/ae_458) Senior Design II
 * [BU 245](https://github.com/ajchili/coursework/tree/master/bu_245) Writing & Communication in Data Science
 * [CS 100](https://github.com/ajchili/coursework/tree/master/cs_100) Introduction to Programming Languages
 * [CS 225](https://github.com/ajchili/coursework/tree/master/cs_225) Intermediate Java Programming
