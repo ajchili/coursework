@@ -146,7 +146,7 @@ ggplot(data = cars,
 
 Unfortunately, due to the differences between datasets, I am unable to replicate
 some of the more interesting visualizations that David has created. However,
-even with this limitation, the same conclusions that David did. As car weight and engine size (displacement) increase, the efficiency of the vehicle
+even with this limitation, the same conclusions that David made can be made with this dataset. As car weight and engine size (displacement) increase, the efficiency of the vehicle
 decreases.
 
 For more detailed analysis of car manufaturer trends visit David's
