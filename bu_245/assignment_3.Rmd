@@ -1,0 +1,153 @@
+---
+title: "Reproducibility"
+author: "Kirin Patel"
+date: "1/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Reproducibility is a fundamental portion of data science. Without
+reproducibility, the validity of a result cannot be proven, and thus, all
+efforts made when conducting experiments are made irrelevant.
+
+For this assignment, I will be reproducting the experiment from David K. Smith,
+[Car Datasets](https://www.rpubs.com/dksmith01/cars), with
+[this](https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data)
+dataset.
+
+
+### Installing Libraries
+
+```{r, eval=FALSE}
+install.packages("magrittr")
+install.packages("plyr")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("grid")
+install.packages("gridExtra")
+```
+
+
+### Importing Libraries
+
+```{r}
+library(magrittr)
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+```
+
+
+### Importing Data
+
+```{r}
+data_url = url('https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data')
+cars = read.csv(data_url, header=FALSE)
+```
+
+
+### Setting Headers
+
+These headers were obtained from [imports-85.names](https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.names).
+
+```{r}
+headers <- c('symboling','normalized-losses','make','fuel-type','aspiration','num-of-doors','body-style','drive-wheels','engine-location','wheel-base','length','width','height','curb-weight','engine-type','num-of-cylinders','engine-size','fuel-system','bore','stroke','compression-ratio','horsepower','peak-rpm','city-mpg','highway-mpg','price')
+names(cars) <- headers
+```
+
+
+### Statistics
+
+```{r}
+str(cars)
+```
+
+```{r}
+summary(cars)
+```
+
+
+### Plots
+
+```{r}
+# Miles Per Gallon
+qplot(cars$'city-mpg',
+      xlab = 'Miles Per Gallon (City)',
+      ylab = 'Count',
+      binwidth = 2, 
+      main = 'Frequency Histogram: Miles per Gallon (City)'
+)
+
+qplot(cars$'highway-mpg',
+      xlab = 'Miles Per Gallon (Highway)',
+      ylab = 'Count',
+      binwidth = 2, 
+      main = 'Frequency Histogram: Miles per Gallon (Highway)'
+)
+
+# Number of Cylinders
+table(cars$'num-of-cylinders')
+
+# Displacement
+qplot(cars$'engine-size',
+      xlab = 'Displacement',
+      ylab = 'Count',
+      binwidth = 20,
+      main = 'Frequency Histogram: Displacement'
+)
+
+# Weight
+qplot(cars$'curb-weight',
+      xlab = 'Weight',
+      ylab = 'Count',
+      binwidth = 200,
+      main = 'Frequency Histogram: Weight'
+)
+
+# Price
+qplot(cars$price,
+      xlab = 'Price',
+      ylab = 'Count',
+      main = 'Frequency Histogram: Price'
+)
+
+summary(cars$price)
+```
+
+
+### Bivariable Plots
+
+```{r}
+ggplot(data = cars,
+       aes(x = cars$'curb-weight', y = cars$'city-mpg')) +
+       geom_point() +
+       geom_smooth(method='lm') +
+       xlab('Weight') +
+       ylab('MPG') +
+       ggtitle('Weight vs. MPG (City): Entire Sample'
+)
+
+ggplot(data = cars,
+       aes(x = cars$'make', y = cars$'city-mpg')) +
+       geom_boxplot() +
+       xlab('Make') +
+       ylab('MPG (City)') +
+       ggtitle('MPG Comparison by Make'
+)
+```
+
+
+### Conclusion
+
+Unfortunately, due to the differences between datasets, I am unable to replicate
+some of the more interesting visualizations that David has created. However,
+even with this limitation, the same conclusions that David did. As car weight and engine size (displacement) increase, the efficiency of the vehicle
+decreases.
+
+For more detailed analysis of car manufaturer trends visit David's
+[article](https://www.rpubs.com/dksmith01/cars).
