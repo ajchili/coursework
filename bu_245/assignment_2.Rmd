@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## The Blog Post
 
-[The Tentpoles of Data Science](https://simplystatistics.org/2019/01/18/
-the-tentpoles-of-data-science/) was written by Roger Peng on January 18th, 2019.
+[The Tentpoles of Data Science](https://simplystatistics.org/2019/01/18/the-tentpoles-of-data-science/)
+was written by Roger Peng on January 18th, 2019.
 
 
 ## Summary
