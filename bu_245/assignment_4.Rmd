@@ -1,0 +1,99 @@
+---
+title: "Generating and Presenting Data"
+author: "Kirin Patel"
+date: "2/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Importing Libraries
+
+```{r import libraries}
+library(ggplot2)
+require(plyr)
+```
+
+## Choosing a dataset
+
+For this assignment, we have been tasked with choosing a dataset from
+[OpenFloodAI's Climate Change Dataset](https://github.com/OpenFloodAI/Climate-Change-Datasets).
+
+I chose the [CO2 PPM - Trends in Atmospheric Carbon Dioxide](https://datahub.io/core/co2-ppm)
+dataset that is provided by the US government.
+
+
+## Loading the data
+
+```{r load data}
+# Load data
+data_url = "https://datahub.io/core/co2-ppm/r/co2-mm-mlo.csv"
+ppm = read.csv(url(data_url))
+
+head(ppm)
+
+# Map values of date header
+ppm$'Date' <- as.numeric(substr(ppm$'Date',1,4))
+```
+
+
+## Viewing the data
+
+```{r view data}
+ggplot(data=ppm,aes(x=ppm$'Date',y=as.numeric(ppm$'Average'))) +
+  geom_point() +
+  geom_smooth(method='lm') +
+  xlab('Date') +
+  ylab('PPM') +
+  ggtitle('Average CO2 PPM Over Time')
+
+
+ggplot(data=ppm,aes(x=ppm$'Date',y=as.numeric(ppm$'Trend'))) +
+  geom_point() +
+  geom_smooth(method='lm') +
+  xlab('Date') +
+  ylab('PPM') +
+  ggtitle('Trend of CO2 PPM Over Time')
+```
+
+When looking at both the average and overall trend of CO2 PPM over time, both
+the average and trend of CO2 PPM are increasing.
+
+
+## Loading additional data
+
+```{r loading additional data}
+data_url = "https://pkgstore.datahub.io/core/global-temp/annual_csv/data/a26b154688b061cdd04f1df36e4408be/annual_csv.csv"
+temperature = read.csv(url(data_url))
+```
+
+
+## Viewing temperature data
+
+```{r viewing temperature data}
+ggplot(data=temperature,aes(x=temperature$'Year',y=temperature$'Mean')) +
+  geom_point() +
+  geom_smooth(method='lm') +
+  xlab('Year') +
+  ylab('Mean Temperature') +
+  ggtitle('Mean Temperature over Time')
+```
+
+
+## Investigating both Datasets
+
+When combining the data from the first and second datasets, it is evident that
+both the average CO2 PPM and mean temperature has increased over time.
+Furthermore it can be deduced that the increase in average CO2 PPM is a direct
+cause for the increase in mean temperature over time
+(Climate Change: Atmospheric Carbon Dioxide: NOAA Climate.gov, 2019). This is
+because "Carbon dioxide is a greenhouse gas: a gas that absorbs heat"
+(Climate Change: Atmospheric Carbon Dioxide: NOAA Climate.gov, 2019). Due to the continually growth of CO2 within our atmosphere and its heat absorbing
+attributes, the mean temperature is guaranteed to increase since more heat can
+be absored due to the increase of CO2.
+
+
+## Citations
+Climate Change: Atmospheric Carbon Dioxide: NOAA Climate.gov. (2019, September 19). Retrieved from [https://www.climate.gov/news-features/understanding-climate/climate-change-atmospheric-carbon-dioxide](https://www.climate.gov/news-features/understanding-climate/climate-change-atmospheric-carbon-dioxide)
