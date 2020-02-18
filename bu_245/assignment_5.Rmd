@@ -1,0 +1,109 @@
+---
+title: "Presenting to a General Audience"
+author: "Kirin Patel"
+date: "2/17/2020"
+output: powerpoint_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r import libraries, include=FALSE, echo=FALSE}
+library(ggplot2)
+require(plyr)
+```
+
+## Presenting to a General Audience
+
+This assignment focuses on using R to process data that can then be used to
+generate a PowerPoint presentation that can be presented to a non-tech or
+unfamiliar audience.
+
+## Getting Started
+
+Before analysis can be conducted, a dataset needs to be obatained. For this
+assignment, I will be using the
+[BuildBPS: Facilities and Educational Data for Boston Public Schools](https://data.boston.gov/dataset/buildbps-facilities-and-educational-data-for-boston-public-schools)
+which was found through
+[Google's Dataset Search Tool](https://datasetsearch.research.google.com).
+
+
+```{r load data, echo=FALSE}
+data_url = "https://data.boston.gov/dataset/b2c5a9d3-609d-49ec-906c-b0e850a8d62a/resource/33c5f44a-3c67-4390-a1d5-1bf018e4728c/download/buildbps.csv"
+data = read.csv(url(data_url))
+```
+
+## Why This Data Should be Analyzed
+
+Current and previous data collected on educational infastructure provides
+insight as to how money is currently being spent, where it is beign
+effectively spent, and where spending needs to improve. By investigating this
+data, insightful conclusions involving future construction of educational
+facilities can be made.
+
+## Yearly Electric Bill of Educational Facilities Based on Year Built
+
+```{r view data}
+ggplot(data=data,aes(x=as.numeric(data$'BPS_Year_Built'),y=as.numeric(data$'BPS_Electric_Bill'))) +
+  geom_point() +
+  xlab('Year Built') +
+  ylab('Yearly Electric Bill (Tens of Thousands of Dollars)')
+```
+
+## Analysing This Data
+
+Upon first analysis of this data, it appears that educational facilities do not
+become more efficient with electricity consumption. However, the data plotted
+does not account for school size or type. Both pre-school, elementary, middle,
+and highschool facilities were plotted.
+
+## Yearly Electic Bill of Educational Facilities Based on Year Built With Facility Type Highlighted
+
+```{r view data with school type}
+ggplot(data=data,aes(x=as.numeric(data$'BPS_Year_Built'),y=as.numeric(data$'BPS_Electric_Bill'),color=data$'SMMA_Typology')) +
+  geom_point() +
+  xlab('Year Built') +
+  ylab('Yearly Electric Bill (Tens of Thousands of Dollars)')
+```
+
+## Analysing the Data Again
+
+Now that educational facility types can be connected to facility costs,
+analysis on which facilities consume the most electricity can be determined.
+Generally, lower education level facilities have lower yearly eltrical bills
+than higher level facilities, with the exception of early learning facilities.
+
+## Why Might Higher Level Education Facilities Have Higher Electrical Bills
+
+The most simpilest anwser is that, they are larger facilities. Generally, one
+would think that as education level of a facility increases, so does its size.
+However, most educational facilities within Boston remain under 500,000 square
+feet. Size is not a determining factor for electrical bills.
+
+## Size of Educational Facilities Based on Year Built With Facility Type Highlighted
+
+```{r}
+ggplot(data=data,aes(x=as.numeric(data$'BPS_Year_Built'),y=as.numeric(data$'SMMA_Site_SF'),color=data$'SMMA_Typology')) +
+  geom_point() +
+  xlab('Year Built') +
+  ylab('Size of Facility (Square Feet)')
+```
+
+## Does Student Population Size Influence Eletrical Bills?
+
+```{r}
+ggplot(data=data,aes(x=as.numeric(data$'DOE_Total'),y=as.numeric(data$'BPS_Electric_Bill'),color=data$'SMMA_Typology')) +
+  geom_point() +
+  xlab('Student Population Size') +
+  ylab('Yearly Electric Bill (Tens of Thousands of Dollars)')
+```
+
+## No, Student Population Size Does not Influence Eletrical Bills
+
+Based on the data alone, a single field cannot be attributed to the differences
+between the eletrical bills of educational facilities. There are likely a
+multitude of factors that have differing levels of influence over the
+eletrical bills of educational facilities. Further investigation into the
+impacts of each factor is required in order to present insightful conclusions
+involving future construction of educational facilities can be made.
