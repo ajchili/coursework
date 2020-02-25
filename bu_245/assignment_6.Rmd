@@ -1,0 +1,98 @@
+---
+title: "Presenting to a Technical Audience"
+author: "Kirin Patel"
+date: "2/24/2020"
+output: powerpoint_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r import libraries, include=FALSE, echo=FALSE}
+library(ggplot2)
+require(plyr)
+```
+
+## Presenting to a Technical Audience
+
+This assignment focuses on using R to process data that can then be used to
+generate a PowerPoint presentation that can be presented to a technical or
+topic area familiar audience.
+
+## Getting Started
+
+Before analysis can be conducted, a dataset needs to be obatained. For this
+assignment, I will be using two datasets from
+[FRED](https://fred.stlouisfed.org). The first is the
+[Retail Sales: Used Car Dealers](https://fred.stlouisfed.org/series/MRTSSM44112USN)
+and the second one is the
+[Average Amount Financed for New Car Loans at Finance Companies](https://fred.stlouisfed.org/series/DTCTLVENANM).
+Both datasets were found through
+[Google's Dataset Search Tool](https://datasetsearch.research.google.com).
+
+```{r load data, echo=FALSE}
+used_car_sales_data_url = "https://fred.stlouisfed.org/graph/fredgraph.csv?bgcolor=%23e1e9f0&chart_type=line&drp=0&fo=open%20sans&graph_bgcolor=%23ffffff&height=450&mode=fred&recession_bars=on&txtcolor=%23444444&ts=12&tts=12&width=1168&nt=0&thu=0&trc=0&show_legend=yes&show_axis_titles=yes&show_tooltip=yes&id=MRTSSM44112USN&scale=left&cosd=1992-01-01&coed=2019-12-01&line_color=%234572a7&link_values=false&line_style=solid&mark_type=none&mw=3&lw=2&ost=-99999&oet=99999&mma=0&fml=a&fq=Monthly&fam=avg&fgst=lin&fgsnd=2009-06-01&line_index=1&transformation=lin&vintage_date=2020-02-24&revision_date=2020-02-24&nd=1992-01-01"
+used_car_sales_data = read.csv(url(used_car_sales_data_url))
+used_car_sales_data$'Year' <- as.numeric(substr(used_car_sales_data$'DATE',1,4))
+used_car_sales_data$'Month' <- as.numeric(substr(used_car_sales_data$'DATE',6,7))
+
+average_finance_amount_data_url = "https://fred.stlouisfed.org/graph/fredgraph.csv?bgcolor=%23e1e9f0&chart_type=line&drp=0&fo=open%20sans&graph_bgcolor=%23ffffff&height=450&mode=fred&recession_bars=on&txtcolor=%23444444&ts=12&tts=12&width=1168&nt=0&thu=0&trc=0&show_legend=yes&show_axis_titles=yes&show_tooltip=yes&id=DTCTLVENANM&scale=left&cosd=2008-03-01&coed=2019-09-01&line_color=%234572a7&link_values=false&line_style=solid&mark_type=diamond&mw=3&lw=2&ost=-99999&oet=99999&mma=0&fml=a&fq=Monthly&fam=avg&fgst=lin&fgsnd=2009-06-01&line_index=1&transformation=lin&vintage_date=2020-02-24&revision_date=2020-02-24&nd=2008-03-01"
+average_finance_amount_data = read.csv(url(average_finance_amount_data_url))
+# Remove values that are equal to '.' to prevent missing data from being rendered.
+average_finance_amount_data <- average_finance_amount_data[average_finance_amount_data$'DTCTLVENANM' != '.',]
+average_finance_amount_data$'Year' <- as.numeric(substr(average_finance_amount_data$'DATE',1,4))
+average_finance_amount_data$'Month' <- as.numeric(substr(average_finance_amount_data$'DATE',6,7))
+```
+
+## Why This Data Should be Analyzed
+
+Looking at the financial history of used car sales and average loan amounced of
+financed cars can help inform individuals about the best times for when to buy
+or sell a car. This data can help shed light onto when average prices paid for
+cars can be maximized or minimized.
+
+## Millions of Dollars Made on Used Cars at Retail Dealers
+
+```{r}
+ggplot(data=used_car_sales_data,aes(x=used_car_sales_data$'Year',y=as.numeric(used_car_sales_data$'MRTSSM44112USN'),color=used_car_sales_data$'Month')) +
+  geom_point() +
+  geom_smooth(method='lm') +
+  xlab('Year') +
+  ylab('Millions of Dollars')
+```
+
+## Reviewing the Data
+
+While only one set of data has been seen, a clear trend can be seen. Months
+in the beginning of the year result in higher numbers of sales and higher
+profits. Generally, the months of January, February, and March are the
+highest selling months per year and have continually resulted in the highest
+sales year over year. This trend has only continued to grow.
+
+## Average Financed Amount for New Car Loans
+
+```{r}
+ggplot(data=average_finance_amount_data,aes(x=as.numeric(average_finance_amount_data$'Year'),y=as.numeric(average_finance_amount_data$'DTCTLVENANM'),color=average_finance_amount_data$'Month')) +
+  geom_point() +
+  geom_smooth(method='lm') +
+  xlab('Year') +
+  ylab('Thousands of Dollars')
+```
+
+## Reviewing the Data
+
+Following the trend set in the previous dataset, the average financed amount
+for new car loans increases year after year. However, the later months of the
+year generally have larger averafe finance amount for new cars.
+
+## Combining Datasets
+
+When looking at both the total amount of sales in USD and average finance
+amount of new car loans over the past decade, there is a rough ideal item
+presented for when to buy or sell a car. If you are planning on selling a car,
+you should do so during the beginning of the year to maximize profits as many
+sales are made during this time. However, you should only buy a new car during
+the beginning of the year since average finance amounts for new car loans is
+lower. Should you be buying a used car, do so towards the end of the year to
+maximize any sales.
