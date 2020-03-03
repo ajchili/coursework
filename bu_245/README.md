@@ -13,3 +13,4 @@ copied, or passed off as your own work under any circumstance.
 4. [Generating and Presenting Data](https://ajchili.github.io/coursework/bu_245/assignment_4.html) ([source](https://github.com/ajchili/coursework/blob/master/bu_245/assignment_4.Rmd))
 5. [Presenting to a General Audience](https://ajchili.github.io/coursework/bu_245/assignment_5.pptx) ([source](https://github.com/ajchili/coursework/blob/master/bu_245/assignment_5.Rmd))
 6. [Presenting to a Technical Audience](https://ajchili.github.io/coursework/bu_245/assignment_6.pptx) ([source](https://github.com/ajchili/coursework/blob/master/bu_245/assignment_6.Rmd))
+7. [Blog Post Summary 2](https://ajchili.github.io/coursework/bu_245/assignment_7.html) ([source](https://github.com/ajchili/coursework/blob/master/bu_245/assignment_7.Rmd))

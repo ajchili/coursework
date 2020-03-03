@@ -1,0 +1,297 @@
+---
+title: "How to Write a Blog Post"
+author: "Kirin Patel"
+date: "3/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r import libraries, include=FALSE, echo=FALSE}
+require(plyr)
+library(ggplot2)
+library(gridExtra)
+```
+
+## Investigating the Affects of Climate Change on Energy Usage in the United States
+
+Within this blog post, I will be investigating the affects of ozone
+concentrations within our atmosphere on the energy usage of the United States.
+This analysis will be conducted on data collected during the last six months of
+2019. These data sets were obtained from the
+[EPA](https://www.epa.gov/castnet/castnet-ozone-monitoring)
+and the
+[EIA](https://www.eia.gov/beta/electricity/gridmonitor/dashboard/electric_overview/US48/US48?src=email).
+
+Before we load any data, understanding what ozone is and what it does is
+important. Ozone is within the Earth's atmosphere and reduces the amount of
+harmful UV radiation that humans are exposed to, which can lead to sun burns
+and skin cancer
+([CDC, 2019](https://www.cdc.gov/features/uv-radiation-safety/index.html)).
+While this is only one of the risks that UV radiation presents to humans, it
+is one that is commonly known and it presents individuals with a reason
+potentially increase energy usage. As the sun raises to its highest point at
+noon, humans are exposed to more UV radtion, as a result of that, water intake
+may be increased and building temperatures may be decreased with air
+conditioners, both of which would lead to increased energy usage. While the
+specific applications that lead to increased energy usage will not be
+investigated, this analysis will see if there is any correlation between
+ozone concentrations and energy usage within the United States.
+
+## Loading and Validating the Datasets
+
+Before analysis can begin, the datasets must first be loaded into RStudio.
+
+```{r loading_the_datasets}
+power_balance_data_url = 'https://www.eia.gov/realtime_grid/sixMonthFiles/EIA930_BALANCE_2019_Jul_Dec.csv'
+power_balance_data = read.csv(url(power_balance_data_url))
+
+
+# Obtained via the EPA site, specifying 'Aggregate Concentration Data' for the
+# last 6 months of 2019 across all sites that they record data from. This data
+# is provided as a file rather than a URL due to the inability to directly
+# download this dataset.
+ozone_daily_max_data = read.csv('./ozone-8-hour-daily-max.csv')
+# Obtain date in identical format to power_balance_data.
+ozone_daily_max_data$Date <- substr(ozone_daily_max_data$DDATE,1,10)
+```
+
+```{r validating_the_power_dataset}
+summary(power_balance_data)
+```
+
+```{r validating_the_ozone_dataset}
+summary(ozone_daily_max_data)
+```
+
+The datasets appear to be loading as intended. Now we can analyze them.
+
+## Looking at Power Demand in the United States during the Last six Months of 2019
+
+There are over 60 power authorities for the United States, while each of these
+should be investigated and compared with one another, it would take far too
+long for the purpose of this exercise. Instead, five of the most major
+authorities will be used: CISO, PJM, ERCO, FPL, and MISO.
+
+```{r plot_power_demand_df}
+# Generic function to simplify plotting of power demand.
+plot_power_demand_df <- function(df) {
+  ggplot(data=df,aes(x=df$Data.Date,y=as.numeric(df$Demand..MW.),color=df$Hour.Number)) +
+    geom_point() +
+    geom_smooth(method='lm') + 
+    xlab('Date') +
+    ylab('Power Demand (Megawatts)') +
+    # Scale date by month to reduce number of labels.
+    scale_x_discrete(breaks=c('07/01/2019','08/01/2019','09/01/2019','10/01/2019','11/01/2019','12/01/2019'))
+}
+```
+
+#### California Independent System Operator Authority
+```{r viewing_the_power_dataset_ciso_authority}
+df = power_balance_data[power_balance_data$Balancing.Authority == 'CISO',]
+ciso_power = plot_power_demand_df(df)
+ciso_power
+```
+
+#### PJM Authority
+```{r viewing_the_power_dataset_pjm_authority}
+df = power_balance_data[power_balance_data$Balancing.Authority == 'PJM',]
+pjm_power = plot_power_demand_df(df)
+pjm_power
+```
+
+#### Electric Reliability Council of Texas Authority
+```{r viewing_the_power_dataset_erco_authority}
+df = power_balance_data[power_balance_data$Balancing.Authority == 'ERCO',]
+erco_power = plot_power_demand_df(df)
+erco_power
+```
+
+#### Florida Power & Light Authority
+```{r viewing_the_power_dataset_fpl_authority}
+df = power_balance_data[power_balance_data$Balancing.Authority == 'FPL',]
+fpl_power = plot_power_demand_df(df)
+fpl_power
+```
+
+#### Midcontinent Independent System Operator Authority
+```{r viewing_the_power_dataset_miso_authority}
+df = power_balance_data[power_balance_data$Balancing.Authority == 'MISO',]
+miso_power = plot_power_demand_df(df)
+miso_power
+```
+
+Upon initial investigation, it is concerning that there is not a specific trend
+for power demand across all of these major authorities. However, the region in
+which these authorities operate cannot be forgotten. None of the selected
+authorities operate within the same region and thus, each region must be
+investigated independently when comparing them against ozone concentration.
+
+## Looking at Ozone Concentration in the Atmosphere Above the United States during the Last six Months of 2019
+
+The EPA has over 80 sites across the United States that monitor ozone
+concentration within the atmosphere. Just as I did when looking at power
+demand, I will only look at 5 of these sites. These sites will be located
+in roughly the same region as the power authorities to allow for correlation
+between power demand and ozone concentration to be accurately asessed. The
+sites that will be analyzed are: LAV410, LRL117, ALC188, IRL141, and ALH157.
+
+The sites IDs were obtained by using the
+[CASTNET Site Locations Map](https://www.epa.gov/castnet/castnet-site-locations).
+
+```{r plot_ozone_concentration_df}
+# Generic function to simplify plotting of ozone concentration
+plot_ozone_concentration_df <- function(df) {
+  ggplot(data=df,aes(x=df$Date,y=as.numeric(df$OZONE_8HR_DAILY_MAX))) +
+    geom_point() +
+    xlab('Date') +
+    ylab('Ozone Concentration (PPM)') +
+    # Scale date by month to reduce number of labels.
+    scale_x_discrete(breaks=c('07/01/2019','08/01/2019','09/01/2019','10/01/2019','11/01/2019','12/01/2019'))
+}
+```
+
+#### LV410 (California Independent System Operator Authority)
+```{r viewing_the_ozone_concentration_for_the_ciso_authority}
+df = ozone_daily_max_data[ozone_daily_max_data$SITE_ID == 'LAV410',]
+ciso_ozone = plot_ozone_concentration_df(df)
+```
+
+#### LRL117 (PJM Authority)
+```{r viewing_the_ozone_concentration_for_the_pjm_authority}
+df = ozone_daily_max_data[ozone_daily_max_data$SITE_ID == 'LRL117',]
+pjm_ozone = plot_ozone_concentration_df(df)
+pjm_ozone
+```
+
+#### ALC188 (Electric Reliability Council of Texas Authority)
+```{r viewing_the_ozone_concentration_for_the_erco_authority}
+df = ozone_daily_max_data[ozone_daily_max_data$SITE_ID == 'ALC188',]
+erco_ozone = plot_ozone_concentration_df(df)
+erco_ozone
+```
+
+#### IRL141 (Florida Power & Light Authority)
+```{r viewing_the_ozone_concentration_for_the_fpl_authority}
+df = ozone_daily_max_data[ozone_daily_max_data$SITE_ID == 'IRL141',]
+fpl_ozone = plot_ozone_concentration_df(df)
+fpl_ozone
+```
+
+#### ALH157 (Midcontinent Independent System Operator Authority)
+```{r viewing_the_ozone_concentration_for_the_miso_authority}
+df = ozone_daily_max_data[ozone_daily_max_data$SITE_ID == 'ALH157',]
+miso_ozone = plot_ozone_concentration_df(df)
+miso_ozone
+```
+
+Again, each region does not share a general trend, but both LRL117 and
+ALH157 show a downwards trend in ozone concentration PPM of roughly
+30-40%. Since both of these display a downwards trend, I will start by
+investigating the power demand by the PJM and Midcontinent Independent
+System Operator Authorities.
+
+## Investigationg Both Datasets to Find Correlations
+
+#### CISO Authority
+
+```{r ciso_authority_review}
+grid.arrange(
+  ciso_power,
+  ciso_ozone,
+  ncol = 1,
+  nrow = 2)
+```
+
+When looking at the power demand over time and the decrease in ozone
+concentration over time, there is a potential correlation between the two
+datasets. Towards the middle to end of September, the overall power demand and
+ozone concentration in the CISO authority both see a decrease. Additionally, in
+December, both the power demand and ozone concentration begin to rise again.
+For the CISO authority area, California, there appears to be some correlation
+between the two datasets.
+
+#### PJM Authority
+
+```{r pjm_authority_review}
+grid.arrange(
+  pjm_power,
+  pjm_ozone,
+  ncol = 1,
+  nrow = 2)
+```
+
+When looking at the power demand over time and the decrease in ozone
+concentration over time, there is no real correlation between the two. While
+there is a major shift in power demand around the same time that the ozone
+concentration begins to drop a couple of days into October, however, that is
+the only similarity between the data. The power demand returns to a steady flow
+towards the beginning of November while the ozone concentration continues to
+drop. For the PJM authority area, the DMV, there is no increase or decrease of
+power demand based on a change in ozone concentration.
+
+#### ERCO Authority
+
+```{r erco_authority_review}
+grid.arrange(
+  erco_power,
+  erco_ozone,
+  ncol = 1,
+  nrow = 2)
+```
+
+When looking at the power demand over time and the decrease in ozone
+concentration over time, there is no correlation between the two datasets.
+While there is a decrease if power demand from the middle of October to the end
+of the year, there is no major change in the ozone concentration for the ECRO
+authority area, Texas.
+
+#### FPL Authority
+
+```{r fpl_authority_review}
+grid.arrange(
+  fpl_power,
+  fpl_ozone,
+  ncol = 1,
+  nrow = 2)
+```
+
+When looking at the power demand over time and the decrease in ozone
+concentration over time, there is some correlation between the two datasets.
+As power demand increases in the late night to early hours of the morning, the
+ozone concentration has also inceased. However, this is only for the early
+morning hours and the overall mejority of power demand has decreased since
+November.
+
+#### MISO Authority
+
+```{r miso_authority_review}
+grid.arrange(
+  miso_power,
+  miso_ozone,
+  ncol = 1,
+  nrow = 2)
+```
+
+When looking at the power demand over time and the decrease in ozone
+concentration over time, there is some correlation between the two datasets.
+Around the middle to end of October, both graphs show an increase in variance
+for both power demand and ozone concentration, which both continue on until
+the end of December. However, the variance of power demand is not nearly as
+dramatic as the variance and drop of ozone concentration.
+
+## Summarizing Findings
+
+Wrapping up this short investigation reveals that there may be a slight
+correlation between the two datasets that could lead to further investigation.
+However, there is not a large enough correlation to definitively say that
+power demand and ozone concentration within the atmosphere of the United States
+are correlated, or that one is a result of the other. There are obviously more
+factors than just ozone concentration that result in an increase or decrease in
+power demand, however, ozone concentration is likely not a factor at all.
+Instead, further investigation as to the age of infatsturcture with the
+authorities should conducted to investigate the efficiencies of the power
+facilities that currently exists to see if power demand can be meet,
+maintained, and decreased with more efficient and cheaper hardware.
