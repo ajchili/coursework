@@ -15,3 +15,4 @@ copied, or passed off as your own work under any circumstance.
 6. [Presenting to a Technical Audience](https://ajchili.github.io/coursework/bu_245/assignment_6.pptx) ([source](https://github.com/ajchili/coursework/blob/master/bu_245/assignment_6.Rmd))
 7. [Blog Post Summary 2](https://ajchili.github.io/coursework/bu_245/assignment_7.html) ([source](https://github.com/ajchili/coursework/blob/master/bu_245/assignment_7.Rmd))
 8. [Data Science Ethics](https://ajchili.github.io/coursework/bu_245/assignment_8.md) ([source](https://github.com/ajchili/coursework/blob/master/bu_245/assignment_8.md))
+8. [Viewing the Pandemic](https://ajchili.github.io/coursework/bu_245/midterm.html) ([source](https://github.com/ajchili/coursework/blob/master/bu_245/midterm.Rmd))
